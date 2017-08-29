@@ -1,6 +1,5 @@
 package com.testableapp;
 
-import com.testableapp.models.AuthModel;
 import com.testableapp.presenters.LoginPresenter;
 
 import junit.framework.Assert;
@@ -15,7 +14,6 @@ public class LoginPresenterTest {
 
     @InjectMocks
     private LoginPresenter loginPresenter;
-    private AuthModel authModel = AuthModel.getInstance();
 
     @Before
     public void setUp() {
