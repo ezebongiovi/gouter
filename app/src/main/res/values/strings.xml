@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TestableApp</string>
+    <string name="name">%1$s %2$s</string>
+    <string name="activity_title_login">Iniciar Sesión</string>
+</resources>
