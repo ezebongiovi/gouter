@@ -3,6 +3,8 @@ package com.testableapp;
 import com.testableapp.models.AuthModel;
 import com.testableapp.presenters.LoginPresenter;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -24,8 +26,10 @@ public class LoginPresenterTest {
     public void testSuccess() {
         loginPresenter.login("admin", "1234");
 
-        while (loginPresenter.getCompositeDisposable().size() > 0) {
+        Assert.assertTrue(loginPresenter.getCompositeDisposable().size() > 0);
 
-        }
+        loginPresenter.detachView();
+
+        Assert.assertTrue(loginPresenter.getCompositeDisposable().size() == 0);
     }
 }

@@ -2,9 +2,11 @@ package com.testableapp.presenters;
 
 import android.support.annotation.NonNull;
 
+import com.testableapp.dto.ApiError;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
+import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.LoginView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -22,10 +24,12 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                     public void accept(final User user) throws Exception {
                         getView().onLogin(user);
                     }
-                }, new Consumer<Throwable>() {
+                }, new ErrorConsumer() {
                     @Override
-                    public void accept(final Throwable throwable) throws Exception {
-                        getView().onError();
+                    public void onError(@NonNull final ApiError apiError) {
+                        if (ApiError.Kind.NETWORK.equals(apiError.kind)) {
+                            getView().onNetworkError();
+                        }
                     }
                 }));
     }
