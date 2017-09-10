@@ -3,4 +3,10 @@
     <string name="name">%1$s %2$s</string>
     <string name="activity_title_login">Iniciar Sesión</string>
     <string name="action_logout">Salir</string>
+    <string name="button_login">Iniciar sesión</string>
+    <string name="confirmPassword">Confirmar contraseña</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="hint_email">Email</string>
+    <string name="button_register">Registrar</string>
+    <string name="buttonNoAccount">No tengo cuenta</string>
 </resources>

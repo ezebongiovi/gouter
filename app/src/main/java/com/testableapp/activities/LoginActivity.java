@@ -1,5 +1,6 @@
 package com.testableapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +36,13 @@ public class LoginActivity extends AbstractActivity<LoginPresenter> implements L
             }
         });
 
+        findViewById(R.id.noAccountButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
         if (AuthenticationManager.getInstance().getUser(this) != null) {
             startActivity(ProfileActivity.getIntent(this, AuthenticationManager
                     .getInstance().getUser(this)));
@@ -43,7 +51,7 @@ public class LoginActivity extends AbstractActivity<LoginPresenter> implements L
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.activity_main;
+        return R.layout.activity_login;
     }
 
     @NonNull

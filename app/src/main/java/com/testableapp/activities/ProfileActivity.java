@@ -20,6 +20,13 @@ public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
 
     private static final String EXTRA_USER = "extra_user";
 
+    /**
+     * Factory method
+     *
+     * @param context the application's context
+     * @param user    the user data
+     * @return the intent with necessary data for building the Activity
+     */
     public static Intent getIntent(@NonNull final Context context, @NonNull final User user) {
         final Intent intent = new Intent(context, ProfileActivity.class);
         intent.putExtra(EXTRA_USER, user);
@@ -36,16 +43,16 @@ public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  final @NonNull ProfilePresenter presenter) {
 
-        if (getIntent().getExtras().containsKey(EXTRA_USER)) {
-            final ProfileActivityBinding binding = DataBindingUtil
-                    .setContentView(this, R.layout.profile_activity);
-
-            final User user = (User) getIntent().getExtras().get(EXTRA_USER);
-            binding.setUser(user);
-
-        } else {
-            finish();
+        if (getIntent().getExtras() == null || !getIntent().getExtras().containsKey(EXTRA_USER)) {
+            throw new IllegalStateException("ProfileActivity must be created using it's factory method");
         }
+
+        final ProfileActivityBinding binding = DataBindingUtil
+                .setContentView(this, R.layout.profile_activity);
+
+        final User user = (User) getIntent().getExtras().get(EXTRA_USER);
+        binding.setUser(user);
+
     }
 
     @Override

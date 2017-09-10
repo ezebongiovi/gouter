@@ -55,12 +55,17 @@ public abstract class BaseEspressoTest {
 
             onView(withId(R.id.loginButton)).perform(click());
         } catch (Exception e) {
-            openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-
-            onView(withText(R.string.action_logout)).perform(click());
+            logout();
 
             // User's already logged in
             login(email, password);
         }
+    }
+
+
+    protected void logout() {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+        onView(withText(R.string.action_logout)).perform(click());
     }
 }
