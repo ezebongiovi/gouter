@@ -24,7 +24,7 @@ public class AuthModelTest {
 
         final User user = (User) testObserver.getEvents().get(0).get(0);
 
-        assertEquals(user.getAuthentication().getUserName(), authentication.getUserName());
+        assertEquals(user.getAuthentication().getEmail(), authentication.getEmail());
         assertEquals(user.getAuthentication().getPassword(), authentication.getPassword());
     }
 }

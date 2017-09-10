@@ -9,10 +9,16 @@ import android.widget.EditText;
 
 import com.testableapp.R;
 import com.testableapp.dto.User;
+import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.LoginPresenter;
 import com.testableapp.views.LoginView;
 
 public class LoginActivity extends AbstractActivity<LoginPresenter> implements LoginView {
+
+    @Override
+    protected boolean shouldAuthenticate() {
+        return false;
+    }
 
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
@@ -21,13 +27,18 @@ public class LoginActivity extends AbstractActivity<LoginPresenter> implements L
         final EditText mUserField = (EditText) findViewById(R.id.userField);
         final EditText mPasswordField = (EditText) findViewById(R.id.passwordField);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 presenter.login(mUserField.getText().toString(),
                         mPasswordField.getText().toString());
             }
         });
+
+        if (AuthenticationManager.getInstance().getUser(this) != null) {
+            startActivity(ProfileActivity.getIntent(this, AuthenticationManager
+                    .getInstance().getUser(this)));
+        }
     }
 
     @Override
@@ -43,7 +54,8 @@ public class LoginActivity extends AbstractActivity<LoginPresenter> implements L
 
     @Override
     public void onLogin(@NonNull final User user) {
-        startActivity(ProfileActivity.getIntent(LoginActivity.this, user));
+        AuthenticationManager.getInstance().onLogin(this, user);
+        startActivity(ProfileActivity.getIntent(this, user));
     }
 
     @Override
