@@ -14,7 +14,7 @@ import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.RegisterPresenter;
 import com.testableapp.views.RegisterView;
 
-public class RegisterActivity extends AbstractActivity<RegisterPresenter>
+public class RegisterActivity extends AbstractMvpActivity<RegisterPresenter>
         implements RegisterView {
 
     @Override

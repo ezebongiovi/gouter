@@ -21,7 +21,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * Robolectric will not be able to find your merged manifest, resources, or assets.
  * This will cease to work in the future so we strongly recomend migrating to the new API.
  */
-public class AbstractActivityTest {
+public class AbstractMvpActivityTest {
 
 
     @InjectMocks

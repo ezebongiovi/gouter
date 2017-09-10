@@ -1,21 +1,21 @@
 package com.testableapp.dto;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.testableapp.utils.JsonUtils;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Response;
 
-public class ApiError {
+public class ApiError<T> {
 
     public final String message;
     public final String error;
     public final Integer status;
-    public final List<Cause> cause;
     public final Kind kind;
+    public final T data;
 
     public enum Kind {
         /**
@@ -33,43 +33,47 @@ public class ApiError {
         UNEXPECTED
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static ApiError httpError(final Response response) {
         final ApiError apiError = getApiError(response);
-        return new ApiError(apiError.message, apiError.message, response != null ? response.code() : null,
-                apiError.cause, Kind.HTTP);
+        return new ApiError(apiError.message, apiError.message, response != null
+                ? response.code(): null, null, Kind.HTTP);
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static ApiError networkError(final IOException exception) {
         return new ApiError(exception.getMessage(), null, null, null, Kind.NETWORK);
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static ApiError unexpectedError(final Throwable exception) {
         return new ApiError(exception.getMessage(), null, null, null, Kind.UNEXPECTED);
     }
 
-    public ApiError(final String message, @Nullable final String error, @Nullable final Integer status,
-                    @Nullable final List cause, final Kind kind) {
+    @SuppressWarnings("NullableProblems")
+    private ApiError(final String message, @Nullable final String error, @Nullable final Integer status,
+                     @NonNull final T data, final Kind kind) {
         this.message = message;
         this.error = error;
         this.status = status;
-        this.cause = cause;
         this.kind = kind;
+        this.data = data;
     }
 
-    private ApiError(final Builder builder) {
+    private ApiError(final Builder<T> builder) {
         message = builder.message;
         error = builder.error;
         status = builder.status;
-        cause = builder.cause;
         kind = builder.kind;
+        data = builder.data;
     }
 
-    public static class Builder {
+    public static class Builder<T> {
         private String message;
         private String error;
         private Integer status;
-        private List<Cause> cause;
         private Kind kind;
+        private T data;
 
         public Builder withMessage(final String message) {
             this.message = message;
@@ -86,8 +90,8 @@ public class ApiError {
             return this;
         }
 
-        public Builder withParams(List<Cause> cause){
-            this.cause = cause;
+        public Builder withData(@NonNull final T data) {
+            this.data = data;
             return this;
         }
 
@@ -101,29 +105,12 @@ public class ApiError {
         }
     }
 
-    public int getErrorCode() {
-        return (cause != null && !cause.isEmpty()) ? cause.get(0).getCode() : 0;
-    }
-
-    public class Cause {
-        private final String code;
-
-        public Cause(final String code) {
-            this.code = code;
-        }
-
-        public int getCode() {
-            return Integer.valueOf(code);
-        }
-    }
-
     @Override
     public String toString() {
         return "ApiError{"
                 + "message='" + message + '\''
                 + ", error='" + error + '\''
                 + ", status=" + status
-                + ", cause=" + cause
                 + ", kind=" + kind
                 + '}';
     }

@@ -11,12 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.testableapp.R;
-import com.testableapp.databinding.ProfileActivityBinding;
+import com.testableapp.databinding.ActivityProfileBinding;
 import com.testableapp.dto.User;
 import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.ProfilePresenter;
 
-public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
+public class ProfileActivity extends AbstractMvpActivity<ProfilePresenter> {
 
     private static final String EXTRA_USER = "extra_user";
 
@@ -47,8 +47,8 @@ public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
             throw new IllegalStateException("ProfileActivity must be created using it's factory method");
         }
 
-        final ProfileActivityBinding binding = DataBindingUtil
-                .setContentView(this, R.layout.profile_activity);
+        final ActivityProfileBinding binding = DataBindingUtil
+                .setContentView(this, R.layout.activity_profile);
 
         final User user = (User) getIntent().getExtras().get(EXTRA_USER);
         binding.setUser(user);
@@ -57,7 +57,7 @@ public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.profile_activity;
+        return R.layout.activity_profile;
     }
 
     @Override

@@ -8,6 +8,7 @@ public class LoginTest extends BaseEspressoTest {
 
     @Test
     public void testEntry() {
+        login("123", "1234");
         login("admin", "1234");
     }
 }

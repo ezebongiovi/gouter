@@ -14,7 +14,7 @@ import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.LoginPresenter;
 import com.testableapp.views.LoginView;
 
-public class LoginActivity extends AbstractActivity<LoginPresenter> implements LoginView {
+public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implements LoginView {
 
     @Override
     protected boolean shouldAuthenticate() {
