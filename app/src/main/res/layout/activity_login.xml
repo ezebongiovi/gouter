@@ -35,7 +35,7 @@
             android:text="@string/button_login" />
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/noAccountButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

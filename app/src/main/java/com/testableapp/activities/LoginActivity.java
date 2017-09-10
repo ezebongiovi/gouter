@@ -36,7 +36,7 @@ public class LoginActivity extends AbstractActivity<LoginPresenter> implements L
             }
         });
 
-        findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.noAccountButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));

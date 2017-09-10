@@ -4,7 +4,7 @@ import com.testableapp.base.BaseEspressoTest;
 
 import org.junit.Test;
 
-public class LoginActivityTest extends BaseEspressoTest {
+public class LoginTest extends BaseEspressoTest {
 
     @Test
     public void testEntry() {
