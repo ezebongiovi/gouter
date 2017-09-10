@@ -2,6 +2,7 @@ package com.testableapp.presenters;
 
 import android.support.annotation.NonNull;
 
+import com.testableapp.dto.ApiError;
 import com.testableapp.views.AbstractView;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -22,6 +23,12 @@ public class AbstractPresenter<V extends AbstractView> {
 
     protected void addDisposable(@NonNull final Disposable disposable) {
         mCompositeDisposable.add(disposable);
+    }
+
+    protected void handleErrorEvent(@NonNull final ApiError apiError) {
+        if (apiError.kind.equals(ApiError.Kind.NETWORK)) {
+            getView().onNetworkError();
+        }
     }
 
     public void detachView() {

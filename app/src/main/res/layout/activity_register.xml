@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/padding_activity"
     tools:context="com.testableapp.activities.LoginActivity">
 
     <LinearLayout
@@ -18,23 +17,31 @@
             android:id="@+id/userField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario" />
+            android:hint="@string/hint_email" />
 
         <EditText
             android:id="@+id/passwordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Contraseña"
+            android:hint="@string/hint_password"
             android:inputType="numberPassword" />
 
-        <Button
-            android:id="@+id/loginButton"
+        <EditText
+            android:id="@+id/confirmPasswordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Iniciar sesión" />
+            android:hint="@string/confirmPassword"
+            android:inputType="numberPassword" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_register" />
     </LinearLayout>
 
-</FrameLayout>
+</ScrollView>
 

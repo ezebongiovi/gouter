@@ -27,9 +27,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                 }, new ErrorConsumer() {
                     @Override
                     public void onError(@NonNull final ApiError apiError) {
-                        if (ApiError.Kind.NETWORK.equals(apiError.kind)) {
-                            getView().onNetworkError();
-                        }
+                        handleErrorEvent(apiError);
                     }
                 }));
     }
