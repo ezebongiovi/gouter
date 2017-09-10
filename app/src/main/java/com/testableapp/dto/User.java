@@ -1,11 +1,13 @@
 package com.testableapp.dto;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
-    private final String name;
+public class User extends BaseObservable implements Serializable {
+    private String name;
     private final String lastName;
     private final Authentication authentication;
 
@@ -16,10 +18,12 @@ public class User implements Serializable {
         this.authentication = authentication;
     }
 
+    @Bindable
     public String getName() {
         return name;
     }
 
+    @Bindable
     public String getLastName() {
         return lastName;
     }
@@ -27,4 +31,5 @@ public class User implements Serializable {
     public Authentication getAuthentication() {
         return authentication;
     }
+
 }

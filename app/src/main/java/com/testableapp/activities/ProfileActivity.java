@@ -6,13 +6,17 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.testableapp.R;
 import com.testableapp.databinding.ProfileActivityBinding;
 import com.testableapp.dto.User;
+import com.testableapp.manager.AuthenticationManager;
+import com.testableapp.presenters.ProfilePresenter;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AbstractActivity<ProfilePresenter> {
 
     private static final String EXTRA_USER = "extra_user";
 
@@ -24,9 +28,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_activity);
+    protected boolean shouldAuthenticate() {
+        return true;
+    }
+
+    @Override
+    public void onCreateActivity(@Nullable final Bundle savedInstanceState,
+                                 final @NonNull ProfilePresenter presenter) {
 
         if (getIntent().getExtras().containsKey(EXTRA_USER)) {
             final ProfileActivityBinding binding = DataBindingUtil
@@ -38,5 +46,33 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    @Override
+    public int getLayoutResourceId() {
+        return R.layout.profile_activity;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        new MenuInflater(this).inflate(R.menu.activity_profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+
+        if (item.getItemId() == R.id.action_logout) {
+            AuthenticationManager.getInstance().logOut(this);
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    @Override
+    protected ProfilePresenter createPresenter() {
+        return new ProfilePresenter();
     }
 }

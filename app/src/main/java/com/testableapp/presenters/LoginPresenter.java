@@ -15,8 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter extends AbstractPresenter<LoginView> {
 
-    public void login(@NonNull final String userName, @NonNull final String password) {
-        addDisposable(AuthModel.getInstance().login(new Authentication(userName, password))
+    public void login(@NonNull final String email, @NonNull final String password) {
+        addDisposable(AuthModel.getInstance().login(new Authentication(email, password))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<User>() {

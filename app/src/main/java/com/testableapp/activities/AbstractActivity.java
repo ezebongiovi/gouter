@@ -1,5 +1,6 @@
 package com.testableapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.testableapp.R;
+import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.AbstractPresenter;
 import com.testableapp.views.AbstractView;
 
@@ -22,6 +24,10 @@ abstract class AbstractActivity<P extends AbstractPresenter>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_abstract);
 
+        if (shouldAuthenticate()) {
+            authenticate();
+        }
+
         LayoutInflater.from(this).inflate(getLayoutResourceId(),
                 (ViewGroup) findViewById(R.id.rootView));
 
@@ -29,6 +35,16 @@ abstract class AbstractActivity<P extends AbstractPresenter>
 
         onCreateActivity(savedInstanceState, mPresenter);
     }
+
+    private void authenticate() {
+        // If user is not logged in we redirect to login
+        if (AuthenticationManager.getInstance().getUser(this) == null) {
+            startActivity(new Intent(this, LoginActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
+    protected abstract boolean shouldAuthenticate();
 
     public abstract void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                           @NonNull final P presenter);
