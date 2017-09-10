@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.testableapp.dto.ApiError;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
+import com.testableapp.models.AuthModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.RegisterView;
 
@@ -19,9 +20,9 @@ public class RegisterPresenter extends AbstractPresenter<RegisterView> {
                                                @NonNull final String password,
                                                @NonNull final String confirmation) {
         if (isValidEntry(email, password, confirmation)) {
-            final Observable<User> observable = Observable.just(new User("Ezequiel",
-                    "Di Pasquale", new Authentication.Builder().withEmail("ezebongiovi@gmail.com")
-                    .withToken("12738172").build()));
+            final Observable<User> observable = AuthModel.getInstance()
+                    .register(new Authentication.Builder().withEmail(email)
+                    .withToken(password).build());
 
             observable.observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<User>() {
@@ -35,6 +36,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterView> {
                             handleErrorEvent(apiError);
                         }
                     });
+
             return observable;
         } else {
             getView().onInvalidData();

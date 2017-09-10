@@ -26,6 +26,10 @@ public class AuthModel {
         return getService().login(authentication);
     }
 
+    public Observable<User> register(@NonNull final Authentication authentication) {
+        return getService().register(authentication);
+    }
+
     private AuthService getService() {
         return MainApplication.getRetrofit().create(AuthService.class);
     }

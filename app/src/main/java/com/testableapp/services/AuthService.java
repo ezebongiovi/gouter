@@ -13,4 +13,7 @@ public interface AuthService {
 
     @POST("auth")
     Observable<User> login(@Body @NonNull final Authentication authentication);
+
+    @POST("signup")
+    Observable<User> register(Authentication authentication);
 }
