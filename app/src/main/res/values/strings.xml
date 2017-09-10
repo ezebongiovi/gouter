@@ -9,4 +9,6 @@
     <string name="hint_email">Email</string>
     <string name="button_register">Registrar</string>
     <string name="buttonNoAccount">No tengo cuenta</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_settings">Settings</string>
 </resources>

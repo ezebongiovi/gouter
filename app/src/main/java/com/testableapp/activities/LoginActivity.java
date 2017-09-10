@@ -44,8 +44,7 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
         });
 
         if (AuthenticationManager.getInstance().getUser(this) != null) {
-            startActivity(ProfileActivity.getIntent(this, AuthenticationManager
-                    .getInstance().getUser(this)));
+            startActivity(new Intent(this, NavigationActivity.class));
         }
     }
 
@@ -63,7 +62,7 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
     @Override
     public void onLogin(@NonNull final User user) {
         AuthenticationManager.getInstance().onLogin(this, user);
-        startActivity(ProfileActivity.getIntent(this, user));
+        startActivity(new Intent(this, NavigationActivity.class));
     }
 
     @Override

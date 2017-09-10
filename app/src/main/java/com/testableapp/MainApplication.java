@@ -18,7 +18,7 @@ public class MainApplication extends Application {
     private static final String TEST_URL = "http://localhost:8080/api/";
 
     private final static Retrofit mRetrofit = new Retrofit.Builder()
-            .baseUrl(TEST_URL)
+            .baseUrl(EMULATOR_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()))

@@ -30,6 +30,7 @@
             android:windowSoftInputMode="adjustResize">
 
         </activity>
+        <activity android:name=".activities.NavigationActivity" />
     </application>
 
 </manifest>

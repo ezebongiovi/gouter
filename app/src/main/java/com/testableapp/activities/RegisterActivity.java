@@ -58,7 +58,7 @@ public class RegisterActivity extends AbstractMvpActivity<RegisterPresenter>
     @Override
     public void onRegister(@NonNull final User user) {
         AuthenticationManager.getInstance().onLogin(this, user);
-        startActivity(ProfileActivity.getIntent(this, user)
+        startActivity(new Intent(this, NavigationActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }
