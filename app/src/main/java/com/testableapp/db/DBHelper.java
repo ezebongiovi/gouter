@@ -84,6 +84,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void onLogOut() {
-        db.rawQuery("DELETE FROM " + DBContract.Entry.TABLE_NAME, null);
+        db.delete(DBContract.Entry.TABLE_NAME, null, null);
     }
 }

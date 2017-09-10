@@ -15,6 +15,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/activity_title_login"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
