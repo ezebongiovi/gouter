@@ -8,8 +8,7 @@
             type="com.testableapp.dto.User" />
     </data>
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,25 +17,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:textSize="18sp"
             android:text="@{@string/name(user.name, user.lastName)}"
+            android:textSize="18sp"
             tools:text="Roberto Carlos" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:textSize="18sp"
             android:text="@{user.authentication.email}"
+            android:textSize="18sp"
             tools:text="robertinho" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:textSize="18sp"
             android:text="@{user.authentication.password}"
+            android:textSize="18sp"
             tools:text="Sarasa" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            android:text="@string/action_logout"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </layout>

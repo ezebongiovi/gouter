@@ -1,11 +1,12 @@
-package com.testableapp.activities;
+package com.testableapp.fragments.base;
 
 import android.support.annotation.NonNull;
 
 import com.testableapp.presenters.EmptyPresenter;
 import com.testableapp.views.AbstractView;
 
-public abstract class AbstractActivity extends AbstractMvpActivity<EmptyPresenter> implements AbstractView {
+public abstract class AbstractFragment extends AbstractMvpFragment<EmptyPresenter>
+        implements AbstractView {
 
     @NonNull
     @Override
