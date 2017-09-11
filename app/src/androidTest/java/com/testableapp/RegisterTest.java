@@ -15,7 +15,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 
 public class RegisterTest extends BaseEspressoTest {
 
@@ -41,6 +40,8 @@ public class RegisterTest extends BaseEspressoTest {
         onView(withId(R.id.confirmPasswordField)).perform(replaceText("1234"));
 
         onView(withId(R.id.registerButton)).perform(scrollTo(), click());
+
+        onView(withId(R.id.action_settings)).perform(click());
 
         onView(withText("ezebongiovi@gmail.com")).check(matches(isDisplayed()));
     }
