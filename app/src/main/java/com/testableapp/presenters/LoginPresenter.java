@@ -2,7 +2,7 @@ package com.testableapp.presenters;
 
 import android.support.annotation.NonNull;
 
-import com.testableapp.dto.ApiError;
+import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
@@ -19,15 +19,17 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         addDisposable(AuthModel.getInstance().login(new Authentication(email, password))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<User>() {
+                .subscribe(new Consumer<ApiResponse<User>>() {
                     @Override
-                    public void accept(final User user) throws Exception {
-                        getView().onLogin(user);
+                    public void accept(final ApiResponse<User> response) throws Exception {
+                        if (ApiResponse.STATUS_OK.equalsIgnoreCase(response.status)) {
+                            getView().onLogin(response.data);
+                        }
                     }
                 }, new ErrorConsumer() {
                     @Override
-                    public void onError(@NonNull final ApiError apiError) {
-                        handleErrorEvent(apiError);
+                    public void onError(@NonNull final ApiResponse apiResponse) {
+                        handleErrorEvent(apiResponse);
                     }
                 }));
     }

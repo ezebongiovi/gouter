@@ -3,6 +3,7 @@ package com.testableapp.models;
 import android.support.annotation.NonNull;
 
 import com.testableapp.MainApplication;
+import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.services.AuthService;
@@ -22,11 +23,11 @@ public class AuthModel {
         return INSTANCE;
     }
 
-    public Observable<User> login(@NonNull final Authentication authentication) {
+    public Observable<ApiResponse<User>> login(@NonNull final Authentication authentication) {
         return getService().login(authentication);
     }
 
-    public Observable<User> register(@NonNull final Authentication authentication) {
+    public Observable<ApiResponse<User>> register(@NonNull final Authentication authentication) {
         return getService().register(authentication);
     }
 

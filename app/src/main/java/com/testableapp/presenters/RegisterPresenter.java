@@ -2,51 +2,52 @@ package com.testableapp.presenters;
 
 import android.support.annotation.NonNull;
 
-import com.testableapp.dto.ApiError;
+import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.RegisterView;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class RegisterPresenter extends AbstractPresenter<RegisterView> {
 
-    public Observable<User> register(@NonNull final String email,
-                                               @NonNull final String password,
-                                               @NonNull final String confirmation) {
-        if (isValidEntry(email, password, confirmation)) {
-            final Observable<User> observable = AuthModel.getInstance()
-                    .register(new Authentication.Builder().withEmail(email)
-                    .withToken(password).build());
+    private void register(@NonNull final String email,
+                          @NonNull final String password,
+                          @NonNull final String confirmation) {
 
-            observable.observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<User>() {
+        if (isValidEntry(email, password, confirmation)) {
+            addDisposable(AuthModel.getInstance()
+                    .register(new Authentication.Builder().withEmail(email)
+                            .withToken(password).build())
+                    .observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<ApiResponse<User>>() {
                         @Override
-                        public void accept(final User user) throws Exception {
-                            getView().onRegister(user);
+                        public void accept(final ApiResponse<User> response) throws Exception {
+                            if (ApiResponse.STATUS_OK.equalsIgnoreCase(response.status)) {
+                                getView().onRegister(response.data);
+                            } else {
+                                // TODO: Handle error
+                            }
                         }
                     }, new ErrorConsumer() {
                         @Override
-                        public void onError(@NonNull final ApiError apiError) {
-                            handleErrorEvent(apiError);
+                        public void onError(@NonNull final ApiResponse apiResponse) {
+                            handleErrorEvent(apiResponse);
                         }
-                    });
+                    }));
 
-            return observable;
         } else {
             getView().onInvalidData();
         }
 
-        return null;
     }
 
     public boolean isValidEntry(@NonNull final String email, @NonNull final String password,
-                                 @NonNull final String confirmation) {
+                                @NonNull final String confirmation) {
         return !email.isEmpty() && (confirmation.compareToIgnoreCase(password) == 0)
                 && !password.isEmpty();
     }
