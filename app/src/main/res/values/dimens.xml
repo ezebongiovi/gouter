@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_activity">16dp</dimen>
+    <dimen name="_1m">8dp</dimen>
+    <dimen name="_0_5m">4dp</dimen>
+    <dimen name="_2m">16dp</dimen>
 </resources>
