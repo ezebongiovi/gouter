@@ -12,9 +12,9 @@ import retrofit2.http.POST;
 
 public interface AuthService {
 
-    @POST("auth")
+    @POST("login")
     Observable<ApiResponse<User>> login(@Body @NonNull final Authentication authentication);
 
     @POST("signup")
-    Observable<ApiResponse<User>> register(Authentication authentication);
+    Observable<ApiResponse<User>> register(@Body @NonNull Authentication authentication);
 }

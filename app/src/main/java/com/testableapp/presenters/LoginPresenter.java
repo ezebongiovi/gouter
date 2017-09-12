@@ -24,6 +24,8 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                     public void accept(final ApiResponse<User> response) throws Exception {
                         if (ApiResponse.STATUS_OK.equalsIgnoreCase(response.status)) {
                             getView().onLogin(response.data);
+                        } else {
+                            getView().onError(response.message);
                         }
                     }
                 }, new ErrorConsumer() {

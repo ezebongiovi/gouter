@@ -1,5 +1,6 @@
 package com.testableapp;
 
+import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
@@ -16,7 +17,7 @@ public class AuthModelTest {
     @Test
     public void testLogin() throws Exception {
         final Authentication authentication = new Authentication("admin", "1234");
-        final TestObserver<User> testObserver = TestObserver.create();
+        final TestObserver<ApiResponse<User>> testObserver = TestObserver.create();
         authModel.login(authentication).subscribe(testObserver);
 
         testObserver.assertNoErrors();

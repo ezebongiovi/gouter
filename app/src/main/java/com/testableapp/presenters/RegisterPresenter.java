@@ -15,22 +15,22 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RegisterPresenter extends AbstractPresenter<RegisterView> {
 
-    private void register(@NonNull final String email,
+    public void register(@NonNull final String email,
                           @NonNull final String password,
                           @NonNull final String confirmation) {
 
         if (isValidEntry(email, password, confirmation)) {
             addDisposable(AuthModel.getInstance()
                     .register(new Authentication.Builder().withEmail(email)
-                            .withToken(password).build())
-                    .observeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread())
+                            .withPassword(password).build())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                     .subscribe(new Consumer<ApiResponse<User>>() {
                         @Override
                         public void accept(final ApiResponse<User> response) throws Exception {
                             if (ApiResponse.STATUS_OK.equalsIgnoreCase(response.status)) {
                                 getView().onRegister(response.data);
                             } else {
-                                // TODO: Handle error
+                                getView().onError(response.message);
                             }
                         }
                     }, new ErrorConsumer() {

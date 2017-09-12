@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainApplication extends Application {
 
+    private static boolean testFramework = false;
     private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
 
     private final static Retrofit mRetrofit = new Retrofit.Builder()
@@ -32,5 +33,13 @@ public class MainApplication extends Application {
     public static OkHttpClient getClient() {
         return new OkHttpClient.Builder().addInterceptor(new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY)).build();
+    }
+
+    public static void initTestFramework() {
+        testFramework = true;
+    }
+
+    public static boolean isTestFramework() {
+        return testFramework;
     }
 }

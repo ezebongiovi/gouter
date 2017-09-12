@@ -10,6 +10,8 @@ import com.testableapp.services.AuthService;
 
 import io.reactivex.Observable;
 
+import static com.testableapp.dto.ApiResponse.STATUS_OK;
+
 
 public class AuthModel {
 
@@ -28,7 +30,17 @@ public class AuthModel {
     }
 
     public Observable<ApiResponse<User>> register(@NonNull final Authentication authentication) {
-        return getService().register(authentication);
+        return MainApplication.isTestFramework() ? getMokcedRegister()
+                : getService().register(authentication);
+    }
+
+    private Observable<ApiResponse<User>> getMokcedRegister() {
+        final ApiResponse<User> apiResponse = new ApiResponse.Builder<User>()
+                .withData(new User("Goku", "Vegeta",
+                        new Authentication("saiyan@gmail.com", "1234")))
+                .withStatus(STATUS_OK).build();
+
+        return Observable.just(apiResponse);
     }
 
     private AuthService getService() {

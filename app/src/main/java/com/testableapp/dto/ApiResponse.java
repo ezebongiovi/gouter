@@ -12,7 +12,7 @@ import retrofit2.Response;
 public class ApiResponse<T> {
 
     public static final String STATUS_OK = "OK";
-    public static final String STATUS_ERROR = "ERROR";
+    public static final String STATUS_ERROR = "ERR";
 
     public final String message;
     public final String error;
@@ -74,17 +74,37 @@ public class ApiResponse<T> {
     public static class Builder<T> {
         private String message;
         private String error;
-        private Integer status;
+        private String status;
         private Kind kind;
         private T data;
 
-        public Builder withKind(final Kind kind) {
+        public Builder<T> withData(@NonNull final T data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder<T> withStatus(@NonNull final String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder<T> withMessage(@NonNull final String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder<T> withError(@NonNull final String error) {
+            this.error = error;
+            return this;
+        }
+
+        public Builder<T> withKind(final Kind kind) {
             this.kind = kind;
             return this;
         }
 
-        public ApiResponse build() {
-            return new ApiResponse(this);
+        public ApiResponse<T> build() {
+            return new ApiResponse<>(this);
         }
     }
 

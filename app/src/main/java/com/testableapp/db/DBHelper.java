@@ -31,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Factory method
      *
-     * @param context the application's context
+     * @param context the application's mContext
      * @return the DBHelper instance
      */
     public static DBHelper getInstance(@NonNull final Context context) {
@@ -64,8 +64,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public long onLogin(@NonNull final User user) {
         final ContentValues values = new ContentValues();
         values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.getAuthentication().getEmail());
-        values.put(DBContract.Entry.COLUMN_NAME_NAME, user.getName());
+        values.put(DBContract.Entry.COLUMN_NAME_NAME, user.getFirstName());
         values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.getLastName());
+        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.getAuthentication().getToken());
 
         return db.insert(DBContract.Entry.TABLE_NAME, null, values);
     }

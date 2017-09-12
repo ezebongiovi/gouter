@@ -59,6 +59,12 @@ public abstract class AbstractMvpFragment<P extends AbstractPresenter>
                 Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onError(@NonNull final String message) {
+        Snackbar.make(getView().findViewById(R.id.rootView), message,
+                Snackbar.LENGTH_LONG).show();
+    }
+
     @NonNull
     protected abstract P createPresenter();
 }
