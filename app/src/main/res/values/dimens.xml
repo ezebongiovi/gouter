@@ -4,4 +4,5 @@
     <dimen name="_1m">8dp</dimen>
     <dimen name="_0_5m">4dp</dimen>
     <dimen name="_2m">16dp</dimen>
+    <dimen name="font_size_xxl">24sp</dimen>
 </resources>

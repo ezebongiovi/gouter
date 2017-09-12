@@ -26,7 +26,7 @@ public class BaseHeadersInterceptor implements Interceptor {
 
         if (AuthenticationManager.getInstance().getUser(mContext) != null) {
             headers.add("X-token", AuthenticationManager.getInstance().getUser(mContext)
-                    .getAuthentication().getToken());
+                    .getAuthentication().getAccessToken());
         }
 
         final Request request = chain.request().newBuilder().headers(headers.build()).build();

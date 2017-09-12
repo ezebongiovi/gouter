@@ -66,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.getAuthentication().getEmail());
         values.put(DBContract.Entry.COLUMN_NAME_NAME, user.getFirstName());
         values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.getLastName());
-        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.getAuthentication().getToken());
+        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.getAuthentication().getAccessToken());
 
         return db.insert(DBContract.Entry.TABLE_NAME, null, values);
     }
@@ -78,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c.getCount() > 0) {
             return new User(c.getString(1), c.getString(2),
                     new Authentication.Builder().withEmail(c.getString(4))
-                            .withToken(c.getString(3)).build());
+                            .withAccessToken(c.getString(3)).build());
         }
 
         return null;

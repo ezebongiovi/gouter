@@ -1,11 +1,13 @@
 package com.testableapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.testableapp.R;
 import com.testableapp.fragments.HomeFragment;
@@ -17,6 +19,7 @@ import java.util.List;
 
 public class NavigationActivity extends AbstractActivity {
 
+    private int mCurrentPosition;
     private final List<Fragment> mFragments = new ArrayList<>();
 
     @Override
@@ -48,11 +51,24 @@ public class NavigationActivity extends AbstractActivity {
                 return true;
             }
         });
+
+        findViewById(R.id.floatMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startActivity(new Intent(NavigationActivity.this,
+                        CreateEventActivity.class));
+            }
+        });
     }
 
     private void display(final int position) {
+        if (position != 0) {
+
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.viewPager,
                 mFragments.get(position)).commit();
+
+        mCurrentPosition = position;
     }
 
     @Override

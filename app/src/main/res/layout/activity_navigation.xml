@@ -29,10 +29,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         app:elevation="@dimen/_2m"
-        app:itemIconTint="@color/colorPrimaryLight"
-        app:itemTextColor="@color/colorPrimaryLight"
+        app:itemIconTint="@color/colorAccent"
+        app:itemTextColor="@color/colorAccent"
         android:padding="@dimen/_0_5m"
         app:menu="@menu/navigation" />
 

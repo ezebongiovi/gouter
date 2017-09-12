@@ -11,4 +11,7 @@
     <string name="buttonNoAccount">No tengo cuenta</string>
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
+    <string name="search_people">Buscar personas</string>
+    <string name="guests">Invitados</string>
+    <string name="continueButton">Continuar</string>
 </resources>

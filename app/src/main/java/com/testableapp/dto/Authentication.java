@@ -7,22 +7,22 @@ import java.io.Serializable;
 public class Authentication implements Serializable {
     private final String email;
     private final String password;
-    private final String token;
+    private final String accessToken;
 
     public Authentication(@NonNull final String email, @NonNull final String password) {
         this.email = email;
         this.password = password;
-        this.token = null;
+        this.accessToken = null;
     }
 
     private Authentication(final Builder builder) {
-        this.token = builder.token;
+        this.accessToken = builder.accessToken;
         this.email = builder.email;
         this.password = builder.password;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
     public String getEmail() {
@@ -36,7 +36,7 @@ public class Authentication implements Serializable {
     public static final class Builder {
         private String email;
         private String password;
-        private String token;
+        private String accessToken;
 
         public Builder() {
 
@@ -52,8 +52,8 @@ public class Authentication implements Serializable {
             return this;
         }
 
-        public Builder withToken(@NonNull final String token) {
-            this.token = token;
+        public Builder withAccessToken(@NonNull final String accessToken) {
+            this.accessToken = accessToken;
             return this;
         }
 
