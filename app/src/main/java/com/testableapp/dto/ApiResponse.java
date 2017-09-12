@@ -9,11 +9,14 @@ import java.io.IOException;
 
 import retrofit2.Response;
 
-public class ApiError<T> {
+public class ApiResponse<T> {
+
+    public static final String STATUS_OK = "OK";
+    public static final String STATUS_ERROR = "ERR";
 
     public final String message;
     public final String error;
-    public final Integer status;
+    public final String status;
     public final Kind kind;
     public final T data;
 
@@ -34,25 +37,25 @@ public class ApiError<T> {
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    public static ApiError httpError(final Response response) {
-        final ApiError apiError = getApiError(response);
-        return new ApiError(apiError.message, apiError.message, response != null
-                ? response.code(): null, null, Kind.HTTP);
+    public static ApiResponse httpError(final Response response) {
+        final ApiResponse apiResponse = getApiError(response);
+        return new ApiResponse(apiResponse.message, apiResponse.message, response != null
+                ? String.valueOf(response.code()) : null, null, Kind.HTTP);
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    public static ApiError networkError(final IOException exception) {
-        return new ApiError(exception.getMessage(), null, null, null, Kind.NETWORK);
+    public static ApiResponse networkError(final IOException exception) {
+        return new ApiResponse(exception.getMessage(), null, null, null, Kind.NETWORK);
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    public static ApiError unexpectedError(final Throwable exception) {
-        return new ApiError(exception.getMessage(), null, null, null, Kind.UNEXPECTED);
+    public static ApiResponse unexpectedError(final Throwable exception) {
+        return new ApiResponse(exception.getMessage(), null, null, null, Kind.UNEXPECTED);
     }
 
     @SuppressWarnings("NullableProblems")
-    private ApiError(final String message, @Nullable final String error, @Nullable final Integer status,
-                     @NonNull final T data, final Kind kind) {
+    private ApiResponse(final String message, @Nullable final String error, @Nullable final String status,
+                        @NonNull final T data, final Kind kind) {
         this.message = message;
         this.error = error;
         this.status = status;
@@ -60,7 +63,7 @@ public class ApiError<T> {
         this.data = data;
     }
 
-    private ApiError(final Builder<T> builder) {
+    private ApiResponse(final Builder<T> builder) {
         message = builder.message;
         error = builder.error;
         status = builder.status;
@@ -71,43 +74,43 @@ public class ApiError<T> {
     public static class Builder<T> {
         private String message;
         private String error;
-        private Integer status;
+        private String status;
         private Kind kind;
         private T data;
 
-        public Builder withMessage(final String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Builder withError(final String error) {
-            this.error = error;
-            return this;
-        }
-
-        public Builder withStatus(Integer status) {
-            this.status = status;
-            return this;
-        }
-
-        public Builder withData(@NonNull final T data) {
+        public Builder<T> withData(@NonNull final T data) {
             this.data = data;
             return this;
         }
 
-        public Builder withKind(final Kind kind) {
+        public Builder<T> withStatus(@NonNull final String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder<T> withMessage(@NonNull final String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder<T> withError(@NonNull final String error) {
+            this.error = error;
+            return this;
+        }
+
+        public Builder<T> withKind(final Kind kind) {
             this.kind = kind;
             return this;
         }
 
-        public ApiError build() {
-            return new ApiError(this);
+        public ApiResponse<T> build() {
+            return new ApiResponse<>(this);
         }
     }
 
     @Override
     public String toString() {
-        return "ApiError{"
+        return "ApiResponse{"
                 + "message='" + message + '\''
                 + ", error='" + error + '\''
                 + ", status=" + status
@@ -115,14 +118,14 @@ public class ApiError<T> {
                 + '}';
     }
 
-    public static ApiError getApiError(final Response response) {
-        ApiError apiError = null;
+    public static ApiResponse getApiError(final Response response) {
+        ApiResponse apiResponse = null;
         try {
-            apiError = getErrorBodyAs(ApiError.class, response);
+            apiResponse = getErrorBodyAs(ApiResponse.class, response);
         } catch (final Exception exc) {
             // TODO: Log error
         }
-        return (apiError != null) ? apiError : new ApiError.Builder().withKind(Kind.UNEXPECTED).build();
+        return (apiResponse != null) ? apiResponse : new ApiResponse.Builder().withKind(Kind.UNEXPECTED).build();
     }
 
     /**

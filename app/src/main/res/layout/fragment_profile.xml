@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@{@string/name(user.name, user.lastName)}"
+            android:text="@{@string/name(user.firstName, user.lastName)}"
             android:textSize="18sp"
             tools:text="Roberto Carlos" />
 

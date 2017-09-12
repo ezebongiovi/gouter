@@ -33,6 +33,7 @@ public abstract class BaseEspressoTest {
 
     @Before
     public void setUp() {
+        MainApplication.initTestFramework();
         httpResource = OkHttp3IdlingResource.create("OkHttp", MainApplication
                 .getClient());
         registerIdlingResources(httpResource);

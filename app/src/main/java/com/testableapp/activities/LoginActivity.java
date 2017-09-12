@@ -64,9 +64,4 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
         AuthenticationManager.getInstance().onLogin(this, user);
         startActivity(new Intent(this, NavigationActivity.class));
     }
-
-    @Override
-    public void onError() {
-        Snackbar.make(findViewById(R.id.rootView), "Ups algo salió mal", Snackbar.LENGTH_LONG).show();
-    }
 }

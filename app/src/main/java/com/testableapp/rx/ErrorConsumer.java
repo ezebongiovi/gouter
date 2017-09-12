@@ -3,7 +3,7 @@ package com.testableapp.rx;
 
 import android.support.annotation.NonNull;
 
-import com.testableapp.dto.ApiError;
+import com.testableapp.dto.ApiResponse;
 
 import java.io.IOException;
 
@@ -27,19 +27,19 @@ public abstract class ErrorConsumer implements Consumer<Throwable> {
                 // TODO: Handle case
             } else if (httpException.code() >= HTTP_BAD_REQUEST && httpException.code()
                     < HTTP_INTERNAL_ERROR) {
-                onError(ApiError.httpError(httpException.response()));
+                onError(ApiResponse.httpError(httpException.response()));
             } else if (httpException.code() >= HTTP_INTERNAL_ERROR && httpException.code()
                     <= HTTP_GATEWAY_TIMEOUT) {
-                onError(ApiError.httpError(httpException.response()));
+                onError(ApiResponse.httpError(httpException.response()));
             } else {
-                onError(ApiError.unexpectedError(t));
+                onError(ApiResponse.unexpectedError(t));
             }
         } else if (t instanceof IOException) {
-            onError(ApiError.networkError((IOException) t));
+            onError(ApiResponse.networkError((IOException) t));
         } else {
-            onError(ApiError.unexpectedError(t));
+            onError(ApiResponse.unexpectedError(t));
         }
     }
 
-    public abstract void onError(@NonNull ApiError apiError);
+    public abstract void onError(@NonNull ApiResponse apiResponse);
 }

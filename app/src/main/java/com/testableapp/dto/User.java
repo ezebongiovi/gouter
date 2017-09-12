@@ -7,20 +7,20 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 
 public class User extends BaseObservable implements Serializable {
-    private String name;
+    private String firstName;
     private final String lastName;
     private final Authentication authentication;
 
-    public User(@NonNull final String name, @NonNull final String lastName,
+    public User(@NonNull final String firstName, @NonNull final String lastName,
                 @NonNull final Authentication authentication) {
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;
     }
 
     @Bindable
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
     @Bindable

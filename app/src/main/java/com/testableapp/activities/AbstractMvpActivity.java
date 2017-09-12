@@ -67,6 +67,11 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
                 Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onError(final String message) {
+        Snackbar.make(findViewById(R.id.rootView), message, Snackbar.LENGTH_LONG).show();
+    }
+
     public abstract int getLayoutResourceId();
 
     @NonNull
