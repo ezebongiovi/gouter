@@ -14,4 +14,8 @@
     <string name="search_people">Buscar personas</string>
     <string name="guests">Invitados</string>
     <string name="continueButton">Continuar</string>
+    <string name="hint_contact_picker">Buscar personas</string>
+    <string name="user_full_name">%1$s %2$s</string>
+    <string name="address">Dirección</string>
+    <string name="description">Descripción</string>
 </resources>

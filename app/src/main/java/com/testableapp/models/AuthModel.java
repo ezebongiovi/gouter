@@ -36,7 +36,8 @@ public class AuthModel {
 
     private Observable<ApiResponse<User>> getMokcedRegister() {
         final ApiResponse<User> apiResponse = new ApiResponse.Builder<User>()
-                .withData(new User("Goku", "Vegeta",
+                .withData(new User("286827", "Goku", "Vegeta",
+                        "http://ndl.mgccw.com/mu3/app/20140717/21/1405612487854/ss/4_small.png",
                         new Authentication("saiyan@gmail.com", "1234")))
                 .withStatus(STATUS_OK).build();
 

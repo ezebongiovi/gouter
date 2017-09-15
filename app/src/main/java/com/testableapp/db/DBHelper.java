@@ -19,9 +19,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DBContract.Entry.TABLE_NAME + " (" +
-                    DBContract.Entry._ID + " INTEGER PRIMARY KEY," +
+                    DBContract.Entry._ID + " TEXT PRIMARY KEY," +
                     DBContract.Entry.COLUMN_NAME_NAME + " TEXT," +
                     DBContract.Entry.COLUMN_NAME_LAST_NAME + " TEXT," +
+                    DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE + " TEXT," +
                     DBContract.Entry.COLUMN_NAME_TOKEN + " TEXT," +
                     DBContract.Entry.COLUMN_NAME_EMAIL + " TEXT)";
 
@@ -66,6 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.getAuthentication().getEmail());
         values.put(DBContract.Entry.COLUMN_NAME_NAME, user.getFirstName());
         values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.getLastName());
+        values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.getProfilePicture());
         values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.getAuthentication().getAccessToken());
 
         return db.insert(DBContract.Entry.TABLE_NAME, null, values);
@@ -76,9 +78,10 @@ public class DBHelper extends SQLiteOpenHelper {
         c.moveToFirst();
 
         if (c.getCount() > 0) {
-            return new User(c.getString(1), c.getString(2),
-                    new Authentication.Builder().withEmail(c.getString(4))
-                            .withAccessToken(c.getString(3)).build());
+            return new User(c.getString(0), c.getString(1),
+                    c.getString(2), c.getString(3),
+                    new Authentication.Builder().withEmail(c.getString(5))
+                            .withAccessToken(c.getString(4)).build());
         }
 
         return null;

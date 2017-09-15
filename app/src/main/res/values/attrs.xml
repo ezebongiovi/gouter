@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ContactPicker">
+        <attr name="selectable" format="boolean" />
+        <attr name="maxItems" format="integer" />
+    </declare-styleable>
+</resources>

@@ -17,4 +17,14 @@ public class HomeFragment extends AbstractFragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, null, false);
     }
+
+    @Override
+    public void showProgressLayout() {
+
+    }
+
+    @Override
+    public void showRegularLayout() {
+
+    }
 }

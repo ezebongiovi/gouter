@@ -14,8 +14,13 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
         }
     }
 
@@ -48,6 +53,15 @@ dependencies {
 
     // Step Indicator
     compile 'com.github.fcannizzaro:material-stepper:1.2.2'
+
+    // Picaso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // CircleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    // RxBinding
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 
     // Rx
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'

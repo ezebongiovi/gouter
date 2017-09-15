@@ -11,6 +11,7 @@ public final class DBContract {
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_LAST_NAME = "lastName";
         public static final String COLUMN_NAME_TOKEN = "token";
+        public static final String COLUMN_NAME_PROFILE_PICTURE = "profilePicture";
     }
 
 }

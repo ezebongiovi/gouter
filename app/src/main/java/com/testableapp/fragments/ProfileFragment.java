@@ -40,4 +40,14 @@ public class ProfileFragment extends AbstractFragment {
             }
         });
     }
+
+    @Override
+    public void showProgressLayout() {
+
+    }
+
+    @Override
+    public void showRegularLayout() {
+
+    }
 }

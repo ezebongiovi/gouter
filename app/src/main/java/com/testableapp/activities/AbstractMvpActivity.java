@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.testableapp.R;
@@ -29,7 +30,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
         }
 
         LayoutInflater.from(this).inflate(getLayoutResourceId(),
-                (ViewGroup) findViewById(R.id.rootView));
+                (ViewGroup) findViewById(R.id.contentLayout));
 
         mPresenter = createPresenter();
 
@@ -70,6 +71,23 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
     @Override
     public void onError(final String message) {
         Snackbar.make(findViewById(R.id.rootView), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgressLayout() {
+        findViewById(R.id.progressLayout).setVisibility(View.VISIBLE);
+        findViewById(R.id.contentLayout).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRegularLayout() {
+        findViewById(R.id.progressLayout).setVisibility(View.GONE);
+        findViewById(R.id.contentLayout).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onGenericError() {
+        // TODO: Handle
     }
 
     public abstract int getLayoutResourceId();

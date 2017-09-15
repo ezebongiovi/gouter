@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,11 +8,43 @@
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/addressView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:padding="@dimen/_1m"
+                android:background="@android:color/white"/>
+
+            <EditText
+                android:id="@+id/descriptionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:minLines="4"
+                android:padding="@dimen/_1m"
+                android:background="@android:color/white"/>
+
+        </LinearLayout>
 
         <!-- Step 1 -->
         <!-- Contact Picker -->
+        <com.testableapp.widgets.ContactPicker
+            android:id="@+id/contactPicker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:selectable="true" />
 
         <!-- Step 2 -->
         <DatePicker
@@ -27,7 +60,14 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white" />
 
-
     </ViewFlipper>
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="@string/continueButton"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
