@@ -2,10 +2,9 @@ package com.testableapp.models;
 
 import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
+import com.testableapp.dto.Search;
 import com.testableapp.dto.User;
 import com.testableapp.services.UsersService;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -25,8 +24,9 @@ public class UsersModel {
         return INSTANCE;
     }
 
-    public Observable<ApiResponse<List<User>>> searchPeople(final String criteria) {
-        return getService().searchPeople(criteria);
+    public Observable<ApiResponse<Search<User>>> searchPeople(final String criteria, final int offset,
+                                                              final int limit) {
+        return getService().searchPeople(criteria, offset, limit);
     }
 
     private UsersService getService() {

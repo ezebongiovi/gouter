@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,10 +16,12 @@ import android.widget.ViewFlipper;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.testableapp.R;
 import com.testableapp.adapters.ContactsAdapter;
+import com.testableapp.adapters.PaginationAdapter;
 import com.testableapp.dto.User;
 import com.testableapp.presenters.ContactPickerPresenter;
 import com.testableapp.views.ContactPickerView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -28,12 +29,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class ContactPicker extends LinearLayout implements ContactPickerView {
+public class ContactPicker extends LinearLayout implements ContactPickerView,
+        PaginationAdapter.PaginationListener {
 
     private final ContactPickerPresenter mPresenter = new ContactPickerPresenter();
     private final ContactsAdapter mAdapter;
     private final boolean mSelectable;
     private final int mMaxItems;
+    private final EditText searchField;
 
     public ContactPicker(@NonNull final Context context) {
         this(context, null);
@@ -59,9 +62,11 @@ public class ContactPicker extends LinearLayout implements ContactPickerView {
         }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contactPickerList);
-        mAdapter = new ContactsAdapter(mSelectable, mMaxItems);
+        mAdapter = new ContactsAdapter(this, Collections.EMPTY_LIST);
+        mAdapter.setSelectable(mSelectable);
+        mAdapter.attachTo(recyclerView);
 
-        final EditText searchField = (EditText) findViewById(R.id.searchField);
+        searchField = (EditText) findViewById(R.id.searchField);
         RxTextView.textChanges(searchField).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -72,14 +77,11 @@ public class ContactPicker extends LinearLayout implements ContactPickerView {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.search(charSequence.toString().trim());
+                                mPresenter.search(charSequence.toString().trim(), 0);
                             }
                         });
                     }
                 });
-
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
     public List<User> getSelectedContacts() {
@@ -125,11 +127,26 @@ public class ContactPicker extends LinearLayout implements ContactPickerView {
 
     @Override
     public void loadContacts(@NonNull final List<User> users) {
-        mAdapter.loadContacts(users);
+        mAdapter.setItems(users);
     }
 
     @Override
     public void addContacts(@NonNull final List<User> users) {
-        mAdapter.addContacts(users);
+        mAdapter.addItems(users);
+    }
+
+    @Override
+    public void showListLoading() {
+        mAdapter.showLoading();
+    }
+
+    @Override
+    public void hideListLoading() {
+        mAdapter.hideLoading();
+    }
+
+    @Override
+    public void onEndReached(final int offset) {
+        mPresenter.search(searchField.getText().toString().trim(), offset);
     }
 }
