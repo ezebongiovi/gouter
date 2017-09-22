@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/hint_password"
-            android:inputType="numberPassword" />
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/confirmPasswordField"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/confirmPassword"
-            android:inputType="numberPassword" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/registerButton"

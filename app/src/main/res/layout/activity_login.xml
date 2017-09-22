@@ -46,7 +46,7 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/hint_password"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:padding="@dimen/_1m"
             android:textColorHint="@color/colorWhite_10" />
 
