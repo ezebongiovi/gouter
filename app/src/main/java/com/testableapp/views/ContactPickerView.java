@@ -10,4 +10,8 @@ public interface ContactPickerView extends AbstractView {
     void loadContacts(@NonNull List<User> data);
 
     void addContacts(@NonNull List<User> data);
+
+    void showListLoading();
+
+    void hideListLoading();
 }

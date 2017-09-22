@@ -1,51 +1,36 @@
 package com.testableapp.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.testableapp.R;
-import com.testableapp.adapters.holders.ContactViewHolder;
+import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactViewHolder> {
+public class ContactsAdapter extends PaginationAdapter<User> {
 
-    private final ArrayList<User> mList = new ArrayList<>();
     private final ArrayList<User> mSelectedContacts = new ArrayList<>();
-    private final boolean mSelectable;
-    private final int mMaxItems;
+    private boolean mSelectable;
+    private int mMaxItems;
 
-    public ContactsAdapter(final boolean selectable, final int maxItems) {
+    public ContactsAdapter(@NonNull final PaginationListener paginationListener,
+                           @NonNull final List<User> data) {
+        super(data, paginationListener);
+    }
+
+    public void setMaxSelectedItems(final int maxSelectedItems) {
+        mMaxItems = maxSelectedItems;
+    }
+
+    public void setSelectable(final boolean selectable) {
         mSelectable = selectable;
-        mMaxItems = maxItems;
-    }
-
-    @Override
-    public ContactViewHolder onCreateViewHolder(final ViewGroup parent,
-                                                final int viewType) {
-        return new ContactViewHolder(mSelectable, LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.holder_contact, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(final ContactViewHolder holder, final int position) {
-        holder.onBind(mList.get(holder.getAdapterPosition()));
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                // Selects item only if we're under the max items limit
-                if (mSelectable || (mMaxItems == 0 && mMaxItems < mSelectedContacts.size())) {
-                    mSelectedContacts.add(mList.get(holder.getAdapterPosition()));
-                    holder.toggle();
-                }
-            }
-        });
     }
 
     public List<User> getSelectedContacts() {
@@ -53,20 +38,40 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     }
 
     @Override
-    public int getItemCount() {
-        return mList.size();
+    protected int getHolderLayout() {
+        return R.layout.holder_contact;
     }
 
-    public void loadContacts(@NonNull final List<User> users) {
-        mList.clear();
-        mList.addAll(users);
-        notifyDataSetChanged();
-    }
+    @Override
+    protected void onBind(final GenericViewHolder<User> holder, final User user) {
 
-    public void addContacts(@NonNull final List<User> users) {
-        final int index = mList.size();
+        if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+            Picasso.with(holder.itemView.getContext()).load(user.getProfilePicture())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into((ImageView) holder.itemView.findViewById(R.id.contactAvatar));
+        }
 
-        mList.addAll(users);
-        notifyItemInserted(index);
+        ((TextView) holder.itemView.findViewById(R.id.contactName))
+                .setText(holder.itemView.getResources().getString(R.string.user_full_name,
+                        user.getFirstName(), user.getLastName()));
+
+        holder.itemView.findViewById(R.id.checkbox).setVisibility(mSelectable ? View.VISIBLE : View.GONE);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (mSelectable || (mMaxItems == 0 && mMaxItems < mSelectedContacts.size())) {
+                    final CheckBox checkBox = (CheckBox) holder.itemView.findViewById(R.id.checkbox);
+                    checkBox.setChecked(!checkBox.isChecked());
+
+                    if (checkBox.isChecked()) {
+                        mSelectedContacts.add(mData.get(holder.getAdapterPosition()));
+                    } else {
+                        mSelectedContacts.remove(mData.get(holder.getAdapterPosition()));
+                    }
+                }
+
+            }
+        });
     }
 }
