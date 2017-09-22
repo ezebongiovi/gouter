@@ -25,8 +25,10 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(@NonNull final User user) {
-        Picasso.with(mContext).load(user.getProfilePicture()).placeholder(R.mipmap.ic_launcher)
-                .into((ImageView) itemView.findViewById(R.id.contactAvatar));
+        if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+            Picasso.with(mContext).load(user.getProfilePicture()).placeholder(R.mipmap.ic_launcher)
+                    .into((ImageView) itemView.findViewById(R.id.contactAvatar));
+        }
 
         ((TextView) itemView.findViewById(R.id.contactName))
                 .setText(itemView.getResources().getString(R.string.user_full_name,

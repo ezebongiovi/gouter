@@ -3,7 +3,7 @@ package com.testableapp.presenters;
 import android.support.annotation.NonNull;
 
 import com.testableapp.dto.ApiResponse;
-import com.testableapp.dto.Authentication;
+import com.testableapp.dto.RegistrationRequest;
 import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
 import com.testableapp.rx.ErrorConsumer;
@@ -15,14 +15,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RegisterPresenter extends AbstractPresenter<RegisterView> {
 
-    public void register(@NonNull final String email,
-                          @NonNull final String password,
+    public void register(@NonNull final String name, @NonNull final String lastName,
+                         @NonNull final String email, @NonNull final String password,
                           @NonNull final String confirmation) {
 
         if (isValidEntry(email, password, confirmation)) {
             addDisposable(AuthModel.getInstance()
-                    .register(new Authentication.Builder().withEmail(email)
-                            .withPassword(password).build())
+                    .register(new RegistrationRequest(name, lastName, email, password))
                     .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                     .subscribe(new Consumer<ApiResponse<User>>() {
                         @Override

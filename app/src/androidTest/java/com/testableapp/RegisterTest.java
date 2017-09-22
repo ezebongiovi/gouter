@@ -25,8 +25,10 @@ public class RegisterTest extends BaseEspressoTest {
             logout();
         }
 
-        onView(withId(R.id.noAccountButton)).perform(scrollTo(), click());
+        onView(withId(R.id.noAccountButton)).perform(click());
 
+        onView(withId(R.id.nameField)).perform(typeText("Ezequiel"));
+        onView(withId(R.id.lastNameField)).perform(typeText("Di Pasquale"));
         onView(withId(R.id.userField)).perform(scrollTo(), typeText("ezebongiovi@gmail.com"));
         onView(withId(R.id.passwordField)).perform(scrollTo(), typeText("1234"));
         onView(withId(R.id.confirmPasswordField)).perform(scrollTo(), typeText("423"));

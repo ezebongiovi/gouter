@@ -16,7 +16,7 @@
             android:name=".activities.LoginActivity"
             android:label="@string/activity_title_login"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,7 @@
 
         <activity
             android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity android:name=".activities.NavigationActivity" />

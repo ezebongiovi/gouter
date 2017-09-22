@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
+import com.testableapp.dto.RegistrationRequest;
 import com.testableapp.dto.User;
 import com.testableapp.services.AuthService;
 
@@ -29,9 +30,9 @@ public class AuthModel {
         return getService().login(authentication);
     }
 
-    public Observable<ApiResponse<User>> register(@NonNull final Authentication authentication) {
+    public Observable<ApiResponse<User>> register(@NonNull final RegistrationRequest registrationRequest) {
         return MainApplication.isTestFramework() ? getMokcedRegister()
-                : getService().register(authentication);
+                : getService().register(registrationRequest);
     }
 
     private Observable<ApiResponse<User>> getMokcedRegister() {

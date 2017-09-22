@@ -25,6 +25,8 @@ public class RegisterActivity extends AbstractMvpActivity<RegisterPresenter>
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final RegisterPresenter presenter) {
+        final EditText nameView = (EditText) findViewById(R.id.nameField);
+        final EditText lastNameView = (EditText) findViewById(R.id.lastNameField);
         final EditText emailView = (EditText) findViewById(R.id.userField);
         final EditText passwordView = (EditText) findViewById(R.id.passwordField);
         final EditText confirmView = (EditText) findViewById(R.id.confirmPasswordField);
@@ -33,7 +35,8 @@ public class RegisterActivity extends AbstractMvpActivity<RegisterPresenter>
         findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                presenter.register(emailView.getText().toString(), passwordView.getText().toString(),
+                presenter.register(nameView.getText().toString(), lastNameView.getText().toString(),
+                        emailView.getText().toString(), passwordView.getText().toString(),
                         confirmView.getText().toString());
             }
         });

@@ -8,6 +8,8 @@ import com.testableapp.dto.CreateEvent;
 import com.testableapp.dto.GEvent;
 import com.testableapp.services.EventsService;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 public class EventsModel {
@@ -32,5 +34,9 @@ public class EventsModel {
 
     private EventsService getService() {
         return MainApplication.getRetrofit().create(EventsService.class);
+    }
+
+    public Observable<ApiResponse<List<GEvent>>> getEvents() {
+        return getService().getEvents();
     }
 }

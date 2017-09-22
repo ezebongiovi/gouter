@@ -14,6 +14,18 @@
         android:padding="8dp">
 
         <EditText
+            android:id="@+id/nameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_name" />
+
+        <EditText
+            android:id="@+id/lastNameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_last_name" />
+
+        <EditText
             android:id="@+id/userField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.testableapp.R;
-import com.testableapp.fragments.HomeFragment;
+import com.testableapp.fragments.EventsFragment;
 import com.testableapp.fragments.ProfileFragment;
 import com.testableapp.presenters.EmptyPresenter;
 
@@ -31,7 +31,7 @@ public class NavigationActivity extends AbstractActivity {
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final EmptyPresenter presenter) {
 
-        mFragments.add(new HomeFragment());
+        mFragments.add(new EventsFragment());
         mFragments.add(new ProfileFragment());
 
 

@@ -14,5 +14,5 @@ import retrofit2.http.Query;
 public interface UsersService {
 
     @GET("/users")
-    Observable<ApiResponse<List<User>>> searchPeople(@Query("criteria")@NonNull String criteria);
+    Observable<ApiResponse<List<User>>> searchPeople(@Query("name")@NonNull String criteria);
 }
