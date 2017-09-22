@@ -10,8 +10,6 @@ import com.testableapp.models.UsersModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.ContactPickerView;
 
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -40,7 +38,6 @@ public class ContactPickerPresenter extends AbstractPresenter<ContactPickerView>
         }
 
         mSubscription = UsersModel.getInstance().searchPeople(criteria, offset, limit)
-                .delay(5000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<ApiResponse<Search<User>>>() {
 
