@@ -1,46 +1,55 @@
 package com.testableapp.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.testableapp.R;
-import com.testableapp.adapters.holders.EventsViewHolder;
+import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsAdapter extends RecyclerView.Adapter<EventsViewHolder> {
+public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     private List<GEvent> mData = new ArrayList<>();
     private OnEventClick mListener;
+
+    /**
+     * Default constructor
+     *
+     * @param data               the adapter's initial data
+     * @param paginationListener listener for being notified when paging is required
+     */
+    public EventsAdapter(@NonNull final List<GEvent> data,
+                         @NonNull final PaginationListener paginationListener) {
+        super(data, paginationListener);
+    }
 
     public interface OnEventClick {
         void onClick(@NonNull GEvent event);
     }
 
     @Override
-    public EventsViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        return new EventsViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.holder_event, parent, false));
+    protected int getHolderLayout() {
+        return R.layout.holder_event;
     }
 
     @Override
-    public void onBindViewHolder(final EventsViewHolder holder, final int position) {
-        holder.onBind(mData.get(holder.getAdapterPosition()));
+    protected void onBind(final GenericViewHolder<GEvent> holder, final GEvent data) {
+        ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.getDescription());
+        ((TextView) holder.itemView.findViewById(R.id.eventAddress)).setText(data.getAddress());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onClick(mData.get(holder.getAdapterPosition()));
+                    mListener.onClick(data);
                 }
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return mData.size();

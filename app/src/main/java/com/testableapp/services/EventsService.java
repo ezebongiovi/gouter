@@ -12,6 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface EventsService {
 
@@ -19,5 +20,6 @@ public interface EventsService {
     Observable<ApiResponse<GEvent>> createEvent(@Body @NonNull CreateEvent createEvent);
 
     @GET("/events")
-    Observable<ApiResponse<List<GEvent>>> getEvents();
+    Observable<ApiResponse<List<GEvent>>> getEvents(@Query("offset") int offset,
+                                                    @Query("limit") int limit);
 }

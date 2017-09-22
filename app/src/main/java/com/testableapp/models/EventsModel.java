@@ -36,7 +36,7 @@ public class EventsModel {
         return MainApplication.getRetrofit().create(EventsService.class);
     }
 
-    public Observable<ApiResponse<List<GEvent>>> getEvents() {
-        return getService().getEvents();
+    public Observable<ApiResponse<List<GEvent>>> getEvents(final int offset, final int limit) {
+        return getService().getEvents(offset, limit);
     }
 }

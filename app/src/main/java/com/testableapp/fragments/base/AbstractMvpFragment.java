@@ -14,7 +14,7 @@ import com.testableapp.views.AbstractView;
 public abstract class AbstractMvpFragment<P extends AbstractPresenter>
         extends Fragment implements AbstractView {
 
-    private P mPresenter;
+    protected P mPresenter;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
