@@ -8,9 +8,6 @@ import com.testableapp.R;
 import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     private OnEventClick mListener;
@@ -18,12 +15,10 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
     /**
      * Default constructor
      *
-     * @param data               the adapter's initial data
      * @param paginationListener listener for being notified when paging is required
      */
-    public EventsAdapter(@NonNull final List<GEvent> data,
-                         @NonNull final PaginationListener paginationListener) {
-        super(data, paginationListener);
+    public EventsAdapter(@NonNull final PaginationListener paginationListener) {
+        super(paginationListener);
     }
 
     public interface OnEventClick {

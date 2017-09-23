@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.testableapp"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -48,13 +48,10 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.+'
 
     // Android
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.android.support:design:25.+'
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
 
-    // Step Indicator
-    compile 'com.github.fcannizzaro:material-stepper:1.2.2'
-
-    // Picaso
+    // Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     // CircleImageView

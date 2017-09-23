@@ -39,12 +39,9 @@ public abstract class PaginationAdapter<T> extends RecyclerView.Adapter<GenericV
     /**
      * Default constructor
      *
-     * @param data               the adapter's initial data
      * @param paginationListener listener for being notified when paging is required
      */
-    public PaginationAdapter(@NonNull final List<T> data,
-                             @NonNull final PaginationListener paginationListener) {
-        mData.addAll(data);
+    public PaginationAdapter(@NonNull final PaginationListener paginationListener) {
         mPaginationListener = paginationListener;
     }
 

@@ -1,10 +1,11 @@
 package com.testableapp.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import java.io.Serializable;
+public class Authentication implements Parcelable {
 
-public class Authentication implements Serializable {
     private final String email;
     private final String password;
     private final String accessToken;
@@ -21,6 +22,24 @@ public class Authentication implements Serializable {
         this.password = builder.password;
     }
 
+    protected Authentication(final Parcel in) {
+        email = in.readString();
+        password = in.readString();
+        accessToken = in.readString();
+    }
+
+    public static final Creator<Authentication> CREATOR = new Creator<Authentication>() {
+        @Override
+        public Authentication createFromParcel(final Parcel in) {
+            return new Authentication(in);
+        }
+
+        @Override
+        public Authentication[] newArray(final int size) {
+            return new Authentication[size];
+        }
+    };
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -31,6 +50,18 @@ public class Authentication implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(accessToken);
     }
 
     public static final class Builder {
@@ -48,7 +79,7 @@ public class Authentication implements Serializable {
         }
 
         public Builder withPassword(@NonNull final String password) {
-            this.password  = password;
+            this.password = password;
             return this;
         }
 

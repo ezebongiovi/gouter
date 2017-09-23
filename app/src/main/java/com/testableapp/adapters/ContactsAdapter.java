@@ -20,9 +20,8 @@ public class ContactsAdapter extends PaginationAdapter<User> {
     private boolean mSelectable;
     private int mMaxItems;
 
-    public ContactsAdapter(@NonNull final PaginationListener paginationListener,
-                           @NonNull final List<User> data) {
-        super(data, paginationListener);
+    public ContactsAdapter(@NonNull final PaginationListener paginationListener) {
+        super(paginationListener);
     }
 
     public void setMaxSelectedItems(final int maxSelectedItems) {

@@ -62,7 +62,7 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
         }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contactPickerList);
-        mAdapter = new ContactsAdapter(this, Collections.EMPTY_LIST);
+        mAdapter = new ContactsAdapter(this);
         mAdapter.setSelectable(mSelectable);
         mAdapter.attachTo(recyclerView);
 
