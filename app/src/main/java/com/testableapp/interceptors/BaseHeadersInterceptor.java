@@ -3,6 +3,7 @@ package com.testableapp.interceptors;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.testableapp.BuildConfig;
 import com.testableapp.manager.AuthenticationManager;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class BaseHeadersInterceptor implements Interceptor {
+    private static final String HEADER_PLATFORM = "X-Platform";
+    private static final String HEADER_VERSION = "X-Version";
 
     private final Context mContext;
 
@@ -28,6 +31,9 @@ public class BaseHeadersInterceptor implements Interceptor {
             headers.add("Authorization", "Bearer " + AuthenticationManager.getInstance()
                     .getUser(mContext).getAuthentication().getAccessToken());
         }
+
+        headers.add(HEADER_PLATFORM, "Android");
+        headers.add(HEADER_VERSION, BuildConfig.VERSION_NAME);
 
         final Request request = chain.request().newBuilder().headers(headers.build()).build();
         return chain.proceed(request);
