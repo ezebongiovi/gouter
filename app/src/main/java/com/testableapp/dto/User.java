@@ -2,12 +2,13 @@ package com.testableapp.dto;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.io.Serializable;
+public class User extends BaseObservable implements Parcelable {
 
-public class User extends BaseObservable implements Serializable {
     private String _id;
     private String firstName;
     private final String lastName;
@@ -23,6 +24,26 @@ public class User extends BaseObservable implements Serializable {
         this.authentication = authentication;
         this.profilePicture = profilePicture;
     }
+
+    protected User(final Parcel in) {
+        _id = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        authentication = in.readParcelable(Authentication.class.getClassLoader());
+        profilePicture = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(final Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(final int size) {
+            return new User[size];
+        }
+    };
 
     public String getId() {
         return _id;
@@ -44,5 +65,19 @@ public class User extends BaseObservable implements Serializable {
 
     public String getProfilePicture() {
         return profilePicture;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeParcelable(authentication, flags);
+        dest.writeString(profilePicture);
     }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.testableapp.R;
+import com.testableapp.activities.EventDetailActivity;
 import com.testableapp.adapters.EventsAdapter;
 import com.testableapp.adapters.PaginationAdapter;
 import com.testableapp.dto.GEvent;
@@ -16,7 +17,6 @@ import com.testableapp.fragments.base.AbstractMvpFragment;
 import com.testableapp.presenters.EventsPresenter;
 import com.testableapp.views.EventsView;
 
-import java.util.Collections;
 import java.util.List;
 
 public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
@@ -35,9 +35,10 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final RecyclerView listView = (RecyclerView) view.findViewById(R.id.eventsList);
-        mAdapter = new EventsAdapter(Collections.EMPTY_LIST, this);
+        final RecyclerView listView = view.findViewById(R.id.eventsList);
+        mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
+        mAdapter.setOnEventClick(this);
 
         mPresenter.getEvents(0);
     }
@@ -87,7 +88,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void onClick(@NonNull final GEvent event) {
-        // TODO: Handle event click
+        startActivity(EventDetailActivity.getIntent(getContext(), event));
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.testableapp.dto;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
 import java.util.List;
 
-public class GEvent {
+public class GEvent extends BaseObservable implements Parcelable {
 
     private final User author;
     private final Date date;
@@ -21,20 +25,58 @@ public class GEvent {
         this.author = builder.author;
     }
 
+    protected GEvent(final Parcel in) {
+        author = in.readParcelable(User.class.getClassLoader());
+        description = in.readString();
+        address = in.readString();
+        date = new Date(in.readLong());
+        guests = in.createTypedArrayList(User.CREATOR);
+    }
+
+    public static final Creator<GEvent> CREATOR = new Creator<GEvent>() {
+        @Override
+        public GEvent createFromParcel(final Parcel in) {
+            return new GEvent(in);
+        }
+
+        @Override
+        public GEvent[] newArray(final int size) {
+            return new GEvent[size];
+        }
+    };
+
+    @Bindable
     public Date getDate() {
         return date;
     }
 
+    @Bindable
     public String getDescription() {
         return description;
     }
 
+    @Bindable
     public String getAddress() {
         return address;
     }
 
+    @Bindable
     public List<User> getGuests() {
         return guests;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(final Parcel dest, final int flags) {
+        dest.writeParcelable(author, flags);
+        dest.writeString(description);
+        dest.writeString(address);
+        dest.writeLong(date.getTime());
+        dest.writeTypedList(guests);
     }
 
     public static final class Builder {
