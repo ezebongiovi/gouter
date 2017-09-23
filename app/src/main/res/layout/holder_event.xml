@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/eventAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/eventAddress"/>
+        tools:text="Sarasa" />
 
     <TextView
+        android:id="@+id/eventDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/eventDescription"/>
+        tools:text="Sarasa 2" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorWhite_20"/>
+        android:background="@color/colorWhite_20" />
 </LinearLayout>

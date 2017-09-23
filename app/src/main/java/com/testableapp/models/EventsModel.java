@@ -6,9 +6,8 @@ import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.CreateEvent;
 import com.testableapp.dto.GEvent;
+import com.testableapp.dto.Search;
 import com.testableapp.services.EventsService;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -36,7 +35,7 @@ public class EventsModel {
         return MainApplication.getRetrofit().create(EventsService.class);
     }
 
-    public Observable<ApiResponse<List<GEvent>>> getEvents(final int offset, final int limit) {
+    public Observable<ApiResponse<Search<GEvent>>> getEvents(final int offset, final int limit) {
         return getService().getEvents(offset, limit);
     }
 }

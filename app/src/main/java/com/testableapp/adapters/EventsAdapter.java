@@ -13,7 +13,6 @@ import java.util.List;
 
 public class EventsAdapter extends PaginationAdapter<GEvent> {
 
-    private List<GEvent> mData = new ArrayList<>();
     private OnEventClick mListener;
 
     /**
@@ -50,19 +49,8 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
             }
         });
     }
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
 
     public void setOnEventClick(@NonNull final OnEventClick onClickListener) {
         this.mListener = onClickListener;
-    }
-
-    public void setItems(@NonNull final List<GEvent> items) {
-        mData.clear();
-        mData.addAll(items);
-
-        notifyDataSetChanged();
     }
 }

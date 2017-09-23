@@ -5,8 +5,7 @@ import android.support.annotation.NonNull;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.CreateEvent;
 import com.testableapp.dto.GEvent;
-
-import java.util.List;
+import com.testableapp.dto.Search;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -20,6 +19,6 @@ public interface EventsService {
     Observable<ApiResponse<GEvent>> createEvent(@Body @NonNull CreateEvent createEvent);
 
     @GET("/events")
-    Observable<ApiResponse<List<GEvent>>> getEvents(@Query("offset") int offset,
-                                                    @Query("limit") int limit);
+    Observable<ApiResponse<Search<GEvent>>> getEvents(@Query("offset") int offset,
+                                                      @Query("limit") int limit);
 }

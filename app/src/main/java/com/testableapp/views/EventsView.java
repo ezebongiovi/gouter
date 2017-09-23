@@ -8,4 +8,10 @@ import java.util.List;
 
 public interface EventsView extends AbstractView {
     void showEvents(@NonNull List<GEvent> data);
+
+    void showListProgress();
+
+    void hideListProgress();
+
+    void addEvents(@NonNull List<GEvent> results);
 }

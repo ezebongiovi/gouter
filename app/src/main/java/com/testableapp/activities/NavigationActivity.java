@@ -19,7 +19,6 @@ import java.util.List;
 
 public class NavigationActivity extends AbstractActivity {
 
-    private int mCurrentPosition;
     private final List<Fragment> mFragments = new ArrayList<>();
 
     @Override
@@ -33,7 +32,6 @@ public class NavigationActivity extends AbstractActivity {
 
         mFragments.add(new EventsFragment());
         mFragments.add(new ProfileFragment());
-
 
 
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationView);
@@ -59,6 +57,8 @@ public class NavigationActivity extends AbstractActivity {
                         CreateEventActivity.class));
             }
         });
+
+        display(0);
     }
 
     private void display(final int position) {
@@ -67,8 +67,6 @@ public class NavigationActivity extends AbstractActivity {
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.viewPager,
                 mFragments.get(position)).commit();
-
-        mCurrentPosition = position;
     }
 
     @Override

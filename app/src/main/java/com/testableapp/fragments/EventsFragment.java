@@ -3,7 +3,6 @@ package com.testableapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +37,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
         final RecyclerView listView = (RecyclerView) view.findViewById(R.id.eventsList);
         mAdapter = new EventsAdapter(Collections.EMPTY_LIST, this);
-        mAdapter.setOnEventClick(this);
-
-        listView.setAdapter(mAdapter);
-        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter.attachTo(listView);
 
         mPresenter.getEvents(0);
     }
@@ -54,12 +50,14 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void showProgressLayout() {
-
+        getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.eventsList).setVisibility(View.GONE);
     }
 
     @Override
     public void showRegularLayout() {
-
+        getView().findViewById(R.id.progressBar).setVisibility(View.GONE);
+        getView().findViewById(R.id.eventsList).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -70,6 +68,21 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     @Override
     public void showEvents(@NonNull final List<GEvent> data) {
         mAdapter.setItems(data);
+    }
+
+    @Override
+    public void showListProgress() {
+        mAdapter.showLoading();
+    }
+
+    @Override
+    public void hideListProgress() {
+        mAdapter.hideLoading();
+    }
+
+    @Override
+    public void addEvents(@NonNull final List<GEvent> results) {
+        mAdapter.addItems(results);
     }
 
     @Override
