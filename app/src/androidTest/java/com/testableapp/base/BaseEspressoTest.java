@@ -1,6 +1,7 @@
 package com.testableapp.base;
 
 import android.support.annotation.NonNull;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -35,7 +36,7 @@ public abstract class BaseEspressoTest {
     public void setUp() {
         MainApplication.initTestFramework();
         httpResource = OkHttp3IdlingResource.create("OkHttp", MainApplication
-                .getClient());
+                .getClient(InstrumentationRegistry.getContext()));
         registerIdlingResources(httpResource);
     }
 
