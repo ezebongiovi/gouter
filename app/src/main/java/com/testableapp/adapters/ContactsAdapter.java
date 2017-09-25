@@ -59,8 +59,8 @@ public class ContactsAdapter extends PaginationAdapter<User> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (mSelectable || (mMaxItems == 0 && mMaxItems < mSelectedContacts.size())) {
-                    final CheckBox checkBox = (CheckBox) holder.itemView.findViewById(R.id.checkbox);
+                if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
+                    final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
                     checkBox.setChecked(!checkBox.isChecked());
 
                     if (checkBox.isChecked()) {

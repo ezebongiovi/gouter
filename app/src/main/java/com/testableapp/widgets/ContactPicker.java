@@ -21,7 +21,6 @@ import com.testableapp.dto.User;
 import com.testableapp.presenters.ContactPickerPresenter;
 import com.testableapp.views.ContactPickerView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -61,12 +60,13 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
             a.recycle();
         }
 
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.contactPickerList);
+        final RecyclerView recyclerView = findViewById(R.id.contactPickerList);
         mAdapter = new ContactsAdapter(this);
         mAdapter.setSelectable(mSelectable);
+        mAdapter.setMaxSelectedItems(mMaxItems);
         mAdapter.attachTo(recyclerView);
 
-        searchField = (EditText) findViewById(R.id.searchField);
+        searchField = findViewById(R.id.searchField);
         RxTextView.textChanges(searchField).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
