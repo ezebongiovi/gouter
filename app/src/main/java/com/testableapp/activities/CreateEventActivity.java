@@ -31,15 +31,15 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final CreateEventPresenter presenter) {
-        final ViewFlipper viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        final ViewFlipper viewFlipper = findViewById(R.id.viewFlipper);
         viewFlipper.setInAnimation(this, R.anim.slide_down_in);
         viewFlipper.setOutAnimation(this, R.anim.slide_down_out);
 
-        final DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
-        final TimePicker timePicker = (TimePicker) findViewById(R.id.timePicker);
-        final ContactPicker contactPicker = (ContactPicker) findViewById(R.id.contactPicker);
-        final EditText addressView = (EditText) findViewById(R.id.addressView);
-        final EditText descriptionView = (EditText) findViewById(R.id.descriptionView);
+        final DatePicker datePicker = findViewById(R.id.datePicker);
+        final TimePicker timePicker = findViewById(R.id.timePicker);
+        final ContactPicker contactPicker = findViewById(R.id.contactPicker);
+        final EditText addressView = findViewById(R.id.addressView);
+        final EditText descriptionView = findViewById(R.id.descriptionView);
 
         final Calendar calendar = Calendar.getInstance();
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),

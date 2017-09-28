@@ -34,7 +34,7 @@ public class NavigationActivity extends AbstractActivity {
         mFragments.add(new ProfileFragment());
 
 
-        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationView);
+        final BottomNavigationView navigation = findViewById(R.id.navigationView);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView
                 .OnNavigationItemSelectedListener() {
 
