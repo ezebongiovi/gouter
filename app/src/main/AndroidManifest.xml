@@ -31,7 +31,9 @@
 
         </activity>
         <activity android:name=".activities.NavigationActivity" />
-        <activity android:name=".activities.CreateEventActivity" />
+        <activity
+            android:name=".activities.CreateEventActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.EventDetailActivity" />
     </application>
 

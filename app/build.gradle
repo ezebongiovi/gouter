@@ -72,7 +72,10 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.+'
     // OkHttp3
     compile 'com.squareup.okhttp3:logging-interceptor:3.+'
-
+    // Stepper
+    compile ('com.stepstone.stepper:material-stepper:4.3.0') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 
     // JSON Converter
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'

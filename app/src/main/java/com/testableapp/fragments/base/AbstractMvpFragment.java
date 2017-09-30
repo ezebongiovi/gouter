@@ -25,19 +25,19 @@ public abstract class AbstractMvpFragment<P extends AbstractPresenter>
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.attachView(this);
     }
 
     public void onCreateFragment(@Nullable final Bundle savedInstanceState,
-                                          @NonNull final P presenter) {
+                                 @NonNull final P presenter) {
         // Nothing to do
     }
 
     @Override
-    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         mPresenter.attachView(this);
     }
 

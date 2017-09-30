@@ -3,25 +3,27 @@ package com.testableapp.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
-import android.widget.ViewFlipper;
 
+import com.stepstone.stepper.StepperLayout;
 import com.testableapp.R;
+import com.testableapp.adapters.StepAdapter;
 import com.testableapp.dto.GEvent;
-import com.testableapp.manager.AuthenticationManager;
+import com.testableapp.fragments.steps.CreateEventAddress;
+import com.testableapp.fragments.steps.CreateEventConfirm;
+import com.testableapp.fragments.steps.CreateEventDate;
+import com.testableapp.fragments.steps.CreateEventDescription;
+import com.testableapp.fragments.steps.CreateEventGuests;
 import com.testableapp.presenters.CreateEventPresenter;
 import com.testableapp.views.CreateEventView;
-import com.testableapp.widgets.ContactPicker;
+import com.testableapp.views.StepView;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresenter>
         implements CreateEventView {
 
-    private int mStep = 0;
+    private StepperLayout mStepper;
 
     @Override
     protected boolean shouldAuthenticate() {
@@ -31,50 +33,17 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final CreateEventPresenter presenter) {
-        final ViewFlipper viewFlipper = findViewById(R.id.viewFlipper);
-        viewFlipper.setInAnimation(this, R.anim.slide_down_in);
-        viewFlipper.setOutAnimation(this, R.anim.slide_down_out);
+        mStepper = findViewById(R.id.stepperLayout);
 
-        final DatePicker datePicker = findViewById(R.id.datePicker);
-        final TimePicker timePicker = findViewById(R.id.timePicker);
-        final ContactPicker contactPicker = findViewById(R.id.contactPicker);
-        final EditText addressView = findViewById(R.id.addressView);
-        final EditText descriptionView = findViewById(R.id.descriptionView);
+        final List<StepView> steps = new ArrayList<>();
+        steps.add(new CreateEventAddress());
+        steps.add(new CreateEventDescription());
+        steps.add(new CreateEventDate());
+        steps.add(new CreateEventGuests());
+        steps.add(new CreateEventConfirm());
 
-        final Calendar calendar = Calendar.getInstance();
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(final DatePicker view, final int year,
-                                              final int monthOfYear, final int dayOfMonth) {
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                    }
-                });
-
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-            }
-        });
-
-        findViewById(R.id.continueButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-
-                // TODO: Handle event creation steps
-
-                if (mStep < viewFlipper.getChildCount()) {
-                    viewFlipper.showNext();
-                    mStep++;
-                } else {
-                    presenter.createEvent(AuthenticationManager.getInstance().getUser(CreateEventActivity.this)
-                                    .getId(), addressView.getText().toString(), calendar.getTime(),
-                            descriptionView.getText().toString(), contactPicker.getSelectedContacts());
-                }
-            }
-        });
+        mStepper.setAdapter(new StepAdapter(getSupportFragmentManager(),
+                CreateEventActivity.this, steps));
     }
 
     @Override

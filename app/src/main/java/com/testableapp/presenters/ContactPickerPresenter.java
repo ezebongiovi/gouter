@@ -22,7 +22,7 @@ public class ContactPickerPresenter extends AbstractPresenter<ContactPickerView>
     private Disposable mSubscription;
 
     public void search(@Nullable final String criteria, final int offset) {
-        if (mPagination != null && offset >= mPagination.total) {
+        if (criteria != null && mPagination != null && offset >= mPagination.total) {
             return;
         }
 

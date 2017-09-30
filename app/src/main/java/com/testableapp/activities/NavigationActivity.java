@@ -50,7 +50,7 @@ public class NavigationActivity extends AbstractActivity {
             }
         });
 
-        findViewById(R.id.floatMenu).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_create_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 startActivity(new Intent(NavigationActivity.this,
@@ -62,9 +62,9 @@ public class NavigationActivity extends AbstractActivity {
     }
 
     private void display(final int position) {
-        if (position != 0) {
+        // Shows or hides float button
+        findViewById(R.id.button_create_event).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
 
-        }
         getSupportFragmentManager().beginTransaction().replace(R.id.viewPager,
                 mFragments.get(position)).commit();
     }

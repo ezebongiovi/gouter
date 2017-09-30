@@ -39,8 +39,6 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
         mAdapter.setOnEventClick(this);
-
-        mPresenter.getEvents(0);
     }
 
     @NonNull

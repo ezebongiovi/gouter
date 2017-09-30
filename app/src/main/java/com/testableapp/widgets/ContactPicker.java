@@ -77,7 +77,11 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.search(charSequence.toString().trim(), 0);
+                                if (charSequence.toString().isEmpty()) {
+                                    mPresenter.search(null, 0);
+                                } else {
+                                    mPresenter.search(charSequence.toString().trim(), 0);
+                                }
                             }
                         });
                     }
