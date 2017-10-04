@@ -29,7 +29,7 @@ public class BaseHeadersInterceptor implements Interceptor {
 
         if (AuthenticationManager.getInstance().getUser(mContext) != null) {
             headers.add("Authorization", "Bearer " + AuthenticationManager.getInstance()
-                    .getUser(mContext).getAuthentication().getAccessToken());
+                    .getUser(mContext).authentication.getAccessToken());
         }
 
         headers.add(HEADER_PLATFORM, "Android");

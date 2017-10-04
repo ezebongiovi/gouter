@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
 import com.testableapp.dto.Authentication;
+import com.testableapp.dto.Country;
 import com.testableapp.dto.User;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -24,7 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBContract.Entry.COLUMN_NAME_LAST_NAME + " TEXT," +
                     DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE + " TEXT," +
                     DBContract.Entry.COLUMN_NAME_TOKEN + " TEXT," +
-                    DBContract.Entry.COLUMN_NAME_EMAIL + " TEXT)";
+                    DBContract.Entry.COLUMN_NAME_EMAIL + " TEXT," +
+                    DBContract.Entry.COLUMN_COUNTRY_NAME + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DBContract.Entry.TABLE_NAME;
@@ -64,11 +66,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public long onLogin(@NonNull final User user) {
         final ContentValues values = new ContentValues();
-        values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.getAuthentication().getEmail());
-        values.put(DBContract.Entry.COLUMN_NAME_NAME, user.getFirstName());
-        values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.getLastName());
-        values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.getProfilePicture());
-        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.getAuthentication().getAccessToken());
+        values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.authentication.getEmail());
+        values.put(DBContract.Entry.COLUMN_NAME_NAME, user.firstName);
+        values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.lastName);
+        values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.profilePicture);
+        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.authentication.getAccessToken());
+        values.put(DBContract.Entry.COLUMN_COUNTRY_NAME, "Argentina");
 
         return db.insert(DBContract.Entry.TABLE_NAME, null, values);
     }
@@ -81,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return new User(c.getString(0), c.getString(1),
                     c.getString(2), c.getString(3),
                     new Authentication.Builder().withEmail(c.getString(5))
-                            .withAccessToken(c.getString(4)).build());
+                            .withAccessToken(c.getString(4)).build(), new Country(c.getString(6)));
         }
 
         return null;

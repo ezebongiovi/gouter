@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
-public abstract class PaginationAdapter<T> extends RecyclerView.Adapter<GenericViewHolder<T>> {
+public abstract class PaginationAdapter<T> extends RecyclerView.Adapter<GenericViewHolder> {
 
     /**
      * Listener for paging adapter.
@@ -82,13 +82,13 @@ public abstract class PaginationAdapter<T> extends RecyclerView.Adapter<GenericV
     }
 
     @Override
-    public GenericViewHolder<T> onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        return new GenericViewHolder<>(LayoutInflater.from(parent.getContext())
+    public GenericViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        return new GenericViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(viewType, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final GenericViewHolder<T> holder, final int position) {
+    public void onBindViewHolder(final GenericViewHolder holder, final int position) {
         if (holder.getItemViewType() != R.layout.holder_progress) {
             onBind(holder, mData.get(holder.getAdapterPosition()));
         }
@@ -134,5 +134,5 @@ public abstract class PaginationAdapter<T> extends RecyclerView.Adapter<GenericV
     @LayoutRes
     protected abstract int getHolderLayout();
 
-    protected abstract void onBind(final GenericViewHolder<T> holder, final T data);
+    protected abstract void onBind(final GenericViewHolder holder, final T data);
 }

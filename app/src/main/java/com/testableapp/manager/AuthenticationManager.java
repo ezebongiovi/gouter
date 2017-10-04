@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.testableapp.db.DBHelper;
+import com.testableapp.dto.Country;
 import com.testableapp.dto.User;
 
 public class AuthenticationManager {
@@ -31,5 +32,9 @@ public class AuthenticationManager {
     public void logOut(@NonNull final Context context) {
         mUser = null;
         DBHelper.getInstance(context).onLogOut();
+    }
+
+    public Country getCountry() {
+        return mUser.country;
     }
 }

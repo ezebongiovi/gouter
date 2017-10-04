@@ -42,35 +42,32 @@ public class ContactsAdapter extends PaginationAdapter<User> {
     }
 
     @Override
-    protected void onBind(final GenericViewHolder<User> holder, final User user) {
+    protected void onBind(final GenericViewHolder holder, final User user) {
 
-        if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
-            Picasso.with(holder.itemView.getContext()).load(user.getProfilePicture())
+        if (user.profilePicture != null && !user.profilePicture.isEmpty()) {
+            Picasso.with(holder.itemView.getContext()).load(user.profilePicture)
                     .placeholder(R.mipmap.ic_launcher)
                     .into((ImageView) holder.itemView.findViewById(R.id.contactAvatar));
         }
 
         ((TextView) holder.itemView.findViewById(R.id.contactName))
                 .setText(holder.itemView.getResources().getString(R.string.user_full_name,
-                        user.getFirstName(), user.getLastName()));
+                        user.firstName, user.lastName));
 
         holder.itemView.findViewById(R.id.checkbox).setVisibility(mSelectable ? View.VISIBLE : View.GONE);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
-                    final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
-                    checkBox.setChecked(!checkBox.isChecked());
+        holder.itemView.setOnClickListener(v -> {
+            if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
+                final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
+                checkBox.setChecked(!checkBox.isChecked());
 
-                    if (checkBox.isChecked()) {
-                        mSelectedContacts.add(mData.get(holder.getAdapterPosition()));
-                    } else {
-                        mSelectedContacts.remove(mData.get(holder.getAdapterPosition()));
-                    }
+                if (checkBox.isChecked()) {
+                    mSelectedContacts.add(mData.get(holder.getAdapterPosition()));
+                } else {
+                    mSelectedContacts.remove(mData.get(holder.getAdapterPosition()));
                 }
-
             }
+
         });
     }
 }

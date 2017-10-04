@@ -9,8 +9,6 @@ import com.testableapp.models.EventsModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.EventsView;
 
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -51,7 +49,6 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
         }
 
         mDisposable = EventsModel.getInstance().getEvents(offset, PAGE_LIMIT)
-                .delay(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new Consumer<ApiResponse<Search<GEvent>>>() {
                     @Override

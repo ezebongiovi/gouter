@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_1m">
+
+    <ImageView
+        android:layout_width="@dimen/_2_5m"
+        android:layout_height="@dimen/_2_5m"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_map_marker" />
+
+    <TextView
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/_2_5m"
+        android:padding="@dimen/_1m"
+        android:textSize="@dimen/font_size_m"
+        tools:text="Genova 2023 Mar del Plata, Buenos Aires" />
+
+</FrameLayout>

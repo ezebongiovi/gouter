@@ -13,6 +13,16 @@ public abstract class AbstractFragment extends AbstractMvpFragment<EmptyPresente
         // TODO: Handle generic error
     }
 
+    @Override
+    public void showProgressLayout() {
+        // Nothing to do
+    }
+
+    @Override
+    public void showRegularLayout() {
+        // Nothing to do
+    }
+
     @NonNull
     @Override
     protected EmptyPresenter createPresenter() {

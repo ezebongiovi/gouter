@@ -1,7 +1,6 @@
 package com.testableapp.adapters;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.TextView;
 
 import com.testableapp.R;
@@ -31,16 +30,13 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
     }
 
     @Override
-    protected void onBind(final GenericViewHolder<GEvent> holder, final GEvent data) {
+    protected void onBind(final GenericViewHolder holder, final GEvent data) {
         ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.getDescription());
         ((TextView) holder.itemView.findViewById(R.id.eventAddress)).setText(data.getAddress());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClick(data);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onClick(data);
             }
         });
     }

@@ -20,7 +20,7 @@ public class CreateEvent {
         this.address = gEvent.getAddress();
 
         for (User user : gEvent.getGuests()) {
-            this.guests.add(user.getId());
+            this.guests.add(user._id);
         }
     }
 
