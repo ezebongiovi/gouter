@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import com.testableapp.R;
 import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.User;
+import com.testableapp.ui.transformations.CircleTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ContactsAdapter extends PaginationAdapter<User> {
         if (user.profilePicture != null && !user.profilePicture.isEmpty()) {
             Picasso.with(holder.itemView.getContext()).load(user.profilePicture)
                     .placeholder(R.mipmap.ic_launcher)
+                    .transform(new CircleTransform())
                     .into((ImageView) holder.itemView.findViewById(R.id.contactAvatar));
         }
 

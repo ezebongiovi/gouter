@@ -16,6 +16,7 @@ import okhttp3.Response;
 public class BaseHeadersInterceptor implements Interceptor {
     private static final String HEADER_PLATFORM = "X-Platform";
     private static final String HEADER_VERSION = "X-Version";
+    private static final String HEADER_API_KEY = "X-Api-Key";
 
     private final Context mContext;
 
@@ -32,6 +33,7 @@ public class BaseHeadersInterceptor implements Interceptor {
                     .getUser(mContext).authentication.getAccessToken());
         }
 
+        headers.add(HEADER_API_KEY, BuildConfig.API_KEY);
         headers.add(HEADER_PLATFORM, "Android");
         headers.add(HEADER_VERSION, BuildConfig.VERSION_NAME);
 

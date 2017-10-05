@@ -23,3 +23,47 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn javax.annotation.**
+-verbose
+-dump class_files.txt
+-printseeds seeds.txt
+-printusage unused.txt
+-printmapping mapping.txt
+
+-keepnames class com.testableapp.dto.** { *; }
+
+##############++++++ Support libraries ++++++###############
+-keep class android.support.multidex.MultiDex { *; }
+
+####################++++++ Annotations ++++++##########################
+#-keepclassmembers class * implements java.lang.annotation.Annotation {
+#    ** *();
+#}
+#-dontwarn javax.annotation.**
+####################------ Annotations ------##########################
+-keep class * implements java.lang.annotation.Annotation { *; }
+-keep class javax.annotation.* { *; }
+
+###################–------SQUARE------########################
+-keep class com.squareup.okhttp.* { *; }
+
+###################------ GSON ------##########################
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+
+###################------ Stepper ------##########################
+-keep class com.stepstone.stepper.* { *; }
+
+###################------ Retrofit ------##########################
+-keep class retrofit2.Response { *; }
+-keepclasseswithmembers class okhttp3.* { *; }
+-keep class okio.* { *; }
+
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+#-keep class com.google.gson.stream.** { *; }

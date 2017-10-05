@@ -12,7 +12,7 @@
         android:padding="@dimen/_1m"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/contactAvatar"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/_8m"
