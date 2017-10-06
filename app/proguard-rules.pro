@@ -45,7 +45,7 @@
 -keep class javax.annotation.* { *; }
 
 ###################–------SQUARE------########################
--keep class com.squareup.okhttp.* { *; }
+-keep class com.squareup.okhttp.** { *; }
 
 ###################------ GSON ------##########################
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -53,17 +53,23 @@
 -keepattributes Signature
 
 ###################------ Stepper ------##########################
--keep class com.stepstone.stepper.* { *; }
+-keep class com.stepstone.stepper.** { *; }
 
 ###################------ Retrofit ------##########################
 -keep class retrofit2.Response { *; }
--keepclasseswithmembers class okhttp3.* { *; }
--keep class okio.* { *; }
+-keep class okhttp3.** { *; }
+-keep class okio.** { *; }
 
+#### Google #####
+-keep class com.google.android.** { *; }
+
+#### Data Binding ####
+-keep class android.databinding.BaseObservable { *; }
 
 # For using GSON @Expose annotation
 -keepattributes *Annotation*
 
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
+-keep class sun.security.ssl.** { *; }
 #-keep class com.google.gson.stream.** { *; }
