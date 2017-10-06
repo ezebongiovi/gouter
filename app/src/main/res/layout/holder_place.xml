@@ -6,8 +6,8 @@
     android:padding="@dimen/_1m">
 
     <ImageView
-        android:layout_width="@dimen/_2_5m"
-        android:layout_height="@dimen/_2_5m"
+        android:layout_width="@dimen/_3m"
+        android:layout_height="@dimen/_3m"
         android:layout_gravity="center_vertical"
         android:src="@mipmap/ic_map_marker" />
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/_2_5m"
+        android:layout_marginStart="@dimen/_3m"
         android:padding="@dimen/_1m"
         android:textSize="@dimen/font_size_m"
         tools:text="Genova 2023 Mar del Plata, Buenos Aires" />

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class NavigationActivity extends AbstractActivity {
 
-    private final List<Fragment> mFragments = new ArrayList<>();
+    private final List<Page> mPages = new ArrayList<>();
 
     @Override
     protected boolean shouldAuthenticate() {
@@ -30,8 +30,8 @@ public class NavigationActivity extends AbstractActivity {
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final EmptyPresenter presenter) {
 
-        mFragments.add(new EventsFragment());
-        mFragments.add(new ProfileFragment());
+        mPages.add(new Page(new EventsFragment(), "Eventos"));
+        mPages.add(new Page(new ProfileFragment(), "Mi cuenta"));
 
 
         final BottomNavigationView navigation = findViewById(R.id.navigationView);
@@ -42,7 +42,7 @@ public class NavigationActivity extends AbstractActivity {
             public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
                 if (item.getItemId() == R.id.action_settings) {
                     display(1);
-                } else if (item.getItemId() == R.id.action_home) {
+                } else if (item.getItemId() == R.id.action_events) {
                     display(0);
                 }
 
@@ -65,12 +65,24 @@ public class NavigationActivity extends AbstractActivity {
         // Shows or hides float button
         findViewById(R.id.button_create_event).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.viewPager,
-                mFragments.get(position)).commit();
+        final Page page = mPages.get(position);
+        setTitle(page.title);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.viewPager, page.fragment).commit();
     }
 
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_navigation;
+    }
+
+    private static final class Page {
+        final Fragment fragment;
+        final String title;
+
+        Page(final Fragment fragment, final String title) {
+            this.title = title;
+            this.fragment = fragment;
+        }
     }
 }

@@ -26,7 +26,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/_2_5m"
+        android:paddingTop="@dimen/_3m"
         android:paddingStart="@dimen/_1m"
         android:paddingEnd="@dimen/_1m"
         android:background="@android:color/white">

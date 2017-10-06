@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:id="@+id/viewPager"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/navigationView" />
@@ -21,8 +21,8 @@
         app:fabSize="normal"
         android:layout_margin="@dimen/_2m"
         app:backgroundTint="@color/colorAccent"
-        android:tint="@color/colorPrimaryLight"
-        android:src="@mipmap/ic_launcher"/>
+        android:tint="@android:color/white"
+        android:src="@mipmap/ic_plus"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigationView"
@@ -31,8 +31,8 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         app:elevation="@dimen/_2m"
-        app:itemIconTint="@color/colorAccent"
-        app:itemTextColor="@color/colorAccent"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         android:padding="@dimen/_0_5m"
         app:menu="@menu/navigation" />
 
