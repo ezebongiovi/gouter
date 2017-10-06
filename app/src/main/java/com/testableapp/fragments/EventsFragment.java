@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ViewFlipper;
 
 import com.testableapp.R;
 import com.testableapp.activities.EventDetailActivity;
@@ -24,25 +25,24 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener {
 
     private EventsAdapter mAdapter;
+    private ViewFlipper mFlipper;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_events, container, false);
-    }
-
-    @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        final View view = inflater.inflate(R.layout.fragment_events, container, false);
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
         final LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(listView);
 
+        mFlipper = view.findViewById(R.id.viewFlipper);
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
         mAdapter.setOnEventClick(this);
+
+        return view;
     }
 
     @NonNull
@@ -53,14 +53,12 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void showProgressLayout() {
-        getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.eventsList).setVisibility(View.GONE);
+        mFlipper.setDisplayedChild(0);
     }
 
     @Override
     public void showRegularLayout() {
-        getView().findViewById(R.id.progressBar).setVisibility(View.GONE);
-        getView().findViewById(R.id.eventsList).setVisibility(View.VISIBLE);
+        mFlipper.setDisplayedChild(1);
     }
 
     @Override

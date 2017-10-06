@@ -10,7 +10,7 @@
     <color name="colorWhite_20">#20FFFFFF</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">#000000</color>
-    <color name="backgroundGrey">#BDBDBD</color>
-    <color name="backgroundGrey_50">#50BDBDBD</color>
+    <color name="backgroundGrey">#E0E0E0</color>
+    <color name="backgroundGrey_50">#50E0E0E0</color>
     <color name="colorPink">#E91E63</color>
 </resources>
