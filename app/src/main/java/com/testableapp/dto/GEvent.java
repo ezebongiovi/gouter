@@ -1,21 +1,21 @@
 package com.testableapp.dto;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-public class GEvent extends BaseObservable implements Parcelable {
+public class GEvent implements Parcelable {
 
-    private final User author;
-    private final Date date;
-    private final String description;
-    private final String address;
-    private final List<User> guests;
+    public final User author;
+    public final Date date;
+    public final String description;
+    public final String address;
+    public final String cover;
+    public final List<User> guests;
 
     private GEvent(final Builder builder) {
         this.date = builder.date;
@@ -23,6 +23,7 @@ public class GEvent extends BaseObservable implements Parcelable {
         this.address = builder.address;
         this.guests = builder.guests;
         this.author = builder.author;
+        this.cover = builder.cover;
     }
 
     protected GEvent(final Parcel in) {
@@ -31,6 +32,7 @@ public class GEvent extends BaseObservable implements Parcelable {
         address = in.readString();
         date = new Date(in.readLong());
         guests = in.createTypedArrayList(User.CREATOR);
+        this.cover = in.readString();
     }
 
     public static final Creator<GEvent> CREATOR = new Creator<GEvent>() {
@@ -45,26 +47,6 @@ public class GEvent extends BaseObservable implements Parcelable {
         }
     };
 
-    @Bindable
-    public Date getDate() {
-        return date;
-    }
-
-    @Bindable
-    public String getDescription() {
-        return description;
-    }
-
-    @Bindable
-    public String getAddress() {
-        return address;
-    }
-
-    @Bindable
-    public List<User> getGuests() {
-        return guests;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -77,6 +59,7 @@ public class GEvent extends BaseObservable implements Parcelable {
         dest.writeString(address);
         dest.writeLong(date.getTime());
         dest.writeTypedList(guests);
+        dest.writeString(cover);
     }
 
     public static final class Builder {
@@ -86,6 +69,8 @@ public class GEvent extends BaseObservable implements Parcelable {
         private String address;
         private List<User> guests;
         private User author;
+        private String cover;
+        private File coverFile;
 
         public Builder() {
 
@@ -108,6 +93,16 @@ public class GEvent extends BaseObservable implements Parcelable {
 
         public Builder setGuests(@NonNull final List<User> guests) {
             this.guests = guests;
+            return this;
+        }
+
+        public Builder setCover(@NonNull final String cover) {
+            this.cover = cover;
+            return this;
+        }
+
+        public Builder setCoverFile(@NonNull final File file) {
+            this.coverFile = file;
             return this;
         }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import com.testableapp.R;
 import com.testableapp.fragments.EventsFragment;
 import com.testableapp.fragments.ProfileFragment;
+import com.testableapp.models.EventsModel;
 import com.testableapp.presenters.EmptyPresenter;
 
 import java.util.ArrayList;
@@ -30,8 +31,9 @@ public class NavigationActivity extends AbstractActivity {
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final EmptyPresenter presenter) {
 
-        mPages.add(new Page(new EventsFragment(), "Eventos"));
-        mPages.add(new Page(new ProfileFragment(), "Mi cuenta"));
+        mPages.add(new Page(EventsFragment.getInstance(EventsModel.EVENTS), getString(R.string.events)));
+        mPages.add(new Page(EventsFragment.getInstance(EventsModel.MY_EVENTS), getString(R.string.my_events)));
+        mPages.add(new Page(new ProfileFragment(), getString(R.string.my_account)));
 
 
         final BottomNavigationView navigation = findViewById(R.id.navigationView);
@@ -41,9 +43,11 @@ public class NavigationActivity extends AbstractActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
                 if (item.getItemId() == R.id.action_settings) {
-                    display(1);
+                    display(2);
                 } else if (item.getItemId() == R.id.action_events) {
                     display(0);
+                } else if (item.getItemId() == R.id.action_my_events) {
+                    display(1);
                 }
 
                 return true;
@@ -63,7 +67,8 @@ public class NavigationActivity extends AbstractActivity {
 
     private void display(final int position) {
         // Shows or hides float button
-        findViewById(R.id.button_create_event).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.button_create_event).setVisibility(position == 0 || position == 1
+                ? View.VISIBLE : View.GONE);
 
         final Page page = mPages.get(position);
         setTitle(page.title);

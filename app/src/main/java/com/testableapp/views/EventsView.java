@@ -13,5 +13,7 @@ public interface EventsView extends AbstractView {
 
     void hideListProgress();
 
+    void showEmptyState();
+
     void addEvents(@NonNull List<GEvent> results);
 }

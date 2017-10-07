@@ -31,8 +31,8 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     @Override
     protected void onBind(final GenericViewHolder holder, final GEvent data) {
-        ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.getDescription());
-        ((TextView) holder.itemView.findViewById(R.id.eventAddress)).setText(data.getAddress());
+        ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.description);
+        ((TextView) holder.itemView.findViewById(R.id.eventAddress)).setText(data.address);
 
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {

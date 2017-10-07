@@ -46,7 +46,7 @@ public class EventDetailActivity extends AbstractActivity {
         }
 
 
-        ((TextView) findViewById(R.id.eventDescription)).setText(event.getDescription());
+        ((TextView) findViewById(R.id.eventDescription)).setText(event.description);
     }
 
     @Override

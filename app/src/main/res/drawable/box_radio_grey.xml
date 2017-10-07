@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <corners android:topRightRadius="@dimen/_2m" android:topLeftRadius="@dimen/_2m"/>
+            <corners android:topRightRadius="@dimen/_1m" android:topLeftRadius="@dimen/_1m"/>
             <solid android:color="@color/backgroundGrey"/>
         </shape>
     </item>

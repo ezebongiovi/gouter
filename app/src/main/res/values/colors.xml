@@ -9,7 +9,8 @@
     <color name="colorWhite_10">#90FFFFFF</color>
     <color name="colorWhite_20">#20FFFFFF</color>
     <color name="colorTextPrimary">#000000</color>
-    <color name="colorTextSecondary">#000000</color>
+    <color name="colorTextSecondaryDark">#424242</color>
+    <color name="colorTextSecondary">#9E9E9E</color>
     <color name="backgroundGrey">#E0E0E0</color>
     <color name="backgroundGrey_50">#50E0E0E0</color>
     <color name="colorPink">#E91E63</color>

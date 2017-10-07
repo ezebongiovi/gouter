@@ -3,6 +3,7 @@ package com.testableapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,8 +25,30 @@ import java.util.List;
 public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener {
 
+    private static final String EXTRA_TYPE = "EXTRA_TYPE";
+    private static final int VIEW_PROGRESS = 0;
+    private static final int VIEW_REGULAR = 1;
+    private static final int VIEW_EMPTY = 2;
+
     private EventsAdapter mAdapter;
     private ViewFlipper mFlipper;
+
+    /**
+     * Factory method for building fragment with necessary initialization data.
+     *
+     * @param events the type of events wanted to be shown
+     *               see {@link com.testableapp.models.EventsModel#MY_EVENTS}
+     * @return the fragment with necessary data
+     */
+    public static Fragment getInstance(final int events) {
+        final Bundle args = new Bundle();
+        args.putInt(EXTRA_TYPE, events);
+
+        final EventsFragment fragment = new EventsFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -48,17 +71,17 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     @NonNull
     @Override
     protected EventsPresenter createPresenter() {
-        return new EventsPresenter();
+        return new EventsPresenter(getArguments().getInt(EXTRA_TYPE));
     }
 
     @Override
     public void showProgressLayout() {
-        mFlipper.setDisplayedChild(0);
+        mFlipper.setDisplayedChild(VIEW_PROGRESS);
     }
 
     @Override
     public void showRegularLayout() {
-        mFlipper.setDisplayedChild(1);
+        mFlipper.setDisplayedChild(VIEW_REGULAR);
     }
 
     @Override
@@ -82,6 +105,11 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     }
 
     @Override
+    public void showEmptyState() {
+        mFlipper.setDisplayedChild(VIEW_EMPTY);
+    }
+
+    @Override
     public void addEvents(@NonNull final List<GEvent> results) {
         mAdapter.addItems(results);
     }
@@ -95,4 +123,5 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     public void onEndReached(final int offset) {
         mPresenter.getEvents(offset);
     }
+
 }

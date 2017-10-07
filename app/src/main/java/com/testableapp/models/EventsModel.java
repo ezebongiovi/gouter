@@ -14,6 +14,8 @@ import io.reactivex.Observable;
 public class EventsModel {
 
     private static EventsModel INSTANCE;
+    public static final int MY_EVENTS = 0;
+    public static final int EVENTS = 1;
 
     private EventsModel() {
 
@@ -35,7 +37,12 @@ public class EventsModel {
         return MainApplication.getRetrofit().create(EventsService.class);
     }
 
-    public Observable<ApiResponse<Search<GEvent>>> getEvents(final int offset, final int limit) {
+    public Observable<ApiResponse<Search<GEvent>>> getEvents(final int type,  final int offset,
+                                                             final int limit) {
+        if (type == MY_EVENTS) {
+            return getService().getMyEvents(offset, limit);
+        }
+
         return getService().getEvents(offset, limit);
     }
 }

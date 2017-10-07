@@ -21,4 +21,8 @@ public interface EventsService {
     @GET("/events")
     Observable<ApiResponse<Search<GEvent>>> getEvents(@Query("offset") int offset,
                                                       @Query("limit") int limit);
+
+    @GET("profile/me/events")
+    Observable<ApiResponse<Search<GEvent>>> getMyEvents(@Query("offset") int offset,
+                                                        @Query("limit") int limit);
 }

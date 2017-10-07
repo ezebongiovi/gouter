@@ -15,11 +15,11 @@ public class CreateEvent {
 
     public CreateEvent(@NonNull final String author, @NonNull final GEvent gEvent) {
         this.author = author;
-        this.description = gEvent.getDescription();
-        this.date = gEvent.getDate();
-        this.address = gEvent.getAddress();
+        this.description = gEvent.description;
+        this.date = gEvent.date;
+        this.address = gEvent.address;
 
-        for (User user : gEvent.getGuests()) {
+        for (User user : gEvent.guests) {
             this.guests.add(user._id);
         }
     }

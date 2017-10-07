@@ -16,9 +16,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class EventsPresenter extends AbstractPresenter<EventsView> {
 
+    private final int mEventType;
     private Search<GEvent> mData;
     private static final int PAGE_LIMIT = 10;
     private Disposable mDisposable;
+
+    public EventsPresenter(final int eventType) {
+        mEventType = eventType;
+    }
 
     @Override
     public void attachView(@NonNull final EventsView view) {
@@ -48,13 +53,18 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
             mDisposable = null;
         }
 
-        mDisposable = EventsModel.getInstance().getEvents(offset, PAGE_LIMIT)
+        mDisposable = EventsModel.getInstance().getEvents(mEventType, offset, PAGE_LIMIT)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(new Consumer<ApiResponse<Search<GEvent>>>() {
                     @Override
                     public void accept(final ApiResponse<Search<GEvent>> listApiResponse) throws Exception {
                         if (ApiResponse.STATUS_OK.equalsIgnoreCase(listApiResponse.status)) {
                             mData = listApiResponse.data;
+
+                            if (offset == 0 && listApiResponse.data.results.isEmpty()) {
+                                getView().showEmptyState();
+                                return;
+                            }
 
                             if (offset == 0) {
                                 getView().showRegularLayout();
