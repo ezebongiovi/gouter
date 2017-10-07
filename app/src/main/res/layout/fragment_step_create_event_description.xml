@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Description" />
+        android:orientation="vertical">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/backgroundGrey"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_photo_camera_white_24dp" />
+
+
+        <EditText
+            style="@style/Event.Description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:background="@android:color/white"
+            android:hint="@string/hint_description"
+            android:minLines="4"
+            android:padding="@dimen/_1m"
+            tools:text="@string/lorem_ipsum" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separator"
+            android:background="@color/backgroundGrey" />
+    </LinearLayout>
+</ScrollView>

@@ -3,20 +3,30 @@
     android:id="@+id/viewFlipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:inAnimation="@android:anim/fade_in"
     android:orientation="vertical"
     android:outAnimation="@android:anim/fade_out">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scrollbars="none">
 
-        <include layout="@layout/skeleton_holder_event" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
-        <include layout="@layout/skeleton_holder_event" />
-    </LinearLayout>
+            <include layout="@layout/skeleton_holder_event" />
 
+            <include layout="@layout/skeleton_holder_event" />
+        </LinearLayout>
+    </ScrollView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/eventsList"
@@ -26,21 +36,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundGrey"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@color/backgroundGrey">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/empty_state"/>
+            android:src="@mipmap/empty_state" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/empty_my_events_title"
             android:textColor="@color/colorTextSecondaryDark"
-            android:textSize="@dimen/font_size_xl"/>
+            android:textSize="@dimen/font_size_xl" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,6 +58,6 @@
             android:padding="@dimen/_1m"
             android:text="@string/empty_my_events_subtitle"
             android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/font_size_m"/>
+            android:textSize="@dimen/font_size_m" />
     </LinearLayout>
 </ViewFlipper>

@@ -30,4 +30,7 @@
     <string name="my_account">Mi cuenta</string>
     <string name="empty_my_events_title">No has creado eventos</string>
     <string name="empty_my_events_subtitle">¡Creá tu primer evento e invitá a tus amigos!</string>
+    <string name="extern_action_gallery_title">Seleccionar imagen</string>
+    <string name="hint_description">Descripción del evento</string>
+    <string name="error_cover_message">Ups, algo salió mal, vuelve a intentarlo :)</string>
 </resources>
