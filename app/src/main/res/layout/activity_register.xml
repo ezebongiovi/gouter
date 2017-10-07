@@ -1,59 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:padding="@dimen/padding_activity"
     tools:context="com.testableapp.activities.LoginActivity">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/nameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:hint="@string/hint_name" />
 
-        <EditText
-            android:id="@+id/nameField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_name" />
+    <EditText
+        android:id="@+id/lastNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_last_name" />
 
-        <EditText
-            android:id="@+id/lastNameField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_last_name" />
+    <EditText
+        android:id="@+id/userField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_email" />
 
-        <EditText
-            android:id="@+id/userField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_email" />
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/passwordField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/hint_password"
-            android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/confirmPasswordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/confirmPassword"
+        android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/confirmPasswordField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/confirmPassword"
-            android:inputType="textPassword" />
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/button_register" />
 
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/button_register" />
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
 

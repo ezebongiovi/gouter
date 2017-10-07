@@ -62,8 +62,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
-    androidTestImplementation 'junit:junit:4.12'
-    androidTestImplementation 'org.mockito:mockito-core:2.+'
+    testImplementation'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.+'
     // Android
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"

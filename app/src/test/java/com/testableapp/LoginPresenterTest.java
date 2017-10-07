@@ -1,5 +1,6 @@
 package com.testableapp;
 
+import com.testableapp.base.BaseJUnitTest;
 import com.testableapp.presenters.LoginPresenter;
 
 import junit.framework.Assert;
@@ -10,13 +11,14 @@ import org.mockito.InjectMocks;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class LoginPresenterTest {
+public class LoginPresenterTest extends BaseJUnitTest {
 
     @InjectMocks
     private LoginPresenter loginPresenter;
 
     @Before
     public void setUp() {
+        super.setUp();
         initMocks(this);
     }
 

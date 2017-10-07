@@ -9,7 +9,8 @@ import org.junit.Test;
 
 import io.reactivex.observers.TestObserver;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AuthModelTest {
@@ -27,8 +28,8 @@ public class AuthModelTest {
         final ApiResponse<User> response = (ApiResponse<User>) testObserver
                 .getEvents().get(0).get(0);
 
-        assertEquals(response.data.getAuthentication().getEmail(), authentication.getEmail());
-        assertTrue(!response.data.getAuthentication().getAccessToken().isEmpty());
+        assertNotNull(response.data.authentication);
+        assertTrue(!response.data.authentication.getAccessToken().isEmpty());
         assertEquals(ApiResponse.STATUS_OK, response.status);
     }
 }
