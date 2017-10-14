@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
 import com.testableapp.fragments.base.AbstractFragment;
+import com.testableapp.models.EventsModel;
 import com.testableapp.views.StepView;
 import com.testableapp.widgets.PlacePicker;
 
@@ -40,7 +41,10 @@ public class CreateEventAddress extends AbstractFragment implements StepView {
     @Nullable
     @Override
     public VerificationError verifyStep() {
-        return mPlacePicker.getSelectedPlace() == null ? new VerificationError(getString(R.string
+        EventsModel.Repository.eventBuilder.setAddress(mPlacePicker.getSelectedPlace());
+
+        return mPlacePicker.getSelectedPlace() == null
+                ? new VerificationError(getString(R.string
                 .error_verification_address_empty)) : null;
     }
 

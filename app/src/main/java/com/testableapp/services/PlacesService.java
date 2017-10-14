@@ -12,6 +12,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface PlacesService {
-    @GET("sarasa")
+    @GET("places")
     Observable<ApiResponse<List<Place>>> getPlaces(@NonNull @Query("query") String query);
 }

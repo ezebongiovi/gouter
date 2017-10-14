@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class PlacePicker extends FrameLayout implements PlacePickerView {
@@ -36,6 +37,7 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
     private final PlacePickerPresenter mPresenter = new PlacePickerPresenter(this);
     private final PlacePredictionAdapter mAdapter;
     private static final long SEARCH_DEBOUNCE = 500;
+    private Disposable mTextWatcher;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private EditText mSearchField;
@@ -69,7 +71,13 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
         mMapView.onCreate(null);
         mMapView.getMapAsync(this);
 
-        RxTextView.textChanges(mSearchField).debounce(SEARCH_DEBOUNCE, TimeUnit.MILLISECONDS)
+        mTextWatcher = initTextWatcher();
+
+        mSearchField.setOnClickListener(v -> showList());
+    }
+
+    private Disposable initTextWatcher() {
+        return RxTextView.textChanges(mSearchField).debounce(SEARCH_DEBOUNCE, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(charSequence -> {
@@ -85,8 +93,6 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
                         mPresenter.search(criteria);
                     }
                 });
-
-        mSearchField.setOnClickListener(v -> showList());
     }
 
     public Place getSelectedPlace() {
@@ -155,7 +161,10 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
 
     @Override
     public void onPlaceSelected(@NonNull final Place place) {
+        mTextWatcher.dispose();
         mSearchField.setText(place.formattedAddress);
+        mTextWatcher = initTextWatcher();
+
         mSelectedPlace = place;
         hideList();
         mGoogleMap.clear();

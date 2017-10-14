@@ -13,9 +13,10 @@ public class GEvent implements Parcelable {
     public final User author;
     public final Date date;
     public final String description;
-    public final String address;
+    public final Place address;
     public final String cover;
     public final List<User> guests;
+    public transient final File coverFile;
 
     private GEvent(final Builder builder) {
         this.date = builder.date;
@@ -24,15 +25,17 @@ public class GEvent implements Parcelable {
         this.guests = builder.guests;
         this.author = builder.author;
         this.cover = builder.cover;
+        this.coverFile = builder.coverFile;
     }
 
     protected GEvent(final Parcel in) {
         author = in.readParcelable(User.class.getClassLoader());
         description = in.readString();
-        address = in.readString();
+        address = in.readParcelable(Place.class.getClassLoader());
         date = new Date(in.readLong());
         guests = in.createTypedArrayList(User.CREATOR);
         this.cover = in.readString();
+        this.coverFile = (File) in.readSerializable();
     }
 
     public static final Creator<GEvent> CREATOR = new Creator<GEvent>() {
@@ -56,17 +59,18 @@ public class GEvent implements Parcelable {
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeParcelable(author, flags);
         dest.writeString(description);
-        dest.writeString(address);
+        dest.writeParcelable(address, flags);
         dest.writeLong(date.getTime());
         dest.writeTypedList(guests);
         dest.writeString(cover);
+        dest.writeSerializable(coverFile);
     }
 
     public static final class Builder {
 
         private Date date;
         private String description;
-        private String address;
+        private Place address;
         private List<User> guests;
         private User author;
         private String cover;
@@ -86,7 +90,7 @@ public class GEvent implements Parcelable {
             return this;
         }
 
-        public Builder setAddress(@NonNull final String address) {
+        public Builder setAddress(@NonNull final Place address) {
             this.address = address;
             return this;
         }

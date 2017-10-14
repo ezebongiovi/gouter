@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.testableapp.db.DBHelper;
+import com.testableapp.dto.Authentication;
 import com.testableapp.dto.Country;
 import com.testableapp.dto.User;
 
@@ -36,5 +37,13 @@ public class AuthenticationManager {
 
     public Country getCountry() {
         return mUser.country;
+    }
+
+    public void updateAuthentication(@NonNull final Context context,
+                                     @NonNull final Authentication authentication) {
+        DBHelper.getInstance(context).onLogin(new User(mUser._id, mUser.firstName, mUser.lastName,
+                mUser.profilePicture, authentication, mUser.country));
+
+        mUser = getUser(context);
     }
 }

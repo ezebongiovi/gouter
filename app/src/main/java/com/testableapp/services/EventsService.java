@@ -8,15 +8,19 @@ import com.testableapp.dto.GEvent;
 import com.testableapp.dto.Search;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
+import okhttp3.MultipartBody;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface EventsService {
 
+    @Multipart
     @POST("/events")
-    Observable<ApiResponse<GEvent>> createEvent(@Body @NonNull CreateEvent createEvent);
+    Observable<ApiResponse<GEvent>> createEvent(@Part MultipartBody.Part file,
+                                                @Part("data") @NonNull CreateEvent createEvent);
 
     @GET("/events")
     Observable<ApiResponse<Search<GEvent>>> getEvents(@Query("offset") int offset,

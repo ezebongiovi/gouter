@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="Event.Description" parent="AppTheme">
+        <item name="android:textSize">@dimen/font_size_m</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:lineSpacingExtra">@dimen/_1m</item>
+    </style>
+
 </resources>

@@ -19,6 +19,7 @@ public class ApiResponse<T> {
     public final String status;
     public final Kind kind;
     public final T data;
+    public Authentication authentication;
 
     public enum Kind {
         /**
@@ -40,27 +41,28 @@ public class ApiResponse<T> {
     public static ApiResponse httpError(final Response response) {
         final ApiResponse apiResponse = getApiError(response);
         return new ApiResponse(apiResponse.message, apiResponse.message, response != null
-                ? String.valueOf(response.code()) : null, null, Kind.HTTP);
+                ? String.valueOf(response.code()) : null, null, Kind.HTTP, null);
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static ApiResponse networkError(final IOException exception) {
-        return new ApiResponse(exception.getMessage(), null, null, null, Kind.NETWORK);
+        return new ApiResponse(exception.getMessage(), null, null, null, Kind.NETWORK, null);
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public static ApiResponse unexpectedError(final Throwable exception) {
-        return new ApiResponse(exception.getMessage(), null, null, null, Kind.UNEXPECTED);
+        return new ApiResponse(exception.getMessage(), null, null, null, Kind.UNEXPECTED, null);
     }
 
     @SuppressWarnings("NullableProblems")
     private ApiResponse(final String message, @Nullable final String error, @Nullable final String status,
-                        @NonNull final T data, final Kind kind) {
+                        @NonNull final T data, final Kind kind, @Nullable final Authentication authentication) {
         this.message = message;
         this.error = error;
         this.status = status;
         this.kind = kind;
         this.data = data;
+        this.authentication = authentication;
     }
 
     private ApiResponse(final Builder<T> builder) {
@@ -69,6 +71,7 @@ public class ApiResponse<T> {
         status = builder.status;
         kind = builder.kind;
         data = builder.data;
+        authentication = builder.authentication;
     }
 
     public static class Builder<T> {
@@ -77,6 +80,7 @@ public class ApiResponse<T> {
         private String status;
         private Kind kind;
         private T data;
+        private Authentication authentication;
 
         public Builder<T> withData(@NonNull final T data) {
             this.data = data;
@@ -95,6 +99,11 @@ public class ApiResponse<T> {
 
         public Builder<T> withError(@NonNull final String error) {
             this.error = error;
+            return this;
+        }
+
+        public Builder<T> withAuthentication(@NonNull final Authentication authentication) {
+            this.authentication = authentication;
             return this;
         }
 

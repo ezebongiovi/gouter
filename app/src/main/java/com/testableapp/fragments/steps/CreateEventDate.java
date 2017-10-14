@@ -7,12 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
+import com.testableapp.fragments.base.AbstractFragment;
+import com.testableapp.models.EventsModel;
 import com.testableapp.views.StepView;
 
-public class CreateEventDate extends Fragment implements StepView {
+import java.util.Calendar;
+
+public class CreateEventDate extends AbstractFragment implements StepView {
+
+    private DatePicker mDatePicker;
+    private TimePicker mTimePicker;
+    int mHour;
+    int mMinute;
 
     @Nullable
     @Override
@@ -24,6 +35,22 @@ public class CreateEventDate extends Fragment implements StepView {
     }
 
     @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mDatePicker = view.findViewById(R.id.datePicker);
+        mTimePicker = view.findViewById(R.id.timePicker);
+
+        mTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(final TimePicker view, final int hourOfDay, final int minute) {
+                mHour = hourOfDay;
+                mMinute = minute;
+            }
+        });
+    }
+
+    @Override
     public Fragment getFragment() {
         return this;
     }
@@ -31,7 +58,17 @@ public class CreateEventDate extends Fragment implements StepView {
     @Nullable
     @Override
     public VerificationError verifyStep() {
-        return null;
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDayOfMonth(),
+                mHour, mMinute);
+
+        EventsModel.Repository.eventBuilder.setDate(calendar.getTime());
+
+        if (Calendar.getInstance().getTime().getTime() < calendar.getTime().getTime()) {
+            return null;
+        }
+
+        return new VerificationError(getString(R.string.error_verification_date));
     }
 
     @Override
@@ -41,6 +78,6 @@ public class CreateEventDate extends Fragment implements StepView {
 
     @Override
     public void onError(@NonNull final VerificationError error) {
-
+        onError(error.getErrorMessage());
     }
 }

@@ -10,9 +10,14 @@ import android.view.ViewGroup;
 
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
+import com.testableapp.fragments.base.AbstractFragment;
+import com.testableapp.models.EventsModel;
 import com.testableapp.views.StepView;
+import com.testableapp.widgets.ContactPicker;
 
-public class CreateEventGuests extends Fragment implements StepView {
+public class CreateEventGuests extends AbstractFragment implements StepView {
+
+    private ContactPicker mContactPicker;
 
     @Nullable
     @Override
@@ -24,6 +29,12 @@ public class CreateEventGuests extends Fragment implements StepView {
     }
 
     @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mContactPicker = view.findViewById(R.id.contactPicker);
+    }
+
+    @Override
     public Fragment getFragment() {
         return this;
     }
@@ -31,6 +42,13 @@ public class CreateEventGuests extends Fragment implements StepView {
     @Nullable
     @Override
     public VerificationError verifyStep() {
+
+        if (mContactPicker.getSelectedContacts().isEmpty()) {
+            return new VerificationError(getString(R.string.error_verification_guest_empty));
+        }
+
+        EventsModel.Repository.eventBuilder.setGuests(mContactPicker.getSelectedContacts());
+
         return null;
     }
 
@@ -41,6 +59,6 @@ public class CreateEventGuests extends Fragment implements StepView {
 
     @Override
     public void onError(@NonNull final VerificationError error) {
-
+        onError(error.getErrorMessage());
     }
 }
