@@ -3,6 +3,7 @@ package com.testableapp.adapters;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,20 +57,30 @@ public class ContactsAdapter extends PaginationAdapter<User> {
                 .setText(holder.itemView.getResources().getString(R.string.user_full_name,
                         user.firstName, user.lastName));
 
-        holder.itemView.findViewById(R.id.checkbox).setVisibility(mSelectable ? View.VISIBLE : View.GONE);
+        final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
+        checkBox.setVisibility(mSelectable ? View.VISIBLE : View.GONE);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                handleCheck(holder.getAdapterPosition(), isChecked);
+            }
+        });
 
         holder.itemView.setOnClickListener(v -> {
             if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
-                final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
                 checkBox.setChecked(!checkBox.isChecked());
 
-                if (checkBox.isChecked()) {
-                    mSelectedContacts.add(mData.get(holder.getAdapterPosition()));
-                } else {
-                    mSelectedContacts.remove(mData.get(holder.getAdapterPosition()));
-                }
+                handleCheck(holder.getAdapterPosition(), checkBox.isSelected());
             }
 
         });
+    }
+
+    private void handleCheck(final int position, final boolean checked) {
+        if (checked) {
+            mSelectedContacts.add(mData.get(position));
+        } else {
+            mSelectedContacts.remove(mData.get(position));
+        }
     }
 }

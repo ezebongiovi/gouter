@@ -24,7 +24,7 @@
 
         <FrameLayout
             android:layout_width="@dimen/_20m"
-            android:layout_height="@dimen/_3m"
+            android:layout_height="@dimen/_2m"
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
 
@@ -39,19 +39,19 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_3m"
+            android:layout_height="@dimen/_2m"
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_3m"
+            android:layout_height="@dimen/_2m"
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_3m"
+            android:layout_height="@dimen/_2m"
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
     </LinearLayout>

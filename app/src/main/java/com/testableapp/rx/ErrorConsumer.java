@@ -2,6 +2,7 @@ package com.testableapp.rx;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.testableapp.dto.ApiResponse;
 
@@ -39,6 +40,8 @@ public abstract class ErrorConsumer implements Consumer<Throwable> {
         } else {
             onError(ApiResponse.unexpectedError(t));
         }
+
+        Log.e("ERROR", t.getMessage());
     }
 
     public abstract void onError(@NonNull ApiResponse apiResponse);

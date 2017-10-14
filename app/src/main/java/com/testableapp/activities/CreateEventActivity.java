@@ -3,8 +3,10 @@ package com.testableapp.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.stepstone.stepper.StepperLayout;
+import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
 import com.testableapp.adapters.StepAdapter;
 import com.testableapp.dto.GEvent;
@@ -13,6 +15,8 @@ import com.testableapp.fragments.steps.CreateEventConfirm;
 import com.testableapp.fragments.steps.CreateEventDate;
 import com.testableapp.fragments.steps.CreateEventDescription;
 import com.testableapp.fragments.steps.CreateEventGuests;
+import com.testableapp.manager.AuthenticationManager;
+import com.testableapp.models.EventsModel;
 import com.testableapp.presenters.CreateEventPresenter;
 import com.testableapp.views.CreateEventView;
 import com.testableapp.views.StepView;
@@ -44,6 +48,30 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
 
         mStepper.setAdapter(new StepAdapter(getSupportFragmentManager(),
                 CreateEventActivity.this, steps));
+        mStepper.setListener(new StepperLayout.StepperListener() {
+            @Override
+            public void onCompleted(final View completeButton) {
+                final GEvent gEvent = EventsModel.Repository.eventBuilder.build();
+
+                presenter.createEvent(AuthenticationManager.getInstance()
+                        .getUser(CreateEventActivity.this)._id, gEvent);
+            }
+
+            @Override
+            public void onError(final VerificationError verificationError) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onStepSelected(int newStepPosition) {
+                // Nothing to do
+            }
+
+            @Override
+            public void onReturn() {
+
+            }
+        });
     }
 
     @Override

@@ -9,7 +9,12 @@ import com.testableapp.dto.GEvent;
 import com.testableapp.dto.Search;
 import com.testableapp.services.EventsService;
 
+import java.io.File;
+
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class EventsModel {
 
@@ -29,8 +34,16 @@ public class EventsModel {
         return INSTANCE;
     }
 
-    public Observable<ApiResponse<GEvent>> createEvent(@NonNull final CreateEvent createEvent) {
-        return getService().createEvent(createEvent);
+    public Observable<ApiResponse<GEvent>> createEvent(@NonNull final File coverImage,
+                                                       @NonNull final CreateEvent createEvent) {
+        final RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), coverImage);
+
+        // MultipartBody.Part is used to send also the actual file name
+        final MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", coverImage.getName(), requestFile);
+
+        return getService().createEvent(body, createEvent);
     }
 
     private EventsService getService() {
@@ -44,5 +57,9 @@ public class EventsModel {
         }
 
         return getService().getEvents(offset, limit);
+    }
+
+    public static final class Repository {
+        public static final GEvent.Builder eventBuilder = new GEvent.Builder();
     }
 }

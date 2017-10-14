@@ -2,55 +2,74 @@ package com.testableapp.fragments.steps;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
 import com.testableapp.fragments.base.AbstractFragment;
+import com.testableapp.models.EventsModel;
 import com.testableapp.utils.PermissionUtils;
 import com.testableapp.views.StepView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
 public class CreateEventDescription extends AbstractFragment implements StepView {
 
     private static final int PICK_IMAGE = 100;
+    private static final int REQUEST_PERMISSIONS = 200;
     private ImageView mCoverView;
+    private View mCoverEmptyView;
+    private File mFile;
+    private EditText mDescriptionView;
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-                             @Nullable final ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_step_create_event_description, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mCoverView = view.findViewById(R.id.cover);
-        mCoverView.setOnClickListener(new View.OnClickListener() {
+        final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (PermissionUtils.checkForPermissions(getContext(),
+                final List<String> requiredPermissions = PermissionUtils.checkForPermissions(getContext(),
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE).isEmpty()) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                if (requiredPermissions.isEmpty()) {
                     selectFromGallery();
+                } else {
+                    requestPermissions(requiredPermissions.toArray(new String[requiredPermissions.size()]),
+                            REQUEST_PERMISSIONS);
                 }
             }
-        });
+        };
+
+        mDescriptionView = view.findViewById(R.id.descriptionField);
+        mCoverEmptyView = view.findViewById(R.id.coverEmpty);
+        mCoverView = view.findViewById(R.id.cover);
+        mCoverView.setOnClickListener(listener);
+        mCoverEmptyView.setOnClickListener(listener);
     }
 
     @Override
@@ -61,7 +80,24 @@ public class CreateEventDescription extends AbstractFragment implements StepView
     @Nullable
     @Override
     public VerificationError verifyStep() {
-        return null;
+        final String message;
+
+        if (mFile == null) {
+            message = getString(R.string.error_verification_cover_empty);
+        } else if (mDescriptionView.getText().toString().isEmpty()) {
+            message = getString(R.string.error_verification_description_error);
+        } else {
+            message = null;
+        }
+
+        final boolean valid = mFile != null && !mDescriptionView.getText().toString().isEmpty();
+
+        if (valid) {
+            EventsModel.Repository.eventBuilder.setCoverFile(mFile)
+                    .setDescription(mDescriptionView.getText().toString());
+        }
+
+        return valid ? null : new VerificationError(message);
     }
 
     @Override
@@ -71,7 +107,7 @@ public class CreateEventDescription extends AbstractFragment implements StepView
 
     @Override
     public void onError(@NonNull final VerificationError error) {
-
+        onError(error.getErrorMessage());
     }
 
     @Override
@@ -83,7 +119,8 @@ public class CreateEventDescription extends AbstractFragment implements StepView
                 onError(getString(R.string.error_cover_message));
             } else {
                 try {
-                    mCoverView.setImageBitmap(BitmapFactory.decodeStream(getContext()
+                    mFile = new File(getFile(data.getData()));
+                    displayImage(BitmapFactory.decodeStream(getContext()
                             .getContentResolver().openInputStream(data.getData())));
                 } catch (final FileNotFoundException e) {
                     onError(getString(R.string.error_cover_message));
@@ -92,7 +129,36 @@ public class CreateEventDescription extends AbstractFragment implements StepView
         }
     }
 
-    private void selectFromGallery() {
+    private String getFile(final Uri contentUri) {
+
+        final String[] pictureImageTemp= { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+
+        final Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                pictureImageTemp, null, null, MediaStore.Images.Media._ID);
+        final int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions,
+                                           @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void displayImage(final Bitmap bitmap) {
+        if (bitmap == null) {
+            mCoverEmptyView.setVisibility(View.VISIBLE);
+            mCoverView.setVisibility(View.GONE);
+        } else {
+            mCoverView.setImageBitmap(bitmap);
+            mCoverEmptyView.setVisibility(View.GONE);
+            mCoverView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void selectFromGallery() {
         final Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

@@ -33,4 +33,8 @@
     <string name="extern_action_gallery_title">Seleccionar imagen</string>
     <string name="hint_description">Descripción del evento</string>
     <string name="error_cover_message">Ups, algo salió mal, vuelve a intentarlo :)</string>
+    <string name="error_verification_cover_empty">¡Necesitamos una foto que identifique tu evento!</string>
+    <string name="error_verification_description_error">¡Necesitamos una descripción del evento!</string>
+    <string name="error_verification_date">Debes indicar fecha y hora del evento</string>
+    <string name="error_verification_guest_empty">Debes invitar al menos a una persona</string>
 </resources>

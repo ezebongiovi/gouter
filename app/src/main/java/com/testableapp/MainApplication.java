@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import com.testableapp.interceptors.AuthInterceptor;
 import com.testableapp.interceptors.BaseHeadersInterceptor;
 import com.testableapp.interceptors.CacheInterceptor;
 
@@ -22,7 +23,8 @@ public class MainApplication extends Application {
 
     private static long CACHE_SIZE = 10 * 1024 * 1024; // 10MB
     private static boolean testFramework = false;
-    private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
+    //private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
+    private static final String BASE_URL = "http://192.168.0.12:9052/";
     private static Retrofit mRetrofit;
 
     @Override
@@ -49,6 +51,7 @@ public class MainApplication extends Application {
                 .setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
+                .addInterceptor(new AuthInterceptor(context))
                 .addInterceptor(new CacheInterceptor(context))
                 .build();
     }

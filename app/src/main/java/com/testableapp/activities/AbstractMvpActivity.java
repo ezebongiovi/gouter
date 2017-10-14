@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.testableapp.R;
 import com.testableapp.manager.AuthenticationManager;
@@ -29,8 +28,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
             authenticate();
         }
 
-        LayoutInflater.from(this).inflate(getLayoutResourceId(),
-                (ViewGroup) findViewById(R.id.contentLayout));
+        LayoutInflater.from(this).inflate(getLayoutResourceId(), findViewById(R.id.contentLayout));
 
         mPresenter = createPresenter();
 

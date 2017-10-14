@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/backgroundGrey"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_photo_camera_white_24dp" />
-
-
-        <EditText
-            style="@style/Event.Description"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|top"
-            android:background="@android:color/white"
-            android:hint="@string/hint_description"
-            android:minLines="4"
-            android:padding="@dimen/_1m"
-            tools:text="@string/lorem_ipsum" />
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/separator"
-            android:background="@color/backgroundGrey" />
-    </LinearLayout>
-</ScrollView>
+            <ImageView
+                android:id="@+id/coverEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/backgroundGrey_50"
+                android:padding="@dimen/_5m"
+                android:src="@mipmap/holder_camera" />
+
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+
+            <EditText
+                android:id="@+id/descriptionField"
+                style="@style/Event.Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="start|top"
+                android:hint="@string/hint_description"
+                android:minLines="4"
+                android:padding="@dimen/_1m"
+                tools:text="@string/lorem_ipsum" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separator"
+                android:background="@color/backgroundGrey" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

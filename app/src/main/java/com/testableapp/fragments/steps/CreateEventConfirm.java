@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
+import com.testableapp.dto.GEvent;
 import com.testableapp.views.StepView;
 
 public class CreateEventConfirm extends Fragment implements StepView {
@@ -19,8 +20,8 @@ public class CreateEventConfirm extends Fragment implements StepView {
     public View onCreateView(final LayoutInflater inflater,
                              @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_step_create_event_confirm, container, false);
+        return inflater.inflate(R.layout.fragment_step_create_event_confirm,
+                container, false);
     }
 
     @Override

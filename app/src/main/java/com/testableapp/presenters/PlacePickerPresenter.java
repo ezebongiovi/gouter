@@ -30,7 +30,7 @@ public class PlacePickerPresenter {
             mDisposable = null;
         }
 
-        mDisposable = PlacesModel.getInstance().getMockedPlaces(criteria)
+        mDisposable = PlacesModel.getInstance().getPlaces(criteria)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(apiResponse -> {
 
