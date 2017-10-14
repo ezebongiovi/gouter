@@ -14,8 +14,8 @@ public class GEvent implements Parcelable {
     public final Date date;
     public final String description;
     public final Place address;
-    public final String cover;
-    public final List<User> guests;
+    public final Cover cover;
+    public final List<Guest> guests;
     public transient final File coverFile;
 
     private GEvent(final Builder builder) {
@@ -33,8 +33,8 @@ public class GEvent implements Parcelable {
         description = in.readString();
         address = in.readParcelable(Place.class.getClassLoader());
         date = new Date(in.readLong());
-        guests = in.createTypedArrayList(User.CREATOR);
-        this.cover = in.readString();
+        guests = in.createTypedArrayList(Guest.CREATOR);
+        this.cover = in.readParcelable(Cover.class.getClassLoader());
         this.coverFile = (File) in.readSerializable();
     }
 
@@ -62,7 +62,7 @@ public class GEvent implements Parcelable {
         dest.writeParcelable(address, flags);
         dest.writeLong(date.getTime());
         dest.writeTypedList(guests);
-        dest.writeString(cover);
+        dest.writeParcelable(cover, flags);
         dest.writeSerializable(coverFile);
     }
 
@@ -71,9 +71,9 @@ public class GEvent implements Parcelable {
         private Date date;
         private String description;
         private Place address;
-        private List<User> guests;
+        private List<Guest> guests;
         private User author;
-        private String cover;
+        private Cover cover;
         private File coverFile;
 
         public Builder() {
@@ -95,12 +95,12 @@ public class GEvent implements Parcelable {
             return this;
         }
 
-        public Builder setGuests(@NonNull final List<User> guests) {
+        public Builder setGuests(@NonNull final List<Guest> guests) {
             this.guests = guests;
             return this;
         }
 
-        public Builder setCover(@NonNull final String cover) {
+        public Builder setCover(@NonNull final Cover cover) {
             this.cover = cover;
             return this;
         }

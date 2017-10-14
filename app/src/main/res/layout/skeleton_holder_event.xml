@@ -17,7 +17,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_20m"
+            android:layout_height="@dimen/coverSize"
             android:background="@drawable/box_radio_grey"
             android:minHeight="@dimen/_10m" />
 

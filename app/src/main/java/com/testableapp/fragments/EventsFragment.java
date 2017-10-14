@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,8 @@ import com.testableapp.views.EventsView;
 import java.util.List;
 
 public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
-        implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener {
+        implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static final String EXTRA_TYPE = "EXTRA_TYPE";
     private static final int VIEW_PROGRESS = 0;
@@ -32,6 +34,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     private EventsAdapter mAdapter;
     private ViewFlipper mFlipper;
+    private SwipeRefreshLayout mRefreshLayout;
 
     /**
      * Factory method for building fragment with necessary initialization data.
@@ -58,8 +61,10 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
         final LinearSnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(listView);
+        mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
+        mRefreshLayout.setOnRefreshListener(this);
+        snapHelper.attachToRecyclerView(listView);
         mFlipper = view.findViewById(R.id.viewFlipper);
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
@@ -81,6 +86,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void showRegularLayout() {
+        mRefreshLayout.setRefreshing(false);
         mFlipper.setDisplayedChild(VIEW_REGULAR);
     }
 
@@ -124,4 +130,8 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         mPresenter.getEvents(offset);
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.getEvents(0);
+    }
 }

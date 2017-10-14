@@ -51,10 +51,11 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
         mStepper.setListener(new StepperLayout.StepperListener() {
             @Override
             public void onCompleted(final View completeButton) {
-                final GEvent gEvent = EventsModel.Repository.eventBuilder.build();
+                final GEvent gEvent = EventsModel.Repository.eventBuilder
+                        .setAuthor(AuthenticationManager.getInstance()
+                                .getUser(CreateEventActivity.this)).build();
 
-                presenter.createEvent(AuthenticationManager.getInstance()
-                        .getUser(CreateEventActivity.this)._id, gEvent);
+                presenter.createEvent(gEvent);
             }
 
             @Override

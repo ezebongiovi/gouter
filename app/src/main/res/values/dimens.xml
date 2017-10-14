@@ -20,4 +20,5 @@
     <dimen name="font_size_xxl">24sp</dimen>
     <dimen name="_0_7_5m">1dp</dimen>
     <dimen name="separator">1dp</dimen>
+    <dimen name="coverSize">200dp</dimen>
 </resources>

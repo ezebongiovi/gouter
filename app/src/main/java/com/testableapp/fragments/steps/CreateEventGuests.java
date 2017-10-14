@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 
 import com.stepstone.stepper.VerificationError;
 import com.testableapp.R;
+import com.testableapp.dto.Guest;
+import com.testableapp.dto.User;
 import com.testableapp.fragments.base.AbstractFragment;
 import com.testableapp.models.EventsModel;
 import com.testableapp.views.StepView;
 import com.testableapp.widgets.ContactPicker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateEventGuests extends AbstractFragment implements StepView {
 
@@ -47,7 +52,12 @@ public class CreateEventGuests extends AbstractFragment implements StepView {
             return new VerificationError(getString(R.string.error_verification_guest_empty));
         }
 
-        EventsModel.Repository.eventBuilder.setGuests(mContactPicker.getSelectedContacts());
+        final List<Guest> guestList = new ArrayList<>();
+        for (final User user : mContactPicker.getSelectedContacts()) {
+            guestList.add(new Guest(user, Guest.STATUS_PENDING));
+        }
+
+        EventsModel.Repository.eventBuilder.setGuests(guestList);
 
         return null;
     }
