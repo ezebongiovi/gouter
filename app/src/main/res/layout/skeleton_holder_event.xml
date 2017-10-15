@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<io.supercharge.shimmerlayout.ShimmerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shimmerLayout"
     android:layout_width="match_parent"
@@ -7,7 +7,9 @@
     android:layout_margin="@dimen/_2m"
     android:background="@drawable/box_radio_white"
     android:elevation="@dimen/_1m"
-    app:angle="cw_270"
+    app:shimmer_auto_start="true"
+    app:shimmer_animation_duration="@integer/ms_shimmer_duration"
+    app:shimmer_color="@color/colorWhite_20"
     android:paddingBottom="@dimen/_0_5m">
 
     <LinearLayout
@@ -28,15 +30,6 @@
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/_0_5m"
-            android:layout_marginEnd="@dimen/_2m"
-            android:layout_marginStart="@dimen/_2m"
-            android:layout_marginTop="@dimen/_0_5m"
-            android:background="@color/ms_material_grey_400" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_2m"
@@ -55,4 +48,4 @@
             android:layout_margin="@dimen/_1m"
             android:background="@drawable/skeleton_background" />
     </LinearLayout>
-</com.facebook.shimmer.ShimmerFrameLayout>
+</io.supercharge.shimmerlayout.ShimmerLayout>
