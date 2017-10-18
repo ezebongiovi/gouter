@@ -4,9 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -31,7 +32,6 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/activity_title_login"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,11 +45,17 @@
             android:windowSoftInputMode="adjustResize">
 
         </activity>
-        <activity android:name=".activities.NavigationActivity" />
+        <activity
+            android:name=".activities.NavigationActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activities.CreateEventActivity"
+            android:parentActivityName=".activities.NavigationActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.EventDetailActivity" />
+
+        <activity
+            android:name=".activities.EventDetailActivity"
+            android:parentActivityName=".activities.NavigationActivity" />
     </application>
 
 </manifest>

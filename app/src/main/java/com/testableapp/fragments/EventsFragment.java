@@ -7,9 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ViewFlipper;
 
 import com.testableapp.R;
@@ -53,11 +51,9 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_events, container, false);
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
         final LinearSnapHelper snapHelper = new LinearSnapHelper();
@@ -69,14 +65,17 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
         mAdapter.setOnEventClick(this);
-
-        return view;
     }
 
     @NonNull
     @Override
     protected EventsPresenter createPresenter() {
         return new EventsPresenter(getArguments().getInt(EXTRA_TYPE));
+    }
+
+    @Override
+    protected int getResourceId() {
+        return R.layout.fragment_events;
     }
 
     @Override

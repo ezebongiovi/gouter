@@ -80,7 +80,7 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
                 }, new ErrorConsumer() {
                     @Override
                     public void onError(@NonNull final ApiResponse apiResponse) {
-                        getView().onGenericError();
+                        handleErrorEvent(apiResponse);
                     }
                 });
 

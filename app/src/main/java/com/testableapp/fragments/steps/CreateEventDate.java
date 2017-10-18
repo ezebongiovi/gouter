@@ -25,13 +25,9 @@ public class CreateEventDate extends AbstractFragment implements StepView {
     int mHour;
     int mMinute;
 
-    @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-                             @Nullable final ViewGroup container,
-                             @Nullable final Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_step_create_event_date, container, false);
+    protected int getResourceId() {
+        return R.layout.fragment_step_create_event_date;
     }
 
     @Override

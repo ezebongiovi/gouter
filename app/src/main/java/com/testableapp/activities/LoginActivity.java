@@ -43,7 +43,9 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
         });
 
         if (AuthenticationManager.getInstance().getUser(this) != null) {
-            startActivity(new Intent(this, NavigationActivity.class));
+            startActivity(new Intent(this, NavigationActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
 

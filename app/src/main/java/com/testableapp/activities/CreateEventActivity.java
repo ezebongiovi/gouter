@@ -29,6 +29,10 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
 
     private StepperLayout mStepper;
 
+    public CreateEventActivity() {
+        super(FLAG_BACK_ARROW);
+    }
+
     @Override
     protected boolean shouldAuthenticate() {
         return true;

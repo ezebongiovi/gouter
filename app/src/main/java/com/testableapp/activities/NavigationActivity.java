@@ -22,6 +22,10 @@ public class NavigationActivity extends AbstractActivity {
 
     private final List<Page> mPages = new ArrayList<>();
 
+    public NavigationActivity() {
+        super(FLAG_NONE);
+    }
+
     @Override
     protected boolean shouldAuthenticate() {
         return true;
