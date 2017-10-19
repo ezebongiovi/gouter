@@ -1,82 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="450dp"
-    android:layout_margin="@dimen/_2m"
     android:background="@drawable/box_radio_white"
-    android:elevation="@dimen/_1m"
+    android:maxHeight="450dp"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/_0_5m">
+    android:paddingBottom="@dimen/_0_25m">
 
     <ImageView
         android:id="@+id/coverView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/coverSize"
-        android:scaleType="centerCrop"
+        android:transitionName="coverView"
         android:background="@drawable/box_radio_grey"
-        android:minHeight="@dimen/_10m" />
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="@dimen/_3m"
-            android:layout_height="@dimen/_3m"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/_1m"
-            android:src="@mipmap/ic_map_marker"
-            android:tint="@color/colorAccentDark" />
-
-        <TextView
-            android:id="@+id/eventAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/_2m"
-            android:layout_marginStart="@dimen/_5m"
-            android:paddingBottom="@dimen/_1m"
-            android:paddingTop="@dimen/_1m"
-            tools:text="Address 7623" />
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="@dimen/_0_5m"
-        android:layout_marginEnd="@dimen/_2m"
-        android:layout_marginStart="@dimen/_2m"
-        android:layout_marginTop="@dimen/_0_5m"
-        android:background="@color/ms_material_grey_400" />
+        android:minHeight="@dimen/_10m"
+        android:scaleType="centerCrop" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/ms_black_38_opacity">
 
-        <ImageView
-            android:layout_width="@dimen/_3m"
-            android:layout_height="@dimen/_3m"
-            android:layout_gravity="top"
-            android:layout_marginTop="@dimen/_1m"
-            android:layout_marginStart="@dimen/_1m"
-            android:src="@mipmap/ic_message_reply_text"
-            android:tint="@color/colorAccentDark" />
-
-        <TextView
-            android:id="@+id/eventDescription"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/_2m"
-            android:layout_marginStart="@dimen/_5m"
-            android:paddingBottom="@dimen/_1m"
-            android:lineSpacingExtra="@dimen/_0_5m"
-            android:maxLines="8"
-            android:paddingTop="@dimen/_1m"
-            android:ellipsize="end"
-            tools:text="@string/lorem_ipsum" />
+            android:layout_gravity="start|bottom"
+            android:paddingStart="@dimen/_2m"
+            android:padding="@dimen/_0_5m"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/eventAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:paddingBottom="@dimen/_0_5m"
+                android:paddingTop="@dimen/_0_5m"
+                tools:text="Address 7623" />
+
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                android:paddingBottom="@dimen/_0_5m"
+                android:paddingTop="@dimen/_0_5m"
+                tools:text="Address 7623" />
+        </LinearLayout>
     </FrameLayout>
-</LinearLayout>
+</FrameLayout>

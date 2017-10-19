@@ -31,8 +31,6 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
 
         if (mData == null) {
             getEvents(0);
-        } else {
-            getView().showEvents(mData.results);
         }
     }
 

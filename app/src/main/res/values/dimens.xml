@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_activity">16dp</dimen>
+    <dimen name="_0_25m">2dp</dimen>
     <dimen name="_0_5m">4dp</dimen>
     <dimen name="_1m">8dp</dimen>
     <dimen name="_2m">16dp</dimen>
@@ -21,4 +22,5 @@
     <dimen name="_0_7_5m">1dp</dimen>
     <dimen name="separator">1dp</dimen>
     <dimen name="coverSize">200dp</dimen>
+    <dimen name="coverSizeExpanded">250dp</dimen>
 </resources>

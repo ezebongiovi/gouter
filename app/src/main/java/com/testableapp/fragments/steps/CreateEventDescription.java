@@ -125,16 +125,20 @@ public class CreateEventDescription extends AbstractFragment implements StepView
         }
     }
 
-    private String getFile(final Uri contentUri) {
+    public String getFile(final Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            final String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = getContext().getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
 
-        final String[] pictureImageTemp= { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
-
-        final Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                pictureImageTemp, null, null, MediaStore.Images.Media._ID);
-        final int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-
-        return cursor.getString(column_index);
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -155,9 +159,8 @@ public class CreateEventDescription extends AbstractFragment implements StepView
     }
 
     void selectFromGallery() {
-        final Intent intent = new Intent();
+        final Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,
                 getString(R.string.extern_action_gallery_title)), PICK_IMAGE);
     }

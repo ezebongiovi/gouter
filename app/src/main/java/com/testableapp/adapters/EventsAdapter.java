@@ -23,7 +23,7 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
     }
 
     public interface OnEventClick {
-        void onClick(@NonNull GEvent event);
+        void onClick(@NonNull GenericViewHolder holder, @NonNull GEvent event);
     }
 
     @Override
@@ -33,12 +33,12 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     @Override
     protected void onBind(final GenericViewHolder holder, final GEvent data) {
-        ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.description);
 
-        if (data.address != null) {
-            ((TextView) holder.itemView.findViewById(R.id.eventAddress))
-                    .setText(data.address.formattedAddress);
-        }
+        ((TextView) holder.itemView.findViewById(R.id.eventDate)).setText(data.date.toString());
+
+        ((TextView) holder.itemView.findViewById(R.id.eventAuthor))
+                .setText(String.format(holder.itemView.getContext().getString(R.string.name),
+                        data.author.firstName, data.author.lastName));
 
         if (data.cover != null) {
             Picasso.with(holder.itemView.getContext()).load(data.cover.url)
@@ -47,7 +47,7 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {
-                mListener.onClick(data);
+                mListener.onClick(holder, data);
             }
         });
     }

@@ -63,6 +63,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
         }
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         if ((mFlags & FLAG_NONE) == FLAG_NONE) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);

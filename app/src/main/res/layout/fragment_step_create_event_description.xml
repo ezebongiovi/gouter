@@ -34,7 +34,7 @@
                 android:id="@+id/descriptionField"
                 style="@style/Event.Description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:gravity="start|top"
                 android:hint="@string/hint_description"
