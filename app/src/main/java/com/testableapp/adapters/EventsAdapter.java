@@ -36,9 +36,8 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
         ((TextView) holder.itemView.findViewById(R.id.eventDate)).setText(data.date.toString());
 
-        ((TextView) holder.itemView.findViewById(R.id.eventAuthor))
-                .setText(String.format(holder.itemView.getContext().getString(R.string.name),
-                        data.author.firstName, data.author.lastName));
+        ((TextView) holder.itemView.findViewById(R.id.eventAuthor)).setText(String.format(holder.itemView.getContext().getString(R.string.name),
+                data.author.firstName, data.author.lastName));
 
         if (data.cover != null) {
             Picasso.with(holder.itemView.getContext()).load(data.cover.url)

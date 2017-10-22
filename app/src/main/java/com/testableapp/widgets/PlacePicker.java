@@ -106,6 +106,7 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
 
         final View view = findViewById(R.id.searchListBackground);
         final Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up_out);
+        anim.setDuration(250);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(final Animation animation) {

@@ -8,10 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Event.Description" parent="AppTheme">
+    <style name="AppTheme.Event.Description" parent="AppTheme">
         <item name="android:textSize">@dimen/font_size_m</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:lineSpacingExtra">@dimen/_1m</item>
     </style>
+
+    <style name="AppTheme.Transparent" parent="AppTheme">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 
 </resources>

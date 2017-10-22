@@ -12,10 +12,10 @@
         android:id="@+id/coverView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/coverSize"
-        android:transitionName="coverView"
         android:background="@drawable/box_radio_grey"
         android:minHeight="@dimen/_10m"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:transitionName="coverView" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,18 +26,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
-            android:paddingStart="@dimen/_2m"
+            android:orientation="vertical"
             android:padding="@dimen/_0_5m"
-            android:orientation="vertical">
+            android:paddingStart="@dimen/_2m">
 
             <TextView
                 android:id="@+id/eventAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
                 android:paddingBottom="@dimen/_0_5m"
                 android:paddingTop="@dimen/_0_5m"
+                android:textColor="@android:color/white"
                 tools:text="Address 7623" />
 
             <TextView
@@ -45,9 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@android:color/white"
                 android:paddingBottom="@dimen/_0_5m"
                 android:paddingTop="@dimen/_0_5m"
+                android:textColor="@android:color/white"
                 tools:text="Address 7623" />
         </LinearLayout>
     </FrameLayout>

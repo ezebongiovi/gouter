@@ -135,12 +135,21 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         final Intent intent = EventDetailActivity.getIntent(getContext(), event);
         final Pair<View, String> p1 = Pair.create(view.findViewById(R.id.coverView), "coverView");
         final Pair<View, String> p2 = Pair.create(view.findViewById(R.id.eventDate), "date");
-        final Pair<View, String> p3 = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME);
-        final Pair<View, String> p4 = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+        final ActivityOptionsCompat options;
 
-        final ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4);
-        startActivity(intent, options.toBundle());
+        if (statusBar != null && navigationBar != null) {
+            final Pair<View, String> p3 = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME);
+            final Pair<View, String> p4 = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+
+            options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4);
+        } else {
+            options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), p1, p2);
+        }
+
+        // Our NavigationActivity overrides startActivity method for animations
+        getActivity().startActivity(intent, options.toBundle());
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -92,10 +93,32 @@ public class EventDetailActivity extends AbstractActivity {
             }
         });
 
+        // TODO: REMOVE THIS
         final String text = getString(R.string.lorem_ipsum_large) + getString(R.string.lorem_ipsum_large);
 
-        ((TextView) findViewById(R.id.eventAddressView)).setText(event.address.formattedAddress);
+        ((TextView) findViewById(R.id.eventAddress)).setText(event.address.formattedAddress);
         ((TextView) findViewById(R.id.eventDescription)).setText(text);
+
+        final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this,
+                R.anim.scale_in);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(final Animation animation) {
+                findViewById(R.id.editButton).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(final Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(final Animation animation) {
+
+            }
+        });
+
+        findViewById(R.id.editButton).startAnimation(anim);
     }
 
     private void setUpUI(final ActionBar actionBar, final Palette palette, final GEvent event) {
@@ -115,13 +138,21 @@ public class EventDetailActivity extends AbstractActivity {
         }
 
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.slide_up_in);
-        anim.setDuration(500);
         anim.setInterpolator(new AccelerateDecelerateInterpolator(EventDetailActivity.this, null));
         findViewById(R.id.nestedScrollView).startAnimation(anim);
 
         cpt.setContentScrim(predomColor);
         actionBar.setBackgroundDrawable(predomColor);
         actionBar.setTitle(spannable);
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.slide_up_out);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator(EventDetailActivity.this, null));
+        findViewById(R.id.nestedScrollView).startAnimation(anim);
+
+        super.finishAfterTransition();
     }
 
     @Override
