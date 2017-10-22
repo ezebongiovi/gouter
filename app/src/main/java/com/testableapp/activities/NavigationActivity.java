@@ -27,7 +27,7 @@ public class NavigationActivity extends AbstractActivity {
     private boolean shouldAnimateBack;
 
     public NavigationActivity() {
-        super(FLAG_NONE);
+        super(FLAG_HIDE_TOOLBAR);
     }
 
     @Override

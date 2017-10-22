@@ -37,20 +37,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_2m"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@mipmap/ic_calendar_blank"
-        android:tint="@android:color/white"
-        android:visibility="invisible"
-        app:fabSize="normal"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|end" />
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -80,4 +66,18 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_2m"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/ic_calendar_blank"
+        android:tint="@android:color/white"
+        android:visibility="invisible"
+        app:fabSize="normal"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom|end" />
 </android.support.design.widget.CoordinatorLayout>

@@ -20,6 +20,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
     protected static final int FLAG_BACK_ARROW = 1;
     protected static final int FLAG_NONE = 2;
     protected static final int FLAG_ROOT_VIEW = 4;
+    protected static final int FLAG_HIDE_TOOLBAR = 8;
 
     private final int mFlags;
     private P mPresenter;
@@ -69,6 +70,8 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         } else if ((mFlags & FLAG_BACK_ARROW) == FLAG_BACK_ARROW) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else if ((mFlags & FLAG_HIDE_TOOLBAR) == FLAG_HIDE_TOOLBAR) {
+            getSupportActionBar().hide();
         }
     }
 
