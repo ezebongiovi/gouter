@@ -1,8 +1,10 @@
 package com.testableapp.activities;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.graphics.Palette;
 import android.text.Spannable;
@@ -39,6 +42,7 @@ import com.testableapp.presenters.EmptyPresenter;
 public class EventDetailActivity extends AbstractActivity {
 
     private static final String EXTRA_EVENT = "extra-event";
+    private boolean mEditMode;
 
     public EventDetailActivity() {
         super(FLAG_ROOT_VIEW | FLAG_BACK_ARROW);
@@ -168,13 +172,20 @@ public class EventDetailActivity extends AbstractActivity {
         anim.setInterpolator(new AccelerateDecelerateInterpolator(EventDetailActivity.this, null));
         findViewById(R.id.nestedScrollView).startAnimation(anim);
 
+        final Animation fabAnim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.scale_out);
+        findViewById(R.id.editButton).startAnimation(fabAnim);
+
         super.finishAfterTransition();
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            supportFinishAfterTransition();
+            if (mEditMode) {
+                circularHide();
+            } else {
+                supportFinishAfterTransition();
+            }
 
             return true;
         }
@@ -190,6 +201,8 @@ public class EventDetailActivity extends AbstractActivity {
     private void editEvent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             circularReveal();
+        } else {
+
         }
     }
 
@@ -199,8 +212,8 @@ public class EventDetailActivity extends AbstractActivity {
         final View dataContainer = findViewById(R.id.nestedScrollView);
         final View coverView = findViewById(R.id.coverView);
 
-        int cx = (editContainer.getLeft() + editContainer.getRight()) / 2;
-        int cy = ((editContainer.getBottom() - editContainer.getTop()) / 2)
+        final int cx = (editContainer.getLeft() + editContainer.getRight()) / 2;
+        final int cy = ((editContainer.getBottom() - editContainer.getTop()) / 2)
                 - ((coverView.getBottom() - coverView.getTop()) / 2);
 
         final int finalRadius = Math.max(editContainer.getWidth(), editContainer.getHeight());
@@ -208,33 +221,23 @@ public class EventDetailActivity extends AbstractActivity {
         final Animator anim = ViewAnimationUtils.createCircularReveal(editContainer, cx, cy, 0, finalRadius);
         anim.setDuration(250);
         anim.setInterpolator(new AccelerateInterpolator(1));
-        anim.addListener(new Animator.AnimatorListener() {
+        anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {
                 editContainer.setVisibility(View.VISIBLE);
+                showOptions();
             }
 
             @Override
             public void onAnimationEnd(final Animator animation) {
                 dataContainer.setVisibility(View.GONE);
-                showOptions();
-            }
-
-            @Override
-            public void onAnimationCancel(final Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(final Animator animation) {
-
             }
         });
 
         final View view = findViewById(R.id.editButton);
         final AnimatorSet set = new AnimatorSet();
         final ObjectAnimator animatorX = ObjectAnimator.ofFloat(view, "translationX",
-                - cx + view.getHeight() / 2);
+                -cx + view.getHeight() / 2);
         animatorX.setDuration(250);
         animatorX.setInterpolator(new AccelerateInterpolator(1));
         final ObjectAnimator animatorY = ObjectAnimator.ofFloat(view, "translationY",
@@ -242,31 +245,73 @@ public class EventDetailActivity extends AbstractActivity {
         animatorY.setDuration(250);
         animatorY.setInterpolator(new AccelerateDecelerateInterpolator());
 
-        animatorY.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(final Animator animation) {
-
-            }
-
+        animatorY.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final Animator animation) {
                 view.setVisibility(View.GONE);
                 anim.start();
             }
-
-            @Override
-            public void onAnimationCancel(final Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(final Animator animation) {
-
-            }
         });
 
         set.playTogether(animatorX, animatorY);
         set.start();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void circularHide() {
+        final View editContainer = findViewById(R.id.editContainer);
+        final View coverView = findViewById(R.id.coverView);
+        final View contentContainer = findViewById(R.id.nestedScrollView);
+
+        final int cx = (editContainer.getLeft() + editContainer.getRight()) / 2;
+        final int cy = ((editContainer.getBottom() - editContainer.getTop()) / 2)
+                - ((coverView.getBottom() - coverView.getTop()) / 2);
+
+        final int initialRadius = editContainer.getWidth();
+
+        // FAB TRANSLATION
+        final View fabButton = findViewById(R.id.editButton);
+        final AnimatorSet set = new AnimatorSet();
+        final ObjectAnimator animatorX = ObjectAnimator.ofFloat(fabButton, "translationX", 0);
+        animatorX.setDuration(250);
+        animatorX.setInterpolator(new AccelerateDecelerateInterpolator());
+        final ObjectAnimator animatorY = ObjectAnimator.ofFloat(fabButton, "translationY",0);
+        animatorY.setDuration(250);
+        animatorY.setInterpolator(new AccelerateInterpolator(1));
+        set.playTogether(animatorX, animatorY);
+
+        final Animator anim =
+                ViewAnimationUtils.createCircularReveal(editContainer, cx, cy, initialRadius, 0);
+        anim.setDuration(250);
+
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(final Animator animation) {
+                super.onAnimationStart(animation);
+                contentContainer.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                editContainer.setVisibility(View.INVISIBLE);
+                fabButton.setVisibility(View.VISIBLE);
+
+                // Starts fab translation
+                set.start();
+                mEditMode = false;
+
+                // Show back arrow on Toolbar
+                final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                        .create(EventDetailActivity.this, R.drawable.from_close_to_back_arrow);
+
+                getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
+
+                drawableCompat.start();
+            }
+        });
+
+        anim.start();
     }
 
     private void showOptions() {
@@ -281,5 +326,14 @@ public class EventDetailActivity extends AbstractActivity {
         anim.setStartOffset(375);
         anim.setInterpolator(new DecelerateInterpolator(2));
         findViewById(R.id.editGuestsButton).startAnimation(anim);
+
+        final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                .create(EventDetailActivity.this, R.drawable.from_arrow_to_close);
+
+        getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
+
+        drawableCompat.start();
+
+        mEditMode = true;
     }
 }
