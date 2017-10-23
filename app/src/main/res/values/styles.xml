@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="AppTheme.Event.Description" parent="AppTheme">
@@ -23,5 +24,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-
+    <style name="AppTheme.Text.Secondary" parent="AppTheme">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textSize">@dimen/font_size_m</item>
+    </style>
 </resources>

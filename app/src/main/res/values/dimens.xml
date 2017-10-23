@@ -23,4 +23,5 @@
     <dimen name="separator">1dp</dimen>
     <dimen name="coverSize">200dp</dimen>
     <dimen name="coverSizeExpanded">250dp</dimen>
+    <dimen name="_15m">120dp</dimen>
 </resources>

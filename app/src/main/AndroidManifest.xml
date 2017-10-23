@@ -37,6 +37,7 @@
 
         <activity
             android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.LoginActivity"
             android:windowSoftInputMode="adjustResize">
 
         </activity>

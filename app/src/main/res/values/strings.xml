@@ -40,4 +40,9 @@
     <string name="label_edit_date">Cambiar fecha</string>
     <string name="label_edit_guests">Administrar invitados</string>
     <string name="label_edit_address">Cambiar dirección</string>
+    <string name="register_info_explanation">Ésta información será mostrada a los usuarios de Tapp</string>
+    <string name="hint_username">Nombre de usuario</string>
+    <string name="hint_cellphone">Celular (Ej: 1161884050)</string>
+    <string name="register_phone_explanation">Recibirás un mensaje de texto con un código de validación.</string>
+    <string name="register_phone_privacy_explanation_">No compartiremos tu número de teléfono con ningún usuario.</string>
 </resources>
