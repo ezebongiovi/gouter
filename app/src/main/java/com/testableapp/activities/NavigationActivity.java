@@ -99,9 +99,8 @@ public class NavigationActivity extends AbstractActivity {
         }
     }
 
-    @Override
-    public void startActivity(final Intent intent, @Nullable final Bundle options) {
-
+    public void startActivityWithAnimation(@NonNull final Intent intent,
+                                           @Nullable final Bundle options) {
         shouldAnimateBack = true;
         final Animation anim = AnimationUtils.loadAnimation(NavigationActivity.this,
                 R.anim.slide_up_out);

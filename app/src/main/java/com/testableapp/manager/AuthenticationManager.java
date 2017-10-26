@@ -3,10 +3,13 @@ package com.testableapp.manager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.testableapp.MainApplication;
 import com.testableapp.db.DBHelper;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.Country;
 import com.testableapp.dto.User;
+
+import java.io.IOException;
 
 public class AuthenticationManager {
 
@@ -32,6 +35,11 @@ public class AuthenticationManager {
 
     public void logOut(@NonNull final Context context) {
         mUser = null;
+        try {
+            MainApplication.getClient(context).cache().delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         DBHelper.getInstance(context).onLogOut();
     }
 
@@ -45,5 +53,9 @@ public class AuthenticationManager {
                 mUser.profilePicture, authentication, mUser.country));
 
         mUser = getUser(context);
+    }
+
+    public boolean isLoggedIn() {
+        return mUser != null;
     }
 }

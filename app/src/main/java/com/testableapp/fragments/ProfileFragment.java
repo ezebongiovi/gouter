@@ -25,7 +25,9 @@ public class ProfileFragment extends AbstractFragment {
             @Override
             public void onClick(final View v) {
                 AuthenticationManager.getInstance().logOut(getContext());
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                getActivity().finish();
             }
         });
     }

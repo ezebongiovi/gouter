@@ -18,6 +18,7 @@ import android.widget.ViewFlipper;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.testableapp.R;
 import com.testableapp.activities.EventDetailActivity;
+import com.testableapp.activities.NavigationActivity;
 import com.testableapp.adapters.EventsAdapter;
 import com.testableapp.adapters.PaginationAdapter;
 import com.testableapp.adapters.holders.GenericViewHolder;
@@ -149,7 +150,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         }
 
         // Our NavigationActivity overrides startActivity method for animations
-        getActivity().startActivity(intent, options.toBundle());
+        ((NavigationActivity) getActivity()).startActivityWithAnimation(intent, options.toBundle());
     }
 
     @Override

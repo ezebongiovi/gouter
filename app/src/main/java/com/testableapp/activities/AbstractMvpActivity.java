@@ -77,9 +77,10 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
 
     private void authenticate() {
         // If user is not logged in we redirect to login
-        if (AuthenticationManager.getInstance().getUser(this) == null) {
-            startActivity(new Intent(this, LoginActivity.class)
+        if (!AuthenticationManager.getInstance().isLoggedIn()) {
+            startActivity(new Intent(AbstractMvpActivity.this, LoginActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
         }
     }
 
