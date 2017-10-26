@@ -58,8 +58,16 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
             @Override
             public void onError(final FacebookException exception) {
                 // TODO: Track error event
+                exception.printStackTrace();
             }
         });
+    }
+
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
