@@ -46,7 +46,7 @@ public class AuthenticationManager {
     public void updateAuthentication(@NonNull final Context context,
                                      @NonNull final Authentication authentication) {
         DBHelper.getInstance(context).onLogin(new User(mUser._id, mUser.firstName, mUser.lastName,
-                mUser.profilePicture, authentication, mUser.country));
+                mUser.profilePicture, mUser.email, authentication, mUser.country));
 
         mUser = getUser(context);
     }

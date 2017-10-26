@@ -67,11 +67,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public long onLogin(@NonNull final User user) {
         final ContentValues values = new ContentValues();
-        values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.authentication.getEmail());
+        values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.email);
         values.put(DBContract.Entry.COLUMN_NAME_NAME, user.firstName);
         values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.lastName);
         values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.profilePicture.url);
-        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.authentication.getAccessToken());
+        values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.authentication.accessToken);
         values.put(DBContract.Entry.COLUMN_COUNTRY_NAME, "Argentina");
 
         return db.insert(DBContract.Entry.TABLE_NAME, null, values);
@@ -84,8 +84,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c.getCount() > 0) {
             return new User(c.getString(0), c.getString(1),
                     c.getString(2), new Image(c.getString(3)),
-                    new Authentication.Builder().withEmail(c.getString(5))
-                            .withAccessToken(c.getString(4)).build(), new Country(c.getString(6)));
+                    c.getString(5), new Authentication.Builder()
+                    .withAccessToken(c.getString(4)).build(),
+                    new Country(c.getString(6)));
         }
 
         return null;

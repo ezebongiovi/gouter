@@ -21,7 +21,8 @@ import static com.testableapp.dto.ApiResponse.STATUS_OK;
 public class AuthModel {
 
     private static AuthModel INSTANCE;
-    public static final Authentication MOCK_ERROR = new Authentication("error", "error");
+    public static final Authentication MOCK_ERROR = new Authentication.Builder().withAccessToken("error")
+            .withProviderName("error").build();
 
     public static AuthModel getInstance() {
         if (INSTANCE == null) {
@@ -48,8 +49,8 @@ public class AuthModel {
     static final class MockAuthModel {
 
         static Observable<ApiResponse<User>> login(@Nullable final Authentication authentication) {
-            if (authentication != null && MOCK_ERROR.getEmail().equals(authentication.getEmail())
-                    && MOCK_ERROR.getPassword().equals(authentication.getPassword())) {
+            if (authentication != null && MOCK_ERROR.accessToken.equals(authentication.accessToken)
+                    && MOCK_ERROR.providerName.equals(authentication.providerName)) {
 
                 return loginError();
             }
@@ -57,9 +58,8 @@ public class AuthModel {
             final ApiResponse<User> apiResponse = new ApiResponse.Builder<User>()
                     .withData(new User("286827", "Goku", "Vegeta",
                             new Image("http://ndl.mgccw.com/mu3/app/20140717/21/1405612487854/ss/4_small.png"),
-                            new Authentication.Builder().withEmail("saiyan@gmail.com")
-                                    .withPassword("1234").withAccessToken("a12y3871t2").build(),
-                            new Country("Argentina")))
+                            "saiyan@gmail.com", new Authentication.Builder().withProviderName("Test")
+                            .withAccessToken("a12y3871t2").build(), new Country("Argentina")))
                     .withStatus(STATUS_OK).build();
 
             return Observable.just(apiResponse);

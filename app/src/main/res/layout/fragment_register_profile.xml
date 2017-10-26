@@ -36,15 +36,6 @@
             android:hint="@string/hint_username"
             android:padding="@dimen/_1m" />
 
-        <Spinner
-            android:id="@+id/sex"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_1m"
-            android:background="@drawable/box_radio_white"
-            android:entries="@array/values_sex"
-            android:padding="@dimen/_1m" />
-
     </android.support.v7.widget.LinearLayoutCompat>
 
 </ScrollView>

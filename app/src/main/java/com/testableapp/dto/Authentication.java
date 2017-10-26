@@ -3,29 +3,29 @@ package com.testableapp.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class Authentication implements Parcelable {
 
-    private final String email;
-    private final String password;
-    private final String accessToken;
+    public static final String PROVIDER_FACEBOOK = "Facebook";
+    public final String accessToken;
+    public final String providerName;
 
-    public Authentication(@NonNull final String email, @NonNull final String password) {
-        this.email = email;
-        this.password = password;
-        this.accessToken = null;
-    }
+    @StringDef(PROVIDER_FACEBOOK)
+    @Retention(RetentionPolicy.SOURCE)
+    @interface Provider {}
 
     private Authentication(final Builder builder) {
         this.accessToken = builder.accessToken;
-        this.email = builder.email;
-        this.password = builder.password;
+        this.providerName = builder.providerName;
     }
 
     protected Authentication(final Parcel in) {
-        email = in.readString();
-        password = in.readString();
-        accessToken = in.readString();
+        this.accessToken = in.readString();
+        this.providerName = in.readString();
     }
 
     public static final Creator<Authentication> CREATOR = new Creator<Authentication>() {
@@ -40,51 +40,32 @@ public class Authentication implements Parcelable {
         }
     };
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(email);
-        dest.writeString(password);
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(accessToken);
+        dest.writeString(providerName);
     }
 
     public static final class Builder {
-        private String email;
-        private String password;
         private String accessToken;
+        private String providerName;
 
         public Builder() {
 
         }
 
-        public Builder withEmail(@NonNull final String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder withPassword(@NonNull final String password) {
-            this.password = password;
-            return this;
-        }
-
         public Builder withAccessToken(@NonNull final String accessToken) {
             this.accessToken = accessToken;
+            return this;
+        }
+
+        public Builder withProviderName(@NonNull @Provider final String providerName) {
+            this.providerName = providerName;
             return this;
         }
 

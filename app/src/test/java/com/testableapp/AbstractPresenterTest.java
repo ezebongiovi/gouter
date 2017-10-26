@@ -1,6 +1,7 @@
 package com.testableapp;
 
 import com.testableapp.activities.LoginActivity;
+import com.testableapp.dto.Authentication;
 import com.testableapp.presenters.LoginPresenter;
 
 import org.junit.After;
@@ -30,7 +31,8 @@ public class AbstractPresenterTest {
 
         assertEquals(0, loginPresenter.getCompositeDisposable().size());
 
-        loginPresenter.login("admin", "1234");
+        loginPresenter.login(new Authentication.Builder().withAccessToken("testing")
+                .withProviderName("facebook").build());
 
         assertEquals(1, loginPresenter.getCompositeDisposable().size());
     }
