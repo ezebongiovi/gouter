@@ -46,8 +46,8 @@ public class ContactsAdapter extends PaginationAdapter<User> {
     @Override
     protected void onBind(final GenericViewHolder holder, final User user) {
 
-        if (user.profilePicture != null && !user.profilePicture.isEmpty()) {
-            Picasso.with(holder.itemView.getContext()).load(user.profilePicture)
+        if (user.profilePicture != null && !user.profilePicture.url.isEmpty()) {
+            Picasso.with(holder.itemView.getContext()).load(user.profilePicture.url)
                     .placeholder(R.mipmap.ic_launcher)
                     .transform(new CircleTransform())
                     .into((ImageView) holder.itemView.findViewById(R.id.contactAvatar));

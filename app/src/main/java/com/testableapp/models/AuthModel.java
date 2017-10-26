@@ -7,6 +7,7 @@ import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.Country;
+import com.testableapp.dto.Image;
 import com.testableapp.dto.RegistrationRequest;
 import com.testableapp.dto.User;
 import com.testableapp.services.AuthService;
@@ -55,7 +56,7 @@ public class AuthModel {
 
             final ApiResponse<User> apiResponse = new ApiResponse.Builder<User>()
                     .withData(new User("286827", "Goku", "Vegeta",
-                            "http://ndl.mgccw.com/mu3/app/20140717/21/1405612487854/ss/4_small.png",
+                            new Image("http://ndl.mgccw.com/mu3/app/20140717/21/1405612487854/ss/4_small.png"),
                             new Authentication.Builder().withEmail("saiyan@gmail.com")
                                     .withPassword("1234").withAccessToken("a12y3871t2").build(),
                             new Country("Argentina")))

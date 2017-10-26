@@ -12,11 +12,11 @@ public class User extends BaseObservable implements Parcelable {
     public final String firstName;
     public final String lastName;
     public final Authentication authentication;
-    public final String profilePicture;
+    public final Image profilePicture;
     public final Country country;
 
     public User(final String id, @NonNull final String firstName, @NonNull final String lastName,
-                @Nullable final String profilePicture,
+                @Nullable final Image profilePicture,
                 @NonNull final Authentication authentication, @NonNull final Country country) {
         this._id = id;
         this.firstName = firstName;
@@ -31,7 +31,7 @@ public class User extends BaseObservable implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         authentication = in.readParcelable(Authentication.class.getClassLoader());
-        profilePicture = in.readString();
+        profilePicture = in.readParcelable(Image.class.getClassLoader());
         country = in.readParcelable(Country.class.getClassLoader());
     }
 
@@ -58,7 +58,7 @@ public class User extends BaseObservable implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeParcelable(authentication, flags);
-        dest.writeString(profilePicture);
+        dest.writeParcelable(profilePicture, flags);
         dest.writeParcelable(country, flags);
     }
 }

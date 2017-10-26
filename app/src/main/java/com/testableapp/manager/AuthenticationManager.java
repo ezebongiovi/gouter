@@ -43,10 +43,6 @@ public class AuthenticationManager {
         DBHelper.getInstance(context).onLogOut();
     }
 
-    public Country getCountry() {
-        return mUser.country;
-    }
-
     public void updateAuthentication(@NonNull final Context context,
                                      @NonNull final Authentication authentication) {
         DBHelper.getInstance(context).onLogin(new User(mUser._id, mUser.firstName, mUser.lastName,
@@ -55,7 +51,7 @@ public class AuthenticationManager {
         mUser = getUser(context);
     }
 
-    public boolean isLoggedIn() {
+    public boolean isAuthenticated() {
         return mUser != null;
     }
 }

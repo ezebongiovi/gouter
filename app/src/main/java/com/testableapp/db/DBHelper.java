@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.Country;
+import com.testableapp.dto.Image;
 import com.testableapp.dto.User;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -69,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(DBContract.Entry.COLUMN_NAME_EMAIL, user.authentication.getEmail());
         values.put(DBContract.Entry.COLUMN_NAME_NAME, user.firstName);
         values.put(DBContract.Entry.COLUMN_NAME_LAST_NAME, user.lastName);
-        values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.profilePicture);
+        values.put(DBContract.Entry.COLUMN_NAME_PROFILE_PICTURE, user.profilePicture.url);
         values.put(DBContract.Entry.COLUMN_NAME_TOKEN, user.authentication.getAccessToken());
         values.put(DBContract.Entry.COLUMN_COUNTRY_NAME, "Argentina");
 
@@ -82,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (c.getCount() > 0) {
             return new User(c.getString(0), c.getString(1),
-                    c.getString(2), c.getString(3),
+                    c.getString(2), new Image(c.getString(3)),
                     new Authentication.Builder().withEmail(c.getString(5))
                             .withAccessToken(c.getString(4)).build(), new Country(c.getString(6)));
         }
