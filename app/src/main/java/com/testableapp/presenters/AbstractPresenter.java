@@ -28,6 +28,8 @@ public class AbstractPresenter<V extends AbstractView> {
     protected void handleErrorEvent(@NonNull final ApiResponse apiResponse) {
         if (apiResponse.kind.equals(ApiResponse.Kind.NETWORK)) {
             getView().onNetworkError();
+        } else {
+            getView().onGenericError();
         }
     }
 

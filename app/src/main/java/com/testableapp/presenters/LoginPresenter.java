@@ -16,6 +16,8 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPresenter extends AbstractPresenter<LoginView> {
 
     public void login(@NonNull final Authentication authentication) {
+        getView().showProgressLayout();
+
         addDisposable(AuthModel.getInstance().login(authentication)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -25,12 +27,14 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
                         if (ApiResponse.STATUS_OK.equalsIgnoreCase(response.status)) {
                             getView().onLogin(response.data);
                         } else {
+                            getView().showRegularLayout();
                             getView().onError(response.message);
                         }
                     }
                 }, new ErrorConsumer() {
                     @Override
                     public void onError(@NonNull final ApiResponse apiResponse) {
+                        getView().showRegularLayout();
                         handleErrorEvent(apiResponse);
                     }
                 }));

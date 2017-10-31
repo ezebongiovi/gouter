@@ -126,7 +126,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
 
     @Override
     public void onGenericError() {
-        // TODO: Handle
+        onError(getString(R.string.error_generic));
     }
 
     public abstract int getLayoutResourceId();
