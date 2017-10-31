@@ -6,8 +6,9 @@ import android.support.annotation.NonNull;
 import com.testableapp.MainApplication;
 import com.testableapp.db.DBHelper;
 import com.testableapp.dto.Authentication;
-import com.testableapp.dto.Country;
 import com.testableapp.dto.User;
+import com.testableapp.providers.AbstractProvider;
+import com.testableapp.utils.ProviderUtils;
 
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ public class AuthenticationManager {
 
     private static final AuthenticationManager INSTANCE = new AuthenticationManager();
     private User mUser;
+    private AbstractProvider mProvider;
 
     public static AuthenticationManager getInstance() {
         return INSTANCE;
@@ -22,6 +24,8 @@ public class AuthenticationManager {
 
     public void onLogin(@NonNull final Context context, @NonNull final User user) {
         mUser = user;
+        mProvider = ProviderUtils.getProvider(user.authentication.providerName);
+
         DBHelper.getInstance(context).onLogin(user);
     }
 
@@ -35,23 +39,26 @@ public class AuthenticationManager {
 
     public void logOut(@NonNull final Context context) {
         mUser = null;
+
         try {
             MainApplication.getClient(context).cache().delete();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
+
+        mProvider.logout();
         DBHelper.getInstance(context).onLogOut();
     }
 
     public void updateAuthentication(@NonNull final Context context,
                                      @NonNull final Authentication authentication) {
         DBHelper.getInstance(context).onLogin(new User(mUser._id, mUser.firstName, mUser.lastName,
-                mUser.profilePicture, authentication, mUser.country));
+                mUser.profilePicture, mUser.email, authentication, mUser.country));
 
         mUser = getUser(context);
     }
 
     public boolean isAuthenticated() {
-        return mUser != null;
+        return mUser != null || mProvider.isLoggedIn();
     }
 }

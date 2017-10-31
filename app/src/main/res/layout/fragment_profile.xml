@@ -1,55 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="user"
-            type="com.testableapp.dto.User" />
-    </data>
-
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <Button
+        android:id="@+id/buttonLogout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        android:text="@string/action_logout"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@{@string/name(user.firstName, user.lastName)}"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            tools:text="Roberto Carlos" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@{user.authentication.email}"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            tools:text="robertinho" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@{user.authentication.password}"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            tools:text="Sarasa" />
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:text="@string/action_logout"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-</layout>
+</FrameLayout>

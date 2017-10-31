@@ -35,7 +35,8 @@ public class AuthInterceptor implements Interceptor {
 
         if (apiResponse != null && apiResponse.authentication != null) {
             // Updates user authentication
-            AuthenticationManager.getInstance().updateAuthentication(mContext, apiResponse.authentication);
+            AuthenticationManager.getInstance().updateAuthentication(mContext,
+                    apiResponse.authentication);
         }
 
         return response.newBuilder().body(ResponseBody
