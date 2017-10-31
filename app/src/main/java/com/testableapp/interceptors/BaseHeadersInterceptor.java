@@ -29,7 +29,7 @@ public class BaseHeadersInterceptor implements Interceptor {
         final Headers.Builder headers = new Headers.Builder();
 
         if (AuthenticationManager.getInstance().getUser(mContext) != null) {
-            headers.add("Authorization Bearer ", AuthenticationManager.getInstance()
+            headers.add("Authorization", "Bearer " + AuthenticationManager.getInstance()
                     .getUser(mContext).authentication.accessToken);
         }
 

@@ -32,7 +32,7 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final LoginPresenter presenter) {
 
-        if (AuthenticationManager.getInstance().isAuthenticated()) {
+        if (AuthenticationManager.getInstance().isAuthenticated(LoginActivity.this)) {
             startActivity(new Intent(this, NavigationActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
                             | Intent.FLAG_ACTIVITY_NEW_TASK));

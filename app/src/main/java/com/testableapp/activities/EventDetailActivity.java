@@ -104,11 +104,8 @@ public class EventDetailActivity extends AbstractActivity {
             }
         });
 
-        // TODO: REMOVE THIS
-        final String text = getString(R.string.lorem_ipsum_large) + getString(R.string.lorem_ipsum_large);
-
-        ((TextView) findViewById(R.id.eventAddress)).setText(event.address.formattedAddress);
-        ((TextView) findViewById(R.id.eventDescription)).setText(text);
+        ((TextView) findViewById(R.id.eventDate)).setText(event.date.toString());
+        ((TextView) findViewById(R.id.eventDescription)).setText(event.description);
 
         final View editButton = findViewById(R.id.editButton);
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this,
@@ -134,9 +131,7 @@ public class EventDetailActivity extends AbstractActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    editEvent();
-                }
+                editEvent();
             }
         });
     }
@@ -182,9 +177,15 @@ public class EventDetailActivity extends AbstractActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (mEditMode) {
-                circularHide();
+                toggleEditMode();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    circularHide();
+                } else {
+                    unReveal();
+                }
             } else {
-                supportFinishAfterTransition();
+                finishAfterTransition();
             }
 
             return true;
@@ -202,8 +203,63 @@ public class EventDetailActivity extends AbstractActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             circularReveal();
         } else {
-
+            reveal();
         }
+    }
+
+    private void unReveal() {
+        final View fab = findViewById(R.id.editButton);
+        fab.setVisibility(View.VISIBLE);
+        fab.startAnimation(AnimationUtils.loadAnimation(EventDetailActivity.this,
+                R.anim.scale_fab_in));
+        findViewById(R.id.editContainer).setVisibility(View.GONE);
+    }
+
+    private void toggleEditMode() {
+        if (mEditMode) {
+            // Show back arrow on Toolbar
+            final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                    .create(EventDetailActivity.this, R.drawable.from_close_to_back_arrow);
+
+            getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
+
+            drawableCompat.start();
+        } else {
+            final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                    .create(EventDetailActivity.this, R.drawable.from_arrow_to_close);
+
+            getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
+
+            drawableCompat.start();
+        }
+
+        mEditMode = !mEditMode;
+    }
+
+    private void reveal() {
+        final View fab = findViewById(R.id.editButton);
+        final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this,
+                R.anim.scale_out);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(final Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(final Animation animation) {
+                fab.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(final Animation animation) {
+
+            }
+        });
+        fab.startAnimation(anim);
+        findViewById(R.id.editContainer).setVisibility(View.VISIBLE);
+        showOptions();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -273,12 +329,9 @@ public class EventDetailActivity extends AbstractActivity {
         final View fabButton = findViewById(R.id.editButton);
         final AnimatorSet set = new AnimatorSet();
         final ObjectAnimator animatorX = ObjectAnimator.ofFloat(fabButton, "translationX", 0);
-        animatorX.setDuration(250);
-        animatorX.setInterpolator(new AccelerateDecelerateInterpolator());
         final ObjectAnimator animatorY = ObjectAnimator.ofFloat(fabButton, "translationY",0);
-        animatorY.setDuration(250);
-        animatorY.setInterpolator(new AccelerateInterpolator(1));
         set.playTogether(animatorX, animatorY);
+        set.start();
 
         final Animator anim =
                 ViewAnimationUtils.createCircularReveal(editContainer, cx, cy, initialRadius, 0);
@@ -294,20 +347,11 @@ public class EventDetailActivity extends AbstractActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
                 editContainer.setVisibility(View.INVISIBLE);
                 fabButton.setVisibility(View.VISIBLE);
-
-                // Starts fab translation
-                set.start();
-                mEditMode = false;
-
-                // Show back arrow on Toolbar
-                final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
-                        .create(EventDetailActivity.this, R.drawable.from_close_to_back_arrow);
-
-                getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
-
-                drawableCompat.start();
+                fabButton.startAnimation(AnimationUtils
+                        .loadAnimation(EventDetailActivity.this, R.anim.scale_fab_in));
             }
         });
 
@@ -327,13 +371,6 @@ public class EventDetailActivity extends AbstractActivity {
         anim.setInterpolator(new DecelerateInterpolator(2));
         findViewById(R.id.editGuestsButton).startAnimation(anim);
 
-        final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
-                .create(EventDetailActivity.this, R.drawable.from_arrow_to_close);
-
-        getSupportActionBar().setHomeAsUpIndicator(drawableCompat);
-
-        drawableCompat.start();
-
-        mEditMode = true;
+        toggleEditMode();
     }
 }

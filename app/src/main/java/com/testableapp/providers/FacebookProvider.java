@@ -14,9 +14,4 @@ public class FacebookProvider extends AbstractProvider {
     public boolean isLoggedIn() {
         return AccessToken.getCurrentAccessToken() != null;
     }
-
-    @Override
-    public String getToken() {
-        return isLoggedIn() ? null : AccessToken.getCurrentAccessToken().getToken();
-    }
 }

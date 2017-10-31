@@ -2,9 +2,10 @@ package com.testableapp.manager;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.testableapp.MainApplication;
-import com.testableapp.db.DBHelper;
+import com.testableapp.db.SessionUtils;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.providers.AbstractProvider;
@@ -26,7 +27,7 @@ public class AuthenticationManager {
         mUser = user;
         mProvider = ProviderUtils.getProvider(user.authentication.providerName);
 
-        DBHelper.getInstance(context).onLogin(user);
+        SessionUtils.onLogin(context, user);
     }
 
     public User getUser(@NonNull final Context context) {
@@ -34,7 +35,18 @@ public class AuthenticationManager {
             return mUser;
         }
 
-        return DBHelper.getInstance(context).getLoggedUser();
+        return SessionUtils.getLoggedUser(context);
+    }
+
+    @Nullable
+    private AbstractProvider getProvider(@NonNull final Context context) {
+        final User user = mUser == null ? getUser(context) : mUser;
+
+        if (user != null) {
+            return ProviderUtils.getProvider(user.authentication.providerName);
+        }
+
+        return null;
     }
 
     public void logOut(@NonNull final Context context) {
@@ -46,19 +58,19 @@ public class AuthenticationManager {
             e.printStackTrace();
         }
 
-        mProvider.logout();
-        DBHelper.getInstance(context).onLogOut();
+        getProvider(context).logout();
+        SessionUtils.onLogOut(context);
     }
 
     public void updateAuthentication(@NonNull final Context context,
                                      @NonNull final Authentication authentication) {
-        DBHelper.getInstance(context).onLogin(new User(mUser._id, mUser.firstName, mUser.lastName,
+        SessionUtils.onLogin(context, new User(mUser._id, mUser.firstName, mUser.lastName,
                 mUser.profilePicture, mUser.email, authentication, mUser.country));
 
         mUser = getUser(context);
     }
 
-    public boolean isAuthenticated() {
-        return mUser != null || mProvider.isLoggedIn();
+    public boolean isAuthenticated(@NonNull final Context context) {
+        return getUser(context) != null || (mProvider != null && mProvider.isLoggedIn());
     }
 }

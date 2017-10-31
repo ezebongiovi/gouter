@@ -28,4 +28,10 @@
         <item name="android:textColor">@color/colorTextSecondary</item>
         <item name="android:textSize">@dimen/font_size_m</item>
     </style>
+
+    <style name="AppTheme.Separator" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/separator</item>
+        <item name="android:background">@color/backgroundGrey_50</item>
+    </style>
 </resources>

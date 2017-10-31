@@ -51,20 +51,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/eventAddress"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_2m"
-                tools:text="Sarasa" />
+                android:layout_height="match_parent"
+                android:padding="@dimen/_2m">
 
-            <TextView
-                android:id="@+id/eventDescription"
+                <ImageView
+                    android:layout_width="@dimen/_3m"
+                    android:layout_height="@dimen/_3m"
+                    android:src="@drawable/vector_calendar_clock" />
+
+                <TextView
+                    android:id="@+id/eventDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5m"
+                    tools:text="Sarasa" />
+            </FrameLayout>
+
+            <View
+                style="@style/AppTheme.Separator"
+                android:layout_marginStart="@dimen/_7m" />
+
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_2m"
-                tools:text="Event Description" />
+                android:layout_height="match_parent"
+                android:padding="@dimen/_2m">
 
+                <ImageView
+                    android:layout_width="@dimen/_3m"
+                    android:layout_height="@dimen/_3m"
+                    android:src="@drawable/vector_calendar_text" />
+
+                <TextView
+                    android:id="@+id/eventDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5m"
+                    tools:text="Event Description" />
+            </FrameLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -81,47 +108,128 @@
             android:id="@+id/optionsContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
             android:orientation="vertical">
 
-            <TextView
+            <!-- Edit Date Row -->
+            <LinearLayout
                 android:id="@+id/editDateButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_0_5m"
                 android:background="@android:color/white"
                 android:elevation="@dimen/_1m"
-                android:gravity="center"
-                android:padding="@dimen/_2m"
-                android:text="@string/label_edit_date"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/font_size_xl" />
+                android:orientation="horizontal"
+                android:padding="@dimen/_1m">
 
-            <TextView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:text="@string/label_edit_date"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/font_size_xl" />
+
+                    <View
+                        style="@style/AppTheme.Separator"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:layout_marginTop="@dimen/_1m" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Edit Date Row -->
+            <LinearLayout
                 android:id="@+id/editAddressButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_0_5m"
                 android:background="@android:color/white"
                 android:elevation="@dimen/_1m"
-                android:gravity="center"
-                android:padding="@dimen/_2m"
-                android:text="@string/label_edit_address"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/font_size_xl" />
+                android:orientation="horizontal"
+                android:padding="@dimen/_1m">
 
-            <TextView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:text="@string/label_edit_date"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/font_size_xl" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separator"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:layout_marginTop="@dimen/_1m"
+                        android:background="@color/backgroundGrey_50" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Edit Contacts Row -->
+            <LinearLayout
                 android:id="@+id/editGuestsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_0_5m"
                 android:background="@android:color/white"
                 android:elevation="@dimen/_1m"
-                android:gravity="center"
-                android:padding="@dimen/_2m"
-                android:text="@string/label_edit_guests"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/font_size_xl" />
+                android:orientation="horizontal"
+                android:padding="@dimen/_1m">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:text="@string/label_edit_date"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/font_size_xl" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separator"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/_2m"
+                        android:layout_marginTop="@dimen/_1m"
+                        android:background="@color/backgroundGrey_50" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -132,7 +240,7 @@
         android:layout_marginEnd="@dimen/_2m"
         android:clickable="true"
         android:focusable="true"
-        android:src="@mipmap/ic_calendar_blank"
+        android:src="@drawable/vector_pencil"
         android:tint="@android:color/white"
         android:visibility="invisible"
         app:fabSize="normal"

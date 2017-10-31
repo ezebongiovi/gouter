@@ -24,4 +24,5 @@
     <dimen name="coverSize">200dp</dimen>
     <dimen name="coverSizeExpanded">250dp</dimen>
     <dimen name="_15m">120dp</dimen>
+    <dimen name="_7m">56dp</dimen>
 </resources>

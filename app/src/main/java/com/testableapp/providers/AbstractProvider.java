@@ -16,6 +16,4 @@ public abstract class AbstractProvider {
     public abstract void logout();
 
     public abstract boolean isLoggedIn();
-
-    public abstract String getToken();
 }
