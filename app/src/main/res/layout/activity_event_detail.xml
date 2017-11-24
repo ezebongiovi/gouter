@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:fitsSystemWindows="true">
+    android:background="@android:color/transparent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -24,6 +24,7 @@
                 android:id="@+id/coverView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/coverSizeExpanded"
+                android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
@@ -31,215 +32,167 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
         </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:tabContentStart="@dimen/_10m"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="@dimen/_0_5m"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:clipToPadding="false"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_2m">
-
-                <ImageView
-                    android:layout_width="@dimen/_3m"
-                    android:layout_height="@dimen/_3m"
-                    android:src="@drawable/vector_calendar_clock" />
-
-                <TextView
-                    android:id="@+id/eventDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_5m"
-                    tools:text="Sarasa" />
-            </FrameLayout>
-
-            <View
-                style="@style/AppTheme.Separator"
-                android:layout_marginStart="@dimen/_7m" />
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_2m">
-
-                <ImageView
-                    android:layout_width="@dimen/_3m"
-                    android:layout_height="@dimen/_3m"
-                    android:src="@drawable/vector_calendar_text" />
-
-                <TextView
-                    android:id="@+id/eventDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5m"
-                    tools:text="Event Description" />
-            </FrameLayout>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/_2m"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/editContainer"
+    <LinearLayout
+        android:id="@+id/optionsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"
-        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="@dimen/_1m"
+        android:paddingTop="@dimen/_2m"
         android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/optionsContainer"
+        <!-- Edition: Description -->
+        <FrameLayout
+            android:id="@+id/editDescriptionButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_1m"
+            android:background="@drawable/box_shadowed">
 
-            <!-- Edit Date Row -->
-            <LinearLayout
-                android:id="@+id/editDateButton"
+            <ImageView
+                android:layout_width="@dimen/_5m"
+                android:layout_height="@dimen/_5m"
+                android:layout_gravity="center_vertical|start"
+                android:layout_margin="@dimen/_2m"
+                android:src="@mipmap/ic_register_circle_settings" />
+
+            <TextView
+                style="@style/AppTheme.ListTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="@dimen/_1m">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10m"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_2m"
+                android:text="@string/button_edit_description" />
+        </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/ic_launcher" />
+        <!-- Edition: Address -->
+        <FrameLayout
+            android:id="@+id/editAddressButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_1m"
+            android:background="@drawable/box_shadowed">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_5m"
+                android:layout_height="@dimen/_5m"
+                android:layout_gravity="center_vertical|start"
+                android:layout_margin="@dimen/_2m"
+                android:src="@mipmap/ic_register_circle_settings" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:text="@string/label_edit_date"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/font_size_xl" />
-
-                    <View
-                        style="@style/AppTheme.Separator"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:layout_marginTop="@dimen/_1m" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Edit Date Row -->
-            <LinearLayout
-                android:id="@+id/editAddressButton"
+            <TextView
+                style="@style/AppTheme.ListTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="@dimen/_1m">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10m"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_2m"
+                android:text="@string/button_edit_address" />
+        </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/ic_launcher" />
+        <!-- Edition: Date -->
+        <FrameLayout
+            android:id="@+id/editDateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_1m"
+            android:background="@drawable/box_shadowed">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_5m"
+                android:layout_height="@dimen/_5m"
+                android:layout_gravity="center_vertical|start"
+                android:layout_margin="@dimen/_2m"
+                android:src="@mipmap/ic_register_circle_settings" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:text="@string/label_edit_date"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/font_size_xl" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separator"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:layout_marginTop="@dimen/_1m"
-                        android:background="@color/backgroundGrey_50" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Edit Contacts Row -->
-            <LinearLayout
-                android:id="@+id/editGuestsButton"
+            <TextView
+                style="@style/AppTheme.ListTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="@dimen/_1m">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10m"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_2m"
+                android:text="@string/button_edit_date" />
+        </FrameLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/ic_launcher" />
+        <!-- Edition: Description -->
+        <FrameLayout
+            android:id="@+id/editGuestsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_1m"
+            android:background="@drawable/box_shadowed">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_5m"
+                android:layout_height="@dimen/_5m"
+                android:layout_gravity="center_vertical|start"
+                android:layout_margin="@dimen/_2m"
+                android:src="@mipmap/ic_register_circle_settings" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:text="@string/label_edit_date"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/font_size_xl" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separator"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/_2m"
-                        android:layout_marginTop="@dimen/_1m"
-                        android:background="@color/backgroundGrey_50" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+            <TextView
+                style="@style/AppTheme.ListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10m"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_2m"
+                android:text="@string/button_edit_guests" />
+        </FrameLayout>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_2m"
+        android:layout_marginStart="@dimen/_2m"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vector_pencil"
         android:tint="@android:color/white"
         android:visibility="invisible"
-        app:fabSize="normal"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|end" />
+        app:fabSize="mini"
+        app:layout_anchor="@id/tabLayout"
+        app:layout_anchorGravity="bottom|start" />
 </android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_3m">
+
+        <ImageView
+            android:layout_width="@dimen/_3m"
+            android:layout_height="@dimen/_3m"
+            android:src="@drawable/vector_calendar_clock" />
+
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_5m"
+            tools:text="Sarasa" />
+    </FrameLayout>
+
+    <View
+        style="@style/AppTheme.Separator"
+        android:layout_marginStart="@dimen/_3m"
+        android:layout_marginEnd="@dimen/_3m"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_3m">
+
+        <ImageView
+            android:layout_width="@dimen/_3m"
+            android:layout_height="@dimen/_3m"
+            android:src="@drawable/vector_calendar_text" />
+
+        <TextView
+            android:id="@+id/eventDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5m"
+            tools:text="Event Description" />
+    </FrameLayout>
+</LinearLayout>

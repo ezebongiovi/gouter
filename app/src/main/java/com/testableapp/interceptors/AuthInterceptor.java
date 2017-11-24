@@ -3,9 +3,8 @@ package com.testableapp.interceptors;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.testableapp.dto.ApiResponse;
+import com.testableapp.dto.Authentication;
 import com.testableapp.manager.AuthenticationManager;
-import com.testableapp.utils.JsonUtils;
 
 import java.io.IOException;
 
@@ -30,16 +29,20 @@ public class AuthInterceptor implements Interceptor {
     public Response intercept(final Chain chain) throws IOException {
         final Response response = chain.proceed(chain.request());
 
-        final String JSON = response.body().string();
-        final ApiResponse apiResponse = JsonUtils.getInstance().fromJson(JSON, ApiResponse.class);
+        final String accessToken = response.header("x-token");
 
-        if (apiResponse != null && apiResponse.authentication != null) {
-            // Updates user authentication
-            AuthenticationManager.getInstance().updateAuthentication(mContext,
-                    apiResponse.authentication);
+        if (accessToken != null) {
+            final Authentication auth = new Authentication.Builder().withAccessToken(accessToken)
+                    .withProviderName(AuthenticationManager.getInstance().getUser(mContext)
+                            .authentication.providerName).build();
+
+            AuthenticationManager.getInstance().updateAuthentication(mContext, auth);
         }
 
-        return response.newBuilder().body(ResponseBody
-                .create(response.body().contentType(), JSON)).build();
+        final ResponseBody body = response.body();
+
+        return response.newBuilder()
+                .body(ResponseBody.create(body.contentType(), body.contentLength(),
+                        body.source())).build();
     }
 }

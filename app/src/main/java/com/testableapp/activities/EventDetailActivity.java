@@ -7,21 +7,15 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.graphics.Palette;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -29,20 +23,25 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.testableapp.R;
+import com.testableapp.adapters.FragmentPagerAdapter;
 import com.testableapp.dto.GEvent;
+import com.testableapp.fragments.EventDetailFragment;
+import com.testableapp.fragments.EventDetailGuestsFragment;
 import com.testableapp.presenters.EmptyPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventDetailActivity extends AbstractActivity {
 
     private static final String EXTRA_EVENT = "extra-event";
     private boolean mEditMode;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
     public EventDetailActivity() {
         super(FLAG_ROOT_VIEW | FLAG_BACK_ARROW);
@@ -78,34 +77,16 @@ public class EventDetailActivity extends AbstractActivity {
             throw new AssertionError("EventDetailActivity should be created using it's factory method");
         }
 
+        mTabLayout = findViewById(R.id.tabLayout);
+
+        initTabs(event);
+
+        initOptions();
+
         final ImageView imageView = findViewById(R.id.coverView);
-        final ActionBar actionBar = getSupportActionBar();
+        Picasso.with(this).load(event.cover.url).into(imageView);
 
-        Picasso.with(this).load(event.cover.url).into(new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, final Picasso.LoadedFrom from) {
-                imageView.setImageBitmap(bitmap);
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(final Palette palette) {
-                        setUpUI(actionBar, palette, event);
-                    }
-                });
-            }
-
-            @Override
-            public void onBitmapFailed(final Drawable errorDrawable) {
-                // Nothing to do
-            }
-
-            @Override
-            public void onPrepareLoad(final Drawable placeHolderDrawable) {
-
-            }
-        });
-
-        ((TextView) findViewById(R.id.eventDate)).setText(event.date.toString());
-        ((TextView) findViewById(R.id.eventDescription)).setText(event.description);
+        setUpUI();
 
         final View editButton = findViewById(R.id.editButton);
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this,
@@ -128,44 +109,64 @@ public class EventDetailActivity extends AbstractActivity {
         });
 
         editButton.startAnimation(anim);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                editEvent();
-            }
-        });
+        editButton.setOnClickListener(v -> editEvent());
     }
 
-    private void setUpUI(final ActionBar actionBar, final Palette palette, final GEvent event) {
-        final CollapsingToolbarLayout cpt = findViewById(R.id.collapsingToolbar);
-
-        final ColorDrawable predomColor = new ColorDrawable(palette
-                .getVibrantColor(getResources().getColor(R.color.colorPrimary)));
-
-        final Spannable spannable = new SpannableString(event.author.firstName);
-        spannable.setSpan(new ForegroundColorSpan(palette
-                        .getLightVibrantColor(getResources().getColor(android.R.color.white))),
-                0, event.author.firstName.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-
+    private void initOptions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(palette.getVibrantColor(getResources()
-                    .getColor(R.color.colorPrimary)));
+            findViewById(R.id.editDateButton).setOnClickListener(v -> editDate());
         }
+    }
 
+    private void editDate() {
+        final AlertDialog dialog = new AlertDialog.Builder(EventDetailActivity.this)
+                .setView(R.layout.dialog_edit_date)
+                .create();
+    }
+
+    @Override
+    public void onBackPressed() {
+        handleBack();
+    }
+
+    private void handleBack() {
+        if (mEditMode) {
+            toggleEditMode();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                circularHide();
+            } else {
+                unReveal();
+            }
+        } else {
+            finishAfterTransition();
+        }
+    }
+
+    private void initTabs(@NonNull final GEvent event) {
+        // Setup fragments
+        final List<FragmentPagerAdapter.PageView> views = new ArrayList<>();
+        views.add(EventDetailFragment.getInstance(event));
+        views.add(EventDetailGuestsFragment.getInstance(event));
+
+        mViewPager = findViewById(R.id.viewPager);
+        mViewPager.setAdapter(new com.testableapp.adapters.FragmentPagerAdapter(EventDetailActivity.this,
+                getSupportFragmentManager(), views));
+
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void setUpUI() {
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.slide_up_in);
         anim.setInterpolator(new AccelerateDecelerateInterpolator(EventDetailActivity.this, null));
-        findViewById(R.id.nestedScrollView).startAnimation(anim);
-
-        cpt.setContentScrim(predomColor);
-        actionBar.setBackgroundDrawable(predomColor);
-        actionBar.setTitle(spannable);
+        findViewById(R.id.viewPager).startAnimation(anim);
     }
 
     @Override
     public void finishAfterTransition() {
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.slide_up_out);
         anim.setInterpolator(new AccelerateDecelerateInterpolator(EventDetailActivity.this, null));
-        findViewById(R.id.nestedScrollView).startAnimation(anim);
+        findViewById(R.id.viewPager).startAnimation(anim);
 
         final Animation fabAnim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.scale_out);
         findViewById(R.id.editButton).startAnimation(fabAnim);
@@ -176,17 +177,7 @@ public class EventDetailActivity extends AbstractActivity {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (mEditMode) {
-                toggleEditMode();
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    circularHide();
-                } else {
-                    unReveal();
-                }
-            } else {
-                finishAfterTransition();
-            }
+            handleBack();
 
             return true;
         }
@@ -212,7 +203,7 @@ public class EventDetailActivity extends AbstractActivity {
         fab.setVisibility(View.VISIBLE);
         fab.startAnimation(AnimationUtils.loadAnimation(EventDetailActivity.this,
                 R.anim.scale_fab_in));
-        findViewById(R.id.editContainer).setVisibility(View.GONE);
+        findViewById(R.id.optionsList).setVisibility(View.GONE);
     }
 
     private void toggleEditMode() {
@@ -258,42 +249,41 @@ public class EventDetailActivity extends AbstractActivity {
             }
         });
         fab.startAnimation(anim);
-        findViewById(R.id.editContainer).setVisibility(View.VISIBLE);
-        showOptions();
+        toggleEditMode();
+        findViewById(R.id.optionsList).setVisibility(View.VISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void circularReveal() {
-        final View editContainer = findViewById(R.id.editContainer);
-        final View dataContainer = findViewById(R.id.nestedScrollView);
+        final View optionsList = findViewById(R.id.optionsList);
         final View coverView = findViewById(R.id.coverView);
 
-        final int cx = (editContainer.getLeft() + editContainer.getRight()) / 2;
-        final int cy = ((editContainer.getBottom() - editContainer.getTop()) / 2)
+        final int cx = (optionsList.getLeft() + optionsList.getRight()) / 2;
+        final int cy = ((optionsList.getBottom() - optionsList.getTop()) / 2)
                 - ((coverView.getBottom() - coverView.getTop()) / 2);
 
-        final int finalRadius = Math.max(editContainer.getWidth(), editContainer.getHeight());
+        final int finalRadius = Math.max(optionsList.getWidth(), optionsList.getHeight());
 
-        final Animator anim = ViewAnimationUtils.createCircularReveal(editContainer, cx, cy, 0, finalRadius);
+        final Animator anim = ViewAnimationUtils.createCircularReveal(optionsList, cx, cy, 0, finalRadius);
         anim.setDuration(250);
         anim.setInterpolator(new AccelerateInterpolator(1));
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {
-                editContainer.setVisibility(View.VISIBLE);
-                showOptions();
+                toggleEditMode();
+                optionsList.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(final Animator animation) {
-                dataContainer.setVisibility(View.GONE);
+                mViewPager.setVisibility(View.GONE);
             }
         });
 
         final View view = findViewById(R.id.editButton);
         final AnimatorSet set = new AnimatorSet();
         final ObjectAnimator animatorX = ObjectAnimator.ofFloat(view, "translationX",
-                -cx + view.getHeight() / 2);
+                cx + view.getHeight() / 2);
         animatorX.setDuration(250);
         animatorX.setInterpolator(new AccelerateInterpolator(1));
         final ObjectAnimator animatorY = ObjectAnimator.ofFloat(view, "translationY",
@@ -315,40 +305,39 @@ public class EventDetailActivity extends AbstractActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void circularHide() {
-        final View editContainer = findViewById(R.id.editContainer);
+        final View optionsList = findViewById(R.id.optionsList);
         final View coverView = findViewById(R.id.coverView);
-        final View contentContainer = findViewById(R.id.nestedScrollView);
 
-        final int cx = (editContainer.getLeft() + editContainer.getRight()) / 2;
-        final int cy = ((editContainer.getBottom() - editContainer.getTop()) / 2)
+        final int cx = (optionsList.getLeft() + optionsList.getRight()) / 2;
+        final int cy = ((optionsList.getBottom() - optionsList.getTop()) / 2)
                 - ((coverView.getBottom() - coverView.getTop()) / 2);
 
-        final int initialRadius = editContainer.getWidth();
+        final int initialRadius = optionsList.getWidth();
 
         // FAB TRANSLATION
         final View fabButton = findViewById(R.id.editButton);
         final AnimatorSet set = new AnimatorSet();
         final ObjectAnimator animatorX = ObjectAnimator.ofFloat(fabButton, "translationX", 0);
-        final ObjectAnimator animatorY = ObjectAnimator.ofFloat(fabButton, "translationY",0);
+        final ObjectAnimator animatorY = ObjectAnimator.ofFloat(fabButton, "translationY", 0);
         set.playTogether(animatorX, animatorY);
         set.start();
 
         final Animator anim =
-                ViewAnimationUtils.createCircularReveal(editContainer, cx, cy, initialRadius, 0);
+                ViewAnimationUtils.createCircularReveal(optionsList, cx, cy, initialRadius, 0);
         anim.setDuration(250);
 
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {
                 super.onAnimationStart(animation);
-                contentContainer.setVisibility(View.VISIBLE);
+                mViewPager.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                editContainer.setVisibility(View.INVISIBLE);
+                optionsList.setVisibility(View.INVISIBLE);
                 fabButton.setVisibility(View.VISIBLE);
                 fabButton.startAnimation(AnimationUtils
                         .loadAnimation(EventDetailActivity.this, R.anim.scale_fab_in));
@@ -356,21 +345,5 @@ public class EventDetailActivity extends AbstractActivity {
         });
 
         anim.start();
-    }
-
-    private void showOptions() {
-        final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this, R.anim.slide_fade_in);
-        anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        findViewById(R.id.optionsContainer).setVisibility(View.VISIBLE);
-
-        findViewById(R.id.editDateButton).startAnimation(anim);
-        anim.setStartOffset(250);
-        anim.setInterpolator(new DecelerateInterpolator(1));
-        findViewById(R.id.editAddressButton).startAnimation(anim);
-        anim.setStartOffset(375);
-        anim.setInterpolator(new DecelerateInterpolator(2));
-        findViewById(R.id.editGuestsButton).startAnimation(anim);
-
-        toggleEditMode();
     }
 }

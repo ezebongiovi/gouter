@@ -34,4 +34,9 @@
         <item name="android:layout_height">@dimen/separator</item>
         <item name="android:background">@color/backgroundGrey_50</item>
     </style>
+
+    <style name="AppTheme.ListTitle" parent="AppTheme">
+        <item name="android:textSize">@dimen/font_size_xl</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
 </resources>
