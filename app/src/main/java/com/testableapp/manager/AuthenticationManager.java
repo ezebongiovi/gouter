@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.testableapp.MainApplication;
-import com.testableapp.db.SessionUtils;
+import com.testableapp.utils.SessionUtils;
 import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.providers.AbstractProvider;

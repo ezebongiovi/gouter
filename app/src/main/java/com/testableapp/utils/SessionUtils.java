@@ -1,4 +1,4 @@
-package com.testableapp.db;
+package com.testableapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
