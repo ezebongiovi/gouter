@@ -6,7 +6,7 @@ android {
             keyAlias 'Release'
             keyPassword 'release'
             storePassword 'release'
-            storeFile file('/Users/epasquale/Projects/TestableApp/release.keystore')
+            storeFile file('../release.keystore')
         }
     }
     compileSdkVersion 26
@@ -32,6 +32,7 @@ android {
             signingConfig signingConfigs.Release
         }
         debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true
         }

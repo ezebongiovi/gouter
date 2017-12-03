@@ -45,7 +45,11 @@
 -keep class javax.annotation.* { *; }
 
 ###################–------SQUARE------########################
+-keepattributes Signature
+-keepattributes *Annotation*
 -keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
 
 ###################------ GSON ------##########################
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -59,6 +63,9 @@
 -keep class retrofit2.Response { *; }
 -keep class okhttp3.** { *; }
 -keep class okio.** { *; }
+
+-dontwarn retrofit2.**
+-dontwarn okio.**
 
 #### Google #####
 -keep class com.google.android.** { *; }
