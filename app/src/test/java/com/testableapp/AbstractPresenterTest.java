@@ -42,6 +42,7 @@ public class AbstractPresenterTest extends BaseJUnitTest {
 
     @After
     public void testDestroy() {
+        loginPresenter.detachView();
 
         assertEquals(0, loginPresenter.getCompositeDisposable().size());
     }
