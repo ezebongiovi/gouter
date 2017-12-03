@@ -37,21 +37,30 @@ android {
             debuggable true
         }
     }
+
+    lintOptions {
+        abortOnError = false
+    }
+
     dataBinding {
         enabled = true
     }
+
     testOptions {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     dexOptions {
     }
+
     productFlavors {
     }
 }
