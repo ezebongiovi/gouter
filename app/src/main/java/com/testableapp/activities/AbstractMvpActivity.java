@@ -23,7 +23,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
     protected static final int FLAG_HIDE_TOOLBAR = 8;
 
     private final int mFlags;
-    private P mPresenter;
+    protected P mPresenter;
 
     public AbstractMvpActivity() {
         mFlags = FLAG_NONE;

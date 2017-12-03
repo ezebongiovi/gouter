@@ -12,10 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,6 +24,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -31,17 +33,22 @@ import com.testableapp.adapters.FragmentPagerAdapter;
 import com.testableapp.dto.GEvent;
 import com.testableapp.fragments.EventDetailFragment;
 import com.testableapp.fragments.EventDetailGuestsFragment;
-import com.testableapp.presenters.EmptyPresenter;
+import com.testableapp.manager.AuthenticationManager;
+import com.testableapp.presenters.EventDetailPresenter;
+import com.testableapp.views.EventDetailView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends AbstractActivity {
+public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresenter>
+        implements EventDetailView {
 
     private static final String EXTRA_EVENT = "extra-event";
     private boolean mEditMode;
+    private FloatingActionButton mFloatingActionButton;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private GEvent mEvent;
 
     public EventDetailActivity() {
         super(FLAG_ROOT_VIEW | FLAG_BACK_ARROW);
@@ -68,33 +75,41 @@ public class EventDetailActivity extends AbstractActivity {
     }
 
     @Override
-    public void onCreateActivity(@Nullable final Bundle savedInstanceState,
-                                 @NonNull final EmptyPresenter presenter) {
-        final GEvent event = getIntent().getExtras().getParcelable(EXTRA_EVENT);
+    public void onCreateActivity(@Nullable final Bundle savedInstanceState, @NonNull final EventDetailPresenter presenter) {
 
-        if (getIntent().getExtras() == null || event == null
+        mEvent = getIntent().getExtras().getParcelable(EXTRA_EVENT);
+
+        if (getIntent().getExtras() == null || mEvent == null
                 || !getIntent().getExtras().containsKey(EXTRA_EVENT)) {
             throw new AssertionError("EventDetailActivity should be created using it's factory method");
         }
 
         mTabLayout = findViewById(R.id.tabLayout);
 
-        initTabs(event);
+        initTabs();
 
-        initOptions();
+        final FloatingActionButton editButton = findViewById(R.id.editButton);
+
+        // Decides whether to show the assist button or the edit button
+        if (isAuthor()) {
+            mFloatingActionButton = editButton;
+        } else {
+            mFloatingActionButton = findViewById(R.id.assistButton);
+        }
+
+        mFloatingActionButton.setVisibility(View.VISIBLE);
 
         final ImageView imageView = findViewById(R.id.coverView);
-        Picasso.with(this).load(event.cover.url).into(imageView);
+        Picasso.with(this).load(mEvent.cover.url).into(imageView);
 
         setUpUI();
 
-        final View editButton = findViewById(R.id.editButton);
         final Animation anim = AnimationUtils.loadAnimation(EventDetailActivity.this,
                 R.anim.scale_in);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(final Animation animation) {
-                editButton.setVisibility(View.VISIBLE);
+                mFloatingActionButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -108,20 +123,17 @@ public class EventDetailActivity extends AbstractActivity {
             }
         });
 
-        editButton.startAnimation(anim);
-        editButton.setOnClickListener(v -> editEvent());
+        mFloatingActionButton.startAnimation(anim);
+        mFloatingActionButton.setOnClickListener(v -> handleFabClick());
     }
 
-    private void initOptions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            findViewById(R.id.editDateButton).setOnClickListener(v -> editDate());
+    private void handleFabClick() {
+        if (isAuthor()) {
+            editEvent();
+        } else {
+            mPresenter.switchAssistance(AuthenticationManager.getInstance()
+                    .getUser(EventDetailActivity.this), mEvent);
         }
-    }
-
-    private void editDate() {
-        final AlertDialog dialog = new AlertDialog.Builder(EventDetailActivity.this)
-                .setView(R.layout.dialog_edit_date)
-                .create();
     }
 
     @Override
@@ -143,15 +155,29 @@ public class EventDetailActivity extends AbstractActivity {
         }
     }
 
-    private void initTabs(@NonNull final GEvent event) {
+    private void initTabs() {
         // Setup fragments
         final List<FragmentPagerAdapter.PageView> views = new ArrayList<>();
-        views.add(EventDetailFragment.getInstance(event));
-        views.add(EventDetailGuestsFragment.getInstance(event));
+        views.add(EventDetailFragment.getInstance(mEvent));
+        views.add(EventDetailGuestsFragment.getInstance(mEvent));
 
         mViewPager = findViewById(R.id.viewPager);
-        mViewPager.setAdapter(new com.testableapp.adapters.FragmentPagerAdapter(EventDetailActivity.this,
+        mViewPager.setAdapter(new FragmentPagerAdapter(EventDetailActivity.this,
                 getSupportFragmentManager(), views));
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                if (position == 0) {
+                    final View view = EventDetailActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+            }
+        });
 
         mTabLayout.setupWithViewPager(mViewPager);
     }
@@ -188,6 +214,12 @@ public class EventDetailActivity extends AbstractActivity {
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_event_detail;
+    }
+
+    @NonNull
+    @Override
+    protected EventDetailPresenter createPresenter() {
+        return new EventDetailPresenter();
     }
 
     private void editEvent() {
@@ -345,5 +377,69 @@ public class EventDetailActivity extends AbstractActivity {
         });
 
         anim.start();
+    }
+
+    /**
+     * Called when edit description button has been clicked
+     *
+     * @param view the clicked view
+     */
+    public void editDescription(final View view) {
+
+    }
+
+    /**
+     * Called when edit date button has been clicked
+     *
+     * @param view the clicked view
+     */
+    public void editDate(final View view) {
+
+    }
+
+    /**
+     * Called when edit guests button has been clicked
+     *
+     * @param view the clicked view
+     */
+    public void editGuests(final View view) {
+
+    }
+
+    /**
+     * Called when edit address button has been clicked
+     *
+     * @param view the clicked view
+     */
+    public void editAddress(final View view) {
+
+    }
+
+    public boolean isAuthor() {
+        return mEvent.author._id.equals(AuthenticationManager.getInstance()
+                .getUser(EventDetailActivity.this)._id);
+    }
+
+    @Override
+    public void onInvitationAccepted() {
+        // TODO: Animate from check to cross
+        final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                .create(EventDetailActivity.this, R.drawable.from_close_to_back_arrow);
+
+        // TODO: Shoot event for updating event's guest list
+    }
+
+    @Override
+    public void onInvitationRejected() {
+        // TODO: Animate from cross to check
+        final AnimatedVectorDrawableCompat drawableCompat = AnimatedVectorDrawableCompat
+                .create(EventDetailActivity.this, R.drawable.from_close_to_back_arrow);
+
+        // TODO: Shoot event for updating event's guest list
+    }
+
+    @Override
+    public void showProgressLayout() {
+        // TODO: Handle progress
     }
 }

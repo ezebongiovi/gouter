@@ -17,8 +17,10 @@ public class GEvent implements Parcelable {
     public final Cover cover;
     public final List<Guest> guests;
     public transient final File coverFile;
+    public String _id;
 
     private GEvent(final Builder builder) {
+        this._id = builder._id;
         this.date = builder.date;
         this.description = builder.description;
         this.address = builder.address;
@@ -36,6 +38,7 @@ public class GEvent implements Parcelable {
         guests = in.createTypedArrayList(Guest.CREATOR);
         this.cover = in.readParcelable(Cover.class.getClassLoader());
         this.coverFile = (File) in.readSerializable();
+        this._id = in.readString();
     }
 
     public static final Creator<GEvent> CREATOR = new Creator<GEvent>() {
@@ -64,6 +67,7 @@ public class GEvent implements Parcelable {
         dest.writeTypedList(guests);
         dest.writeParcelable(cover, flags);
         dest.writeSerializable(coverFile);
+        dest.writeString(_id);
     }
 
     public static final class Builder {
@@ -75,6 +79,7 @@ public class GEvent implements Parcelable {
         private User author;
         private Cover cover;
         private File coverFile;
+        private String _id;
 
         public Builder() {
 
@@ -112,6 +117,11 @@ public class GEvent implements Parcelable {
 
         public Builder setDate(@NonNull final Date date) {
             this.date = date;
+            return this;
+        }
+
+        public Builder setId(@NonNull final String id) {
+            this._id = id;
             return this;
         }
 

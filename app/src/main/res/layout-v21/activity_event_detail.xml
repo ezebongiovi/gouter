@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
@@ -34,9 +33,9 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top"
+                android:elevation="0dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -88,7 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_1m"
             android:background="@drawable/box_shadowed"
-            android:elevation="@dimen/_0_25m">
+            android:elevation="@dimen/_0_25m"
+            android:onClick="editDescription">
 
             <ImageView
                 android:layout_width="@dimen/_5m"
@@ -115,7 +115,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_1m"
             android:background="@drawable/box_shadowed"
-            android:elevation="@dimen/_0_25m">
+            android:elevation="@dimen/_0_25m"
+            android:onClick="editAddress">
 
             <ImageView
                 android:layout_width="@dimen/_5m"
@@ -142,7 +143,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_1m"
             android:background="@drawable/box_shadowed"
-            android:elevation="@dimen/_0_25m">
+            android:elevation="@dimen/_0_25m"
+            android:onClick="editDate">
 
             <ImageView
                 android:layout_width="@dimen/_5m"
@@ -162,14 +164,15 @@
                 android:text="@string/button_edit_date" />
         </FrameLayout>
 
-        <!-- Edition: Description -->
+        <!-- Edition: Guests -->
         <FrameLayout
             android:id="@+id/editGuestsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_1m"
             android:background="@drawable/box_shadowed"
-            android:elevation="@dimen/_0_25m">
+            android:elevation="@dimen/_0_25m"
+            android:onClick="editGuests">
 
             <ImageView
                 android:layout_width="@dimen/_5m"
@@ -190,6 +193,7 @@
         </FrameLayout>
     </LinearLayout>
 
+    <!-- Edit Button -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/editButton"
         android:layout_width="wrap_content"
@@ -203,4 +207,31 @@
         app:fabSize="mini"
         app:layout_anchor="@id/tabLayout"
         app:layout_anchorGravity="bottom|start" />
+
+    <!-- Assist button -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/assistButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2m"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/vector_check"
+        android:tint="@android:color/white"
+        android:visibility="invisible"
+        app:fabSize="mini"
+        app:layout_anchor="@id/tabLayout"
+        app:layout_anchorGravity="bottom|start" />
+
+    <ProgressBar
+        android:layout_width="@dimen/_7_5m"
+        android:layout_height="@dimen/_7_5m"
+        android:layout_marginStart="@dimen/_1m"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:foregroundTint="@color/colorPrimaryDark"
+        android:progressBackgroundTint="@color/colorPrimaryDark"
+        android:progressTint="@color/colorPrimaryDark"
+        app:layout_anchor="@id/tabLayout"
+        app:layout_anchorGravity="bottom|start" />
+
 </android.support.design.widget.CoordinatorLayout>

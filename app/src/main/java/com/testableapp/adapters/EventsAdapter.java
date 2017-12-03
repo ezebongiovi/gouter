@@ -1,6 +1,8 @@
 package com.testableapp.adapters;
 
 import android.support.annotation.NonNull;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +35,9 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     @Override
     protected void onBind(final GenericViewHolder holder, final GEvent data) {
+        final Animation anim = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.list_item_in);
+        anim.setStartOffset(anim.getDuration() / 4 * holder.getAdapterPosition());
+        holder.itemView.startAnimation(anim);
 
         ((TextView) holder.itemView.findViewById(R.id.eventDate)).setText(data.date.toString());
 

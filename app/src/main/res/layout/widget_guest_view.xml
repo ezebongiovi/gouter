@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/searchField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="@string/hint_contact_picker"
+        android:padding="@dimen/_2m" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator"
+        android:layout_marginBottom="@dimen/_1m"
+        android:layout_marginTop="@dimen/_1m"
+        android:theme="@style/AppTheme.Separator" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/guestList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
