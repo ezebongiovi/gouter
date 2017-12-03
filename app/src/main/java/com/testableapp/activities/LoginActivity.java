@@ -42,7 +42,7 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
 
         mCallbackManager = CallbackManager.Factory.create();
 
-        final LoginButton loginButton = findViewById(R.id.login_button);
+        final LoginButton loginButton = findViewById(R.id.button_login_facebook);
         loginButton.setReadPermissions(getResources().getStringArray(R.array.facebook_permissions));
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override

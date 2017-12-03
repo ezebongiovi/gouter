@@ -71,6 +71,6 @@ public class AuthenticationManager {
     }
 
     public boolean isAuthenticated(@NonNull final Context context) {
-        return getUser(context) != null || (mProvider != null && mProvider.isLoggedIn());
+        return getUser(context) != null && mProvider != null && mProvider.isLoggedIn();
     }
 }
