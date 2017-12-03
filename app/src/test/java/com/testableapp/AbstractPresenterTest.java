@@ -1,6 +1,7 @@
 package com.testableapp;
 
 import com.testableapp.activities.LoginActivity;
+import com.testableapp.base.BaseJUnitTest;
 import com.testableapp.dto.Authentication;
 import com.testableapp.presenters.LoginPresenter;
 
@@ -8,20 +9,22 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class AbstractPresenterTest {
+public class AbstractPresenterTest extends BaseJUnitTest {
 
     @InjectMocks
     LoginPresenter loginPresenter;
 
-    @InjectMocks
+    @Mock
     final LoginActivity loginActivity = new LoginActivity();
 
     @Before
     public void setUp() {
+        super.setUp();
         initMocks(this);
     }
 
