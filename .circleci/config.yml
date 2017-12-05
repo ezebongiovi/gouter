@@ -9,6 +9,7 @@ jobs:
       - image: circleci/android:api-25-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+    
     steps:
       - checkout
       - restore_cache:
@@ -28,3 +29,9 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+          test:
+  post:
+    - bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Generate test reports
+          command: ./gradlew connectedCheck
