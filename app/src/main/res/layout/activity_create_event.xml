@@ -10,6 +10,9 @@
         android:id="@+id/stepperLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:ms_backButtonText="@string/button_stepper_back"
+        app:ms_completeButtonText="@string/button_stepper_complete"
+        app:ms_nextButtonText="@string/button_stepper_next"
         app:ms_stepperType="progress_bar" />
 
 </LinearLayout>

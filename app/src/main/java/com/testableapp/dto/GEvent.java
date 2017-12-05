@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class GEvent implements Parcelable {
         private Date date;
         private String description;
         private Place address;
-        private List<Guest> guests;
+        private List<Guest> guests = new ArrayList<>();
         private User author;
         private Cover cover;
         private File coverFile;

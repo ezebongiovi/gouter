@@ -23,6 +23,7 @@
 
     <!-- Font size -->
     <dimen name="font_size_m">16sp</dimen>
+    <dimen name="font_size_l">18sp</dimen>
     <dimen name="font_size_xl">20sp</dimen>
     <dimen name="font_size_xxl">24sp</dimen>
     <dimen name="separator">1dp</dimen>

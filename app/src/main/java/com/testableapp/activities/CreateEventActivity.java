@@ -52,6 +52,7 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
 
         mStepper.setAdapter(new StepAdapter(getSupportFragmentManager(),
                 CreateEventActivity.this, steps));
+
         mStepper.setListener(new StepperLayout.StepperListener() {
             @Override
             public void onCompleted(final View completeButton) {
