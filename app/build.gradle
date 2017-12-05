@@ -10,11 +10,6 @@ android {
             storeFile file('../release.keystore')
         }
     }
-    // codecov flavors
-    productFlavors {
-        free {}
-        paid {}
-    }
 
     // TODO: Add proguard configuration for making test builds in release variant
     testBuildType "debug"
@@ -32,6 +27,19 @@ android {
         resValue "string", "google_play_services_version", googlePlayServicesVersion
     }
 
+    flavorDimensions "debug", "release"
+
+    productFlavors {
+        free {
+            applicationId 'com.testableapp.free'
+            dimension "debug"
+        }
+        paid {
+            applicationId
+            dimension "release"
+        }
+    }
+
     buildTypes {
         release {
             shrinkResources true
@@ -41,10 +49,11 @@ android {
             signingConfig signingConfigs.Release
         }
         debug {
-            testCoverageEnabled true
             applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true
+            versionNameSuffix '-debug'
+            testCoverageEnabled true
         }
     }
 

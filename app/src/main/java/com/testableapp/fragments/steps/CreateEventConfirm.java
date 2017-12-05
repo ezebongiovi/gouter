@@ -20,6 +20,7 @@ import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
 import com.testableapp.dto.User;
 import com.testableapp.models.EventsModel;
+import com.testableapp.ui.transformations.CircleTransform;
 import com.testableapp.views.StepView;
 
 public class CreateEventConfirm extends Fragment implements StepView {
@@ -61,6 +62,7 @@ public class CreateEventConfirm extends Fragment implements StepView {
 
                 if (guest.profilePicture != null) {
                     Picasso.with(getContext()).load(Uri.parse(guest.profilePicture.url))
+                            .transform(new CircleTransform())
                             .into((ImageView) holderView.findViewById(R.id.avatarView));
                 }
             }
