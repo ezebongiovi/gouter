@@ -13,12 +13,12 @@ android {
 
     // TODO: Add proguard configuration for making test builds in release variant
     testBuildType "debug"
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.testableapp"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
