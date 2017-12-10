@@ -4,6 +4,10 @@ env:
   global:
     - ANDROID_TARGET=android-26
     - ANDROID_ABI=armeabi-v7a
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 android:
   components:
   - tools
