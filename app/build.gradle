@@ -9,6 +9,7 @@ android {
             storeFile file('../release.keystore')
         }
     }
+
     // TODO: Add proguard configuration for making test builds in release variant
     testBuildType "debug"
     compileSdkVersion 26
@@ -37,6 +38,8 @@ android {
             applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true
+            versionNameSuffix '-debug'
+            testCoverageEnabled false
         }
     }
 
@@ -126,6 +129,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'cardview-v7'
         exclude group: 'com.android.support', module: 'customtabs'
     }
+
 
 
     // JSON Converter

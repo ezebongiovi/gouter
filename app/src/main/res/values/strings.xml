@@ -11,7 +11,6 @@
     <string name="hint_password">Contraseña</string>
     <string name="hint_email">Email</string>
     <string name="button_register">Registrar</string>
-    <string name="buttonNoAccount">No tengo cuenta</string>
     <string name="menu_settings">Mi cuenta</string>
     <string name="search_people">Buscar personas</string>
     <string name="guests">Invitados</string>
@@ -51,4 +50,7 @@
     <string name="button_edit_date">Cambiar fecha</string>
     <string name="button_edit_description">Cambiar descripción</string>
     <string name="alert_title_edit_description">Editar descripción</string>
+    <string name="button_stepper_back">Atrás</string>
+    <string name="button_stepper_next">Siguiente</string>
+    <string name="button_stepper_complete">Crear evento</string>
 </resources>
