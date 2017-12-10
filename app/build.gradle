@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-android'
 
 android {
     signingConfigs {
@@ -27,19 +26,6 @@ android {
         resValue "string", "google_play_services_version", googlePlayServicesVersion
     }
 
-    flavorDimensions "debug", "release"
-
-    productFlavors {
-        free {
-            applicationId 'com.testableapp.free'
-            dimension "debug"
-        }
-        paid {
-            applicationId
-            dimension "release"
-        }
-    }
-
     buildTypes {
         release {
             shrinkResources true
@@ -53,7 +39,7 @@ android {
             minifyEnabled false
             debuggable true
             versionNameSuffix '-debug'
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
     }
 
