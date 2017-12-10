@@ -6,8 +6,6 @@ jobs:
       - image: circleci/android:api-25-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-    post:
-      - bash <(curl -s https://codecov.io/bash)
     steps:
       - checkout
       - restore_cache:
@@ -27,3 +25,6 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+          name: Generate report
+          command: -bash <(curl -s https://codecov.io/bash)
