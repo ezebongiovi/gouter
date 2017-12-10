@@ -4,9 +4,21 @@ jobs:
     dependencies:
       pre:
         - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+        # Android SDK Platform 27
+        - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-27" ]; then echo y | android update sdk --no-ui --all --filter "android-27"; fi
+        # Android SDK Build-tools, revision 27.0.1
+        - if [ ! -d "/usr/local/android-sdk-linux/build-tools/27.0.1" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-27.0.1"; fi
+        # Android Support Repository, revision 35 / Local Maven repository for Support Libraries
+        - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/27.0.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    
+
+      cache_directories:
+        - /usr/local/android-sdk-linux/platforms/android-27
+        - /usr/local/android-sdk-linux/build-tools/27.0.1
+        - /usr/local/android-sdk-linux/extras/android/m2repository
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-27-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
