@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/colorPrimary"
     android:padding="@dimen/_1m">
 
     <LinearLayout
@@ -15,8 +14,8 @@
         <ImageView
             android:id="@+id/contactAvatar"
             android:layout_gravity="center_vertical"
-            android:layout_width="@dimen/_8m"
-            android:layout_height="@dimen/_8m"
+            android:layout_width="@dimen/_6m"
+            android:layout_height="@dimen/_6m"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -25,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_1m"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/colorWhite_10"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/font_size_m"
             android:padding="@dimen/_0_5m"
             tools:text="André" />

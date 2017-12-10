@@ -6,7 +6,10 @@ import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.CreateEvent;
 import com.testableapp.dto.GEvent;
+import com.testableapp.dto.Guest;
+import com.testableapp.dto.GuestStatus;
 import com.testableapp.dto.Search;
+import com.testableapp.dto.User;
 import com.testableapp.services.EventsService;
 
 import java.io.File;
@@ -57,6 +60,18 @@ public class EventsModel {
         }
 
         return getService().getEvents(offset, limit);
+    }
+
+    public Observable<ApiResponse> switchAssistance(final GEvent event, final Guest guest) {
+        final String status;
+
+        if (guest.status.equals(Guest.STATUS_ACCEPTED)) {
+            status = Guest.STATUS_REJECTED;
+        } else {
+            status = Guest.STATUS_ACCEPTED;
+        }
+
+        return getService().switchAssistance(event._id, guest.user._id , new GuestStatus(status));
     }
 
     public static final class Repository {

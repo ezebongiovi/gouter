@@ -29,6 +29,10 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
 
     private StepperLayout mStepper;
 
+    public CreateEventActivity() {
+        super(FLAG_BACK_ARROW);
+    }
+
     @Override
     protected boolean shouldAuthenticate() {
         return true;
@@ -48,13 +52,15 @@ public class CreateEventActivity extends AbstractMvpActivity<CreateEventPresente
 
         mStepper.setAdapter(new StepAdapter(getSupportFragmentManager(),
                 CreateEventActivity.this, steps));
+
         mStepper.setListener(new StepperLayout.StepperListener() {
             @Override
             public void onCompleted(final View completeButton) {
-                final GEvent gEvent = EventsModel.Repository.eventBuilder.build();
+                final GEvent gEvent = EventsModel.Repository.eventBuilder
+                        .setAuthor(AuthenticationManager.getInstance()
+                                .getUser(CreateEventActivity.this)).build();
 
-                presenter.createEvent(AuthenticationManager.getInstance()
-                        .getUser(CreateEventActivity.this)._id, gEvent);
+                presenter.createEvent(gEvent);
             }
 
             @Override

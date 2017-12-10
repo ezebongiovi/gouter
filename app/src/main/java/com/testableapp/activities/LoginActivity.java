@@ -5,15 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.EditText;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.testableapp.R;
+import com.testableapp.dto.Authentication;
 import com.testableapp.dto.User;
 import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.LoginPresenter;
 import com.testableapp.views.LoginView;
 
 public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implements LoginView {
+
+    private CallbackManager mCallbackManager;
 
     @Override
     protected boolean shouldAuthenticate() {
@@ -22,29 +30,46 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
 
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
-                          @NonNull final LoginPresenter presenter) {
+                                 @NonNull final LoginPresenter presenter) {
 
-        final EditText mUserField = findViewById(R.id.userField);
-        final EditText mPasswordField = findViewById(R.id.passwordField);
-
-        findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                presenter.login(mUserField.getText().toString(),
-                        mPasswordField.getText().toString());
-            }
-        });
-
-        findViewById(R.id.noAccountButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            }
-        });
-
-        if (AuthenticationManager.getInstance().getUser(this) != null) {
-            startActivity(new Intent(this, NavigationActivity.class));
+        if (AuthenticationManager.getInstance().isAuthenticated(LoginActivity.this)) {
+            startActivity(new Intent(this, NavigationActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
+            return;
         }
+
+        mCallbackManager = CallbackManager.Factory.create();
+
+        final LoginButton loginButton = findViewById(R.id.button_login_facebook);
+        loginButton.setReadPermissions(getResources().getStringArray(R.array.facebook_permissions));
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(final LoginResult loginResult) {
+                presenter.login(new Authentication.Builder()
+                        .withAccessToken(loginResult.getAccessToken().getToken())
+                        .withProviderName(Authentication.PROVIDER_FACEBOOK).build());
+            }
+
+            @Override
+            public void onCancel() {
+                // Nothing to do
+            }
+
+            @Override
+            public void onError(final FacebookException exception) {
+                // TODO: Track error event
+                exception.printStackTrace();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -62,5 +87,27 @@ public class LoginActivity extends AbstractMvpActivity<LoginPresenter> implement
     public void onLogin(@NonNull final User user) {
         AuthenticationManager.getInstance().onLogin(this, user);
         startActivity(new Intent(this, NavigationActivity.class));
+    }
+
+    @Override
+    public void showProgressLayout() {
+        findViewById(R.id.progressView).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showRegularLayout() {
+        findViewById(R.id.progressView).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onNetworkError() {
+        super.onNetworkError();
+        LoginManager.getInstance().logOut();
+    }
+
+    @Override
+    public void onGenericError() {
+        super.onGenericError();
+        LoginManager.getInstance().logOut();
     }
 }

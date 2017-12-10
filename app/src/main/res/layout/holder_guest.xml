@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_1m">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/_1m">
+
+        <ImageView
+            android:id="@+id/contactAvatar"
+            android:layout_width="@dimen/_6m"
+            android:layout_height="@dimen/_6m"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/contactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_1m"
+            android:padding="@dimen/_0_5m"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/font_size_m"
+            tools:text="André" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/selectIndicator"
+        android:layout_width="@dimen/_2m"
+        android:layout_height="@dimen/_2m"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="@dimen/_2m"
+        android:background="@drawable/accent_circle"
+        android:visibility="gone" />
+</FrameLayout>

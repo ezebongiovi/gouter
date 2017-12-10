@@ -31,8 +31,6 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
 
         if (mData == null) {
             getEvents(0);
-        } else {
-            getView().showEvents(mData.results);
         }
     }
 
@@ -80,7 +78,7 @@ public class EventsPresenter extends AbstractPresenter<EventsView> {
                 }, new ErrorConsumer() {
                     @Override
                     public void onError(@NonNull final ApiResponse apiResponse) {
-                        getView().onGenericError();
+                        handleErrorEvent(apiResponse);
                     }
                 });
 

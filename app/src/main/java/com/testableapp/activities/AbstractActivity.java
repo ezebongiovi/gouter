@@ -8,6 +8,10 @@ import com.testableapp.views.AbstractView;
 public abstract class AbstractActivity extends AbstractMvpActivity<EmptyPresenter>
         implements AbstractView {
 
+    public AbstractActivity(final int flags) {
+        super(flags);
+    }
+
     @NonNull
     @Override
     protected EmptyPresenter createPresenter() {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="facebook_permissions">
+        <item>user_friends</item>
+    </string-array>
+    <string-array name="event_detail_edit_icons">
+        <item>@mipmap/ic_clock_white</item>
+        <item>@mipmap/ic_clock_white</item>
+        <item>@mipmap/ic_clock_white</item>
+        <item>@mipmap/ic_clock_white</item>
+    </string-array>
+    <string-array name="event_detail_edit_colors">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+    </string-array>
+</resources>

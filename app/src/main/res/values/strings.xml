@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TestableApp</string>
     <string name="google_api_key">AIzaSyAjbf9pM7DhMMukCyJEn5aoC_DFrNsLL3c</string>
+    <string name="facebook_app_id">889090927908244</string>
+    <string name="fb_login_protocol_scheme">fb889090927908244</string>
     <string name="name">%1$s %2$s</string>
     <string name="activity_title_login">Iniciar Sesión</string>
     <string name="action_logout">Salir</string>
@@ -9,7 +11,6 @@
     <string name="hint_password">Contraseña</string>
     <string name="hint_email">Email</string>
     <string name="button_register">Registrar</string>
-    <string name="buttonNoAccount">No tengo cuenta</string>
     <string name="menu_settings">Mi cuenta</string>
     <string name="search_people">Buscar personas</string>
     <string name="guests">Invitados</string>
@@ -37,4 +38,19 @@
     <string name="error_verification_description_error">¡Necesitamos una descripción del evento!</string>
     <string name="error_verification_date">Debes indicar fecha y hora del evento</string>
     <string name="error_verification_guest_empty">Debes invitar al menos a una persona</string>
+    <string name="button_edit_guests">Administrar invitados</string>
+    <string name="button_edit_address">Cambiar dirección</string>
+    <string name="register_info_explanation">Ésta información será mostrada a los usuarios de Tapp</string>
+    <string name="hint_username">Nombre de usuario</string>
+    <string name="hint_cellphone">Celular (Ej: 1161884050)</string>
+    <string name="register_phone_explanation">Recibirás un mensaje de texto con un código de validación.</string>
+    <string name="register_phone_privacy_explanation_">No compartiremos tu número de teléfono con ningún usuario.</string>
+    <string name="fragment_title_event_detail">Detalle</string>
+    <string name="fragment_title_event_guests">Invitados</string>
+    <string name="button_edit_date">Cambiar fecha</string>
+    <string name="button_edit_description">Cambiar descripción</string>
+    <string name="alert_title_edit_description">Editar descripción</string>
+    <string name="button_stepper_back">Atrás</string>
+    <string name="button_stepper_next">Siguiente</string>
+    <string name="button_stepper_complete">Crear evento</string>
 </resources>

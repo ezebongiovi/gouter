@@ -3,7 +3,6 @@ package com.testableapp.adapters;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,8 +45,8 @@ public class ContactsAdapter extends PaginationAdapter<User> {
     @Override
     protected void onBind(final GenericViewHolder holder, final User user) {
 
-        if (user.profilePicture != null && !user.profilePicture.isEmpty()) {
-            Picasso.with(holder.itemView.getContext()).load(user.profilePicture)
+        if (user.profilePicture != null && !user.profilePicture.url.isEmpty()) {
+            Picasso.with(holder.itemView.getContext()).load(user.profilePicture.url)
                     .placeholder(R.mipmap.ic_launcher)
                     .transform(new CircleTransform())
                     .into((ImageView) holder.itemView.findViewById(R.id.contactAvatar));
@@ -59,12 +58,8 @@ public class ContactsAdapter extends PaginationAdapter<User> {
 
         final CheckBox checkBox = holder.itemView.findViewById(R.id.checkbox);
         checkBox.setVisibility(mSelectable ? View.VISIBLE : View.GONE);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                handleCheck(holder.getAdapterPosition(), isChecked);
-            }
-        });
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> handleCheck(holder.getAdapterPosition(),
+                isChecked));
 
         holder.itemView.setOnClickListener(v -> {
             if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {

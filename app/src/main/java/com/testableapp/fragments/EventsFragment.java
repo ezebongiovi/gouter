@@ -1,20 +1,27 @@
 package com.testableapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ViewFlipper;
 
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.testableapp.R;
 import com.testableapp.activities.EventDetailActivity;
+import com.testableapp.activities.NavigationActivity;
 import com.testableapp.adapters.EventsAdapter;
 import com.testableapp.adapters.PaginationAdapter;
+import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
 import com.testableapp.fragments.base.AbstractMvpFragment;
 import com.testableapp.presenters.EventsPresenter;
@@ -23,7 +30,8 @@ import com.testableapp.views.EventsView;
 import java.util.List;
 
 public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
-        implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener {
+        implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private static final String EXTRA_TYPE = "EXTRA_TYPE";
     private static final int VIEW_PROGRESS = 0;
@@ -32,6 +40,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     private EventsAdapter mAdapter;
     private ViewFlipper mFlipper;
+    private SwipeRefreshLayout mRefreshLayout;
 
     /**
      * Factory method for building fragment with necessary initialization data.
@@ -50,22 +59,20 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_events, container, false);
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
-        final LinearSnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(listView);
+        final LinearSnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
+        mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
+        mRefreshLayout.setOnRefreshListener(this);
+        snapHelper.attachToRecyclerView(listView);
         mFlipper = view.findViewById(R.id.viewFlipper);
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
         mAdapter.setOnEventClick(this);
-
-        return view;
     }
 
     @NonNull
@@ -75,12 +82,18 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     }
 
     @Override
+    protected int getResourceId() {
+        return R.layout.fragment_events;
+    }
+
+    @Override
     public void showProgressLayout() {
         mFlipper.setDisplayedChild(VIEW_PROGRESS);
     }
 
     @Override
     public void showRegularLayout() {
+        mRefreshLayout.setRefreshing(false);
         mFlipper.setDisplayedChild(VIEW_REGULAR);
     }
 
@@ -115,8 +128,29 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     }
 
     @Override
-    public void onClick(@NonNull final GEvent event) {
-        startActivity(EventDetailActivity.getIntent(getContext(), event));
+    public void onClick(@NonNull final GenericViewHolder viewHolder, @NonNull final GEvent event) {
+        final View view = viewHolder.itemView;
+        final View statusBar = getActivity().findViewById(android.R.id.statusBarBackground);
+        final View navigationBar = getActivity().findViewById(android.R.id.navigationBarBackground);
+
+        final Intent intent = EventDetailActivity.getIntent(getContext(), event);
+        final Pair<View, String> p1 = Pair.create(view.findViewById(R.id.coverView), "coverView");
+        final Pair<View, String> p2 = Pair.create(view.findViewById(R.id.eventDate), "date");
+        final ActivityOptionsCompat options;
+
+        if (statusBar != null && navigationBar != null) {
+            final Pair<View, String> p3 = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME);
+            final Pair<View, String> p4 = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME);
+
+            options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4);
+        } else {
+            options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), p1, p2);
+        }
+
+        // Our NavigationActivity overrides startActivity method for animations
+        ((NavigationActivity) getActivity()).startActivityWithAnimation(intent, options.toBundle());
     }
 
     @Override
@@ -124,4 +158,8 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         mPresenter.getEvents(offset);
     }
 
+    @Override
+    public void onRefresh() {
+        mPresenter.getEvents(0);
+    }
 }

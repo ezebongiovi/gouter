@@ -17,7 +17,7 @@
             <ImageView
                 android:id="@+id/coverEmpty"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/coverSize"
                 android:background="@color/backgroundGrey_50"
                 android:padding="@dimen/_5m"
                 android:src="@mipmap/holder_camera" />
@@ -25,16 +25,16 @@
             <ImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/coverSize"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
 
             <EditText
                 android:id="@+id/descriptionField"
-                style="@style/Event.Description"
+                style="@style/AppTheme.Event.Description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:gravity="start|top"
                 android:hint="@string/hint_description"

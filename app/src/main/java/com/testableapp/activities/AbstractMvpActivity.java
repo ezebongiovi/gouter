@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -16,30 +17,70 @@ import com.testableapp.views.AbstractView;
 
 abstract class AbstractMvpActivity<P extends AbstractPresenter>
         extends AppCompatActivity implements AbstractView {
+    protected static final int FLAG_BACK_ARROW = 1;
+    protected static final int FLAG_NONE = 2;
+    protected static final int FLAG_ROOT_VIEW = 4;
+    protected static final int FLAG_HIDE_TOOLBAR = 8;
 
-    private P mPresenter;
+    private final int mFlags;
+    protected P mPresenter;
+
+    public AbstractMvpActivity() {
+        mFlags = FLAG_NONE;
+    }
+
+    public AbstractMvpActivity(final int flags) {
+        mFlags = flags;
+    }
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_abstract);
+
+        if ((mFlags & FLAG_ROOT_VIEW) == FLAG_ROOT_VIEW) {
+            setContentView(getLayoutResourceId());
+        } else {
+            setContentView(R.layout.activity_abstract);
+            LayoutInflater.from(this).inflate(getLayoutResourceId(),
+                    findViewById(R.id.contentLayout));
+        }
 
         if (shouldAuthenticate()) {
             authenticate();
         }
 
-        LayoutInflater.from(this).inflate(getLayoutResourceId(), findViewById(R.id.contentLayout));
+        setUpActionbar();
 
         mPresenter = createPresenter();
 
         onCreateActivity(savedInstanceState, mPresenter);
     }
 
+    private void setUpActionbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        if (toolbar == null) {
+            throw new AssertionError("If using FLAG_ROOT_VIEW you must implement your own toolbar with @+id/toolbar");
+        }
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        if ((mFlags & FLAG_NONE) == FLAG_NONE) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        } else if ((mFlags & FLAG_BACK_ARROW) == FLAG_BACK_ARROW) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else if ((mFlags & FLAG_HIDE_TOOLBAR) == FLAG_HIDE_TOOLBAR) {
+            getSupportActionBar().hide();
+        }
+    }
+
     private void authenticate() {
         // If user is not logged in we redirect to login
-        if (AuthenticationManager.getInstance().getUser(this) == null) {
-            startActivity(new Intent(this, LoginActivity.class)
+        if (!AuthenticationManager.getInstance().isAuthenticated(AbstractMvpActivity.this)) {
+            startActivity(new Intent(AbstractMvpActivity.this, LoginActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
         }
     }
 
@@ -85,7 +126,7 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
 
     @Override
     public void onGenericError() {
-        // TODO: Handle
+        onError(getString(R.string.error_generic));
     }
 
     public abstract int getLayoutResourceId();

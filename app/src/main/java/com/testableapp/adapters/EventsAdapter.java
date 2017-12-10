@@ -1,8 +1,12 @@
 package com.testableapp.adapters;
 
 import android.support.annotation.NonNull;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.testableapp.R;
 import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
@@ -21,7 +25,7 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
     }
 
     public interface OnEventClick {
-        void onClick(@NonNull GEvent event);
+        void onClick(@NonNull GenericViewHolder holder, @NonNull GEvent event);
     }
 
     @Override
@@ -31,12 +35,23 @@ public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     @Override
     protected void onBind(final GenericViewHolder holder, final GEvent data) {
-        ((TextView) holder.itemView.findViewById(R.id.eventDescription)).setText(data.description);
-        ((TextView) holder.itemView.findViewById(R.id.eventAddress)).setText(data.address.formattedAddress);
+        final Animation anim = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.list_item_in);
+        anim.setStartOffset(anim.getDuration() / 4 * holder.getAdapterPosition());
+        holder.itemView.startAnimation(anim);
+
+        ((TextView) holder.itemView.findViewById(R.id.eventDate)).setText(data.date.toString());
+
+        ((TextView) holder.itemView.findViewById(R.id.eventAuthor)).setText(String.format(holder.itemView.getContext().getString(R.string.name),
+                data.author.firstName, data.author.lastName));
+
+        if (data.cover != null) {
+            Picasso.with(holder.itemView.getContext()).load(data.cover.url)
+                    .into((ImageView) holder.itemView.findViewById(R.id.coverView));
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {
-                mListener.onClick(data);
+                mListener.onClick(holder, data);
             }
         });
     }

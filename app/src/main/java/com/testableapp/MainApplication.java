@@ -23,8 +23,8 @@ public class MainApplication extends Application {
 
     private static long CACHE_SIZE = 10 * 1024 * 1024; // 10MB
     private static boolean testFramework = false;
-    //private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
-    private static final String BASE_URL = "http://192.168.0.12:9052/";
+    private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
+    //private static final String BASE_URL = "http://192.168.0.12:9052/";
     private static Retrofit mRetrofit;
 
     @Override

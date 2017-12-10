@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ContactPicker extends LinearLayout implements ContactPickerView,
@@ -70,21 +69,15 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
         RxTextView.textChanges(searchField).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<CharSequence>() {
-                    @Override
-                    public void accept(final CharSequence charSequence) throws Exception {
-                        final Handler handler = new Handler(getContext().getMainLooper());
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (charSequence.toString().isEmpty()) {
-                                    mPresenter.search(null, 0);
-                                } else {
-                                    mPresenter.search(charSequence.toString().trim(), 0);
-                                }
-                            }
-                        });
-                    }
+                .subscribe(charSequence -> {
+                    final Handler handler = new Handler(getContext().getMainLooper());
+                    handler.post(() -> {
+                        if (charSequence.toString().isEmpty()) {
+                            mPresenter.search(null, 0);
+                        } else {
+                            mPresenter.search(charSequence.toString().trim(), 0);
+                        }
+                    });
                 });
     }
 

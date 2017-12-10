@@ -15,9 +15,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CreateEventPresenter extends AbstractPresenter<CreateEventView> {
 
-    public void createEvent(@NonNull final String authorId, final GEvent gEvent) {
+    public void createEvent(final GEvent gEvent) {
 
-        addDisposable(EventsModel.getInstance().createEvent(gEvent.coverFile, new CreateEvent(authorId, gEvent))
+        addDisposable(EventsModel.getInstance().createEvent(gEvent.coverFile, new CreateEvent(gEvent))
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<ApiResponse<GEvent>>() {
                     @Override
