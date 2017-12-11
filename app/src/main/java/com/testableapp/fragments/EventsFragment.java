@@ -154,6 +154,12 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     }
 
     @Override
+    public void onNetworkError() {
+        super.onNetworkError();
+        showRegularLayout();
+    }
+
+    @Override
     public void onEndReached(final int offset) {
         mPresenter.getEvents(offset);
     }

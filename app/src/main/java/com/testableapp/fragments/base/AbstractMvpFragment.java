@@ -72,7 +72,7 @@ public abstract class AbstractMvpFragment<P extends AbstractPresenter>
 
     @Override
     public void onNetworkError() {
-        Snackbar.make(getView().findViewById(R.id.rootView), "Error de conexión",
+        Snackbar.make(getView().findViewById(R.id.rootView), getString(R.string.error_toast_network),
                 Snackbar.LENGTH_LONG).show();
     }
 

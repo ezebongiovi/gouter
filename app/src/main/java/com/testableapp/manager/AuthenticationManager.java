@@ -40,7 +40,7 @@ public class AuthenticationManager {
 
     @Nullable
     private AbstractProvider getProvider(@NonNull final Context context) {
-        final User user = mUser == null ? getUser(context) : mUser;
+        final User user = getUser(context);
 
         if (user != null) {
             return ProviderUtils.getProvider(user.authentication.providerName);
@@ -71,6 +71,6 @@ public class AuthenticationManager {
     }
 
     public boolean isAuthenticated(@NonNull final Context context) {
-        return getUser(context) != null && mProvider != null && mProvider.isLoggedIn();
+        return getUser(context) != null;
     }
 }

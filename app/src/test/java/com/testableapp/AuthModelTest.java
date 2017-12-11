@@ -21,7 +21,7 @@ public class AuthModelTest extends BaseJUnitTest {
     @Test
     public void testLoginSuccess() throws Exception {
         final Authentication authentication = new Authentication.Builder().withAccessToken("test")
-                .withProviderName("test").build();
+                .withProviderName("facebook").build();
         final TestObserver<ApiResponse<User>> testObserver = TestObserver.create();
         authModel.login(authentication).subscribe(testObserver);
 

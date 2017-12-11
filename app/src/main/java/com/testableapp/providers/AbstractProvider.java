@@ -14,6 +14,4 @@ public abstract class AbstractProvider {
     public @interface Proviers {}
 
     public abstract void logout();
-
-    public abstract boolean isLoggedIn();
 }
