@@ -10,14 +10,13 @@ android {
         }
     }
 
-    // TODO: Add proguard configuration for making test builds in release variant
     testBuildType "debug"
-    compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.testableapp"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -78,7 +77,7 @@ dependencies {
     })
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     testImplementation'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.+'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
     // Android
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"

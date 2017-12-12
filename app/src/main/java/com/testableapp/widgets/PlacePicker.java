@@ -3,6 +3,7 @@ package com.testableapp.widgets;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,8 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
 
     private final PlacePickerPresenter mPresenter = new PlacePickerPresenter(this);
     private final PlacePredictionAdapter mAdapter;
-    private static final long SEARCH_DEBOUNCE = 500;
+    @VisibleForTesting
+    public static final long SEARCH_DEBOUNCE = 500;
     private Disposable mTextWatcher;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
@@ -59,7 +61,7 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
         final View view = LayoutInflater.from(context)
                 .inflate(R.layout.widget_place_picker, this);
 
-        final RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = view.findViewById(R.id.placePickerList);
         mAdapter = new PlacePredictionAdapter(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -63,11 +63,11 @@ public class FacebookTestProvider implements AuthProvider {
 
             facebookLoginStep2(uiDevice);
 
-        } catch (final UiObjectNotFoundException e) {
+        } catch (final Exception e) {
             if ("setText".equals(e.getStackTrace()[0].getMethodName())) {
                 try {
                     facebookLoginStep2(uiDevice);
-                } catch (final UiObjectNotFoundException e1) {
+                } catch (final Exception e1) {
                     logout();
 
                     // User's already logged in
