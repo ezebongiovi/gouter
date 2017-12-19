@@ -64,8 +64,6 @@ public class ContactsAdapter extends PaginationAdapter<User> {
         holder.itemView.setOnClickListener(v -> {
             if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
                 checkBox.setChecked(!checkBox.isChecked());
-
-                handleCheck(holder.getAdapterPosition(), checkBox.isSelected());
             }
 
         });

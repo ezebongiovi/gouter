@@ -232,6 +232,7 @@
         android:progressBackgroundTint="@color/colorPrimaryDark"
         android:progressTint="@color/colorPrimaryDark"
         app:layout_anchor="@id/tabLayout"
+        android:visibility="gone"
         app:layout_anchorGravity="bottom|start" />
 
 </android.support.design.widget.CoordinatorLayout>
