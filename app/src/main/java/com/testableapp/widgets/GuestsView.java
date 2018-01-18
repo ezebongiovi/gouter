@@ -1,5 +1,6 @@
 package com.testableapp.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,11 +23,13 @@ import io.reactivex.Observable;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 /**
  * Created by epasquale on 27/11/17.
  */
 
+@SuppressWarnings("Convert2Lambda")
 public class GuestsView extends LinearLayout {
 
     private GuestsAdapter mAdapter;
@@ -46,6 +49,7 @@ public class GuestsView extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.widget_guest_view, this);
     }
 
+    @SuppressLint("CheckResult")
     public void init(@NonNull final List<Guest> guestList) {
         final RecyclerView recyclerView = findViewById(R.id.guestList);
         final TextView searchField = findViewById(R.id.searchField);
@@ -58,10 +62,15 @@ public class GuestsView extends LinearLayout {
         RxTextView.afterTextChangeEvents(searchField).subscribe(new Consumer<TextViewAfterTextChangeEvent>() {
             @Override
             public void accept(final TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) throws Exception {
-                Observable.fromIterable(guestList).filter(guest -> guest.user.firstName.toLowerCase()
-                        .contains(searchField.getText().toString().toLowerCase())
-                        || guest.user.lastName.toLowerCase().contains(searchField.getText().toString().toLowerCase()))
-                        .toList().subscribe(new SingleObserver<List<Guest>>() {
+                Observable.fromIterable(guestList).filter(new Predicate<Guest>() {
+                    @Override
+                    public boolean test(final Guest guest) throws Exception {
+
+                        return guest.user.firstName.toLowerCase()
+                                .contains(searchField.getText().toString().toLowerCase())
+                                || guest.user.lastName.toLowerCase().contains(searchField.getText().toString().toLowerCase());
+                    }
+                }).toList().subscribe(new SingleObserver<List<Guest>>() {
 
                     @Override
                     public void onSubscribe(final Disposable d) {

@@ -1,6 +1,7 @@
 package com.testableapp.presenters;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
@@ -8,6 +9,8 @@ import com.testableapp.dto.User;
 import com.testableapp.models.AuthModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.LoginView;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
