@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Authentication;
-import com.testableapp.dto.RegistrationRequest;
 import com.testableapp.dto.User;
-import com.testableapp.models.mocks.MockAuthModel;
 import com.testableapp.services.AuthService;
 
 import io.reactivex.Observable;
@@ -26,8 +24,7 @@ public class AuthModel {
     }
 
     public Observable<ApiResponse<User>> login(@NonNull final Authentication authentication) {
-        return MainApplication.isTestFramework() ? MockAuthModel.login(authentication)
-                : getService().login(authentication);
+        return getService().login(authentication);
     }
 
     private AuthService getService() {

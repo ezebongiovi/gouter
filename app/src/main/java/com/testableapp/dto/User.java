@@ -1,12 +1,11 @@
 package com.testableapp.dto;
 
-import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class User extends BaseObservable implements Parcelable {
+public class User implements Parcelable {
 
     public final String _id;
     public final String firstName;

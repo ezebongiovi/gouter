@@ -2,6 +2,7 @@ package com.testableapp.providers;
 
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
@@ -25,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 public class FacebookTestProvider implements AuthProvider {
-    private static final int TIME_OUT = 10000;
+    private static final int TIME_OUT = 2000;
 
     @Override
     public void login(@NonNull final String email, @NonNull final String password) {
@@ -59,12 +60,12 @@ public class FacebookTestProvider implements AuthProvider {
                     .className(Button.class));
 
             buttonLogin.waitForExists(TIME_OUT);
-            buttonLogin.clickAndWaitForNewWindow();
+            buttonLogin.click();
 
             facebookLoginStep2(uiDevice);
 
         } catch (final Exception e) {
-            if ("setText".equals(e.getStackTrace()[0].getMethodName())) {
+            if (e instanceof NoMatchingViewException || e instanceof UiObjectNotFoundException) {
                 try {
                     facebookLoginStep2(uiDevice);
                 } catch (final Exception e1) {

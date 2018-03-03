@@ -2,6 +2,7 @@ package com.testableapp.fragments.steps;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -145,6 +146,10 @@ public class CreateEventDescription extends AbstractFragment implements StepView
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions,
                                            @NonNull final int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_PERMISSIONS && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectFromGallery();
+        }
     }
 
     private void displayImage(final Bitmap bitmap) {

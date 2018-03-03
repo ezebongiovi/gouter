@@ -79,7 +79,7 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
     }
 
     private Disposable initTextWatcher() {
-        return RxTextView.textChanges(mSearchField).debounce(SEARCH_DEBOUNCE, TimeUnit.MILLISECONDS)
+        return RxTextView.textChanges(mSearchField)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(charSequence -> {

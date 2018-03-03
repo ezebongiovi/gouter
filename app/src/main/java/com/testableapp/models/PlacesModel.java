@@ -2,7 +2,6 @@ package com.testableapp.models;
 
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.testableapp.MainApplication;
 import com.testableapp.dto.ApiResponse;
 import com.testableapp.dto.Place;

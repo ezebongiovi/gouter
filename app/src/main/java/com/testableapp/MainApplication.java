@@ -21,11 +21,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainApplication extends Application {
 
-    private static long CACHE_SIZE = 10 * 1024 * 1024; // 10MB
+    private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10MB
     private static boolean testFramework = false;
     private static final String BASE_URL = "https://gapp-server.herokuapp.com/";
-    //private static final String BASE_URL = "http://192.168.0.12:9052/";
     private static Retrofit mRetrofit;
+    private static OkHttpClient httpClient;
 
     @Override
     public void onCreate() {
@@ -46,14 +46,18 @@ public class MainApplication extends Application {
 
     @NonNull
     public static OkHttpClient getClient(@NonNull final Context context) {
-        return new OkHttpClient.Builder().addInterceptor(new BaseHeadersInterceptor(context))
-                .addInterceptor(new HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
-                .addInterceptor(new AuthInterceptor(context))
-                .addInterceptor(new CacheInterceptor(context))
-                .build();
+        if (httpClient == null) {
+            httpClient = new OkHttpClient.Builder().addInterceptor(new BaseHeadersInterceptor(context))
+                    .addInterceptor(new HttpLoggingInterceptor()
+                            .setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .connectTimeout(10000, TimeUnit.MILLISECONDS)
+                    .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
+                    .addInterceptor(new AuthInterceptor(context))
+                    .addInterceptor(new CacheInterceptor(context))
+                    .build();
+        }
+
+        return httpClient;
     }
 
     public static void initTestFramework() {

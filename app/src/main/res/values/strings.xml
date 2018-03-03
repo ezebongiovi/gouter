@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TestableApp</string>
     <string name="google_api_key">AIzaSyAjbf9pM7DhMMukCyJEn5aoC_DFrNsLL3c</string>
-    <string name="facebook_app_id">889090927908244</string>
+    <string name="facebook_app_id">168015873577447</string>
     <string name="fb_login_protocol_scheme">fb889090927908244</string>
     <string name="name">%1$s %2$s</string>
     <string name="activity_title_login">Iniciar Sesión</string>
