@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface UsersService {
 
-    @GET("/users")
+    @GET("/profile/me/contacts")
     Observable<ApiResponse<Search<User>>> searchPeople(@Query("name") @NonNull String criteria,
                                                        @Query("offset") int offset,
                                                        @Query("limit") int limit);
