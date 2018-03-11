@@ -32,7 +32,7 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
 
     private final ContactPickerPresenter mPresenter = new ContactPickerPresenter();
     private final ContactsAdapter mAdapter;
-    private final boolean mSelectable;
+    private boolean mSelectable;
     private final int mMaxItems;
     private final EditText searchField;
 
@@ -145,5 +145,11 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
     @Override
     public void onEndReached(final int offset) {
         mPresenter.search(searchField.getText().toString().trim(), offset);
+    }
+
+    public void setSelectable(final boolean selectable) {
+        mSelectable = selectable;
+        mAdapter.setSelectable(true);
+        mAdapter.notifyDataSetChanged();
     }
 }

@@ -1,18 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/_2m">
 
-    <Button
-        android:id="@+id/buttonLogout"
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_2m"
+        android:textColor="@color/backgroundGrey"
+        android:textSize="@dimen/font_size_xxl"
+        tools:text="Ezequiel Di Pasquale" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator"
+        android:layout_marginTop="@dimen/_2m"
+        android:background="@color/backgroundGrey" />
+
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
-        android:text="@string/action_logout"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp" />
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/_2m"
+        android:paddingStart="@dimen/_2m"
+        android:paddingTop="@dimen/_2m"
+        android:weightSum="3">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/eventsCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_xxl"
+            android:textStyle="bold"
+            tools:text="27" />
+
+        <TextView
+            android:id="@+id/meetingsCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_xxl"
+            android:textStyle="bold"
+            tools:text="347" />
+
+        <TextView
+            android:id="@+id/reputationCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_xxl"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/_2m"
+        android:paddingEnd="@dimen/_2m"
+        android:paddingStart="@dimen/_2m"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/camel_events"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_m"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/camel_meetings"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_m"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/camel_reputation"
+            android:textColor="@color/backgroundGrey"
+            android:textSize="@dimen/font_size_m"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator"
+        android:background="@color/backgroundGrey" />
+
+</LinearLayout>

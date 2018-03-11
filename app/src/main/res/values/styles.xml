@@ -39,4 +39,16 @@
         <item name="android:textSize">@dimen/font_size_xl</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
     </style>
+
+    <style name="AppTheme.Button.Link" parent="AppTheme">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/font_size_m</item>
+    </style>
+
+    <style name="AppTheme.Button.Primary" parent="AppTheme">
+        <item name="android:background">@drawable/button_rounded</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/font_size_m</item>
+    </style>
 </resources>

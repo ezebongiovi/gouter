@@ -44,6 +44,7 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
     private GoogleMap mGoogleMap;
     private EditText mSearchField;
     private boolean isListShown;
+    private boolean mTextWatcherFlag = true;
     private Place mSelectedPlace;
 
     public PlacePicker(@NonNull final Context context) {
@@ -79,10 +80,15 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
     }
 
     private Disposable initTextWatcher() {
-        return RxTextView.textChanges(mSearchField)
+        return RxTextView.afterTextChangeEvents(mSearchField)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(charSequence -> {
+                    if (!mTextWatcherFlag) {
+                        mTextWatcherFlag = true;
+                        return;
+                    }
+
                     final String criteria = charSequence.toString().trim();
 
                     if (criteria.isEmpty()) {
@@ -164,9 +170,9 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
 
     @Override
     public void onPlaceSelected(@NonNull final Place place) {
-        mTextWatcher.dispose();
+        mTextWatcherFlag = false;
         mSearchField.setText(place.formattedAddress);
-        mTextWatcher = initTextWatcher();
+        mSearchField.setSelection(place.formattedAddress.length());
 
         mSelectedPlace = place;
         hideList();

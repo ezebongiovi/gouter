@@ -13,7 +13,7 @@
         android:background="@drawable/box_shadowed"
         android:elevation="@dimen/_0_5m"
         android:hint="@string/hint_address"
-        android:padding="@dimen/_1m"
+        android:padding="@dimen/_2m"
         tools:targetApi="lollipop" />
 
     <com.google.android.gms.maps.MapView

@@ -9,7 +9,7 @@
         android:layout_width="@dimen/_3m"
         android:layout_height="@dimen/_3m"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/ic_map_marker" />
+        android:src="@drawable/map_marker" />
 
     <TextView
         android:id="@+id/textField"

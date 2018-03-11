@@ -8,7 +8,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.testableapp.interceptors.AuthInterceptor;
 import com.testableapp.interceptors.BaseHeadersInterceptor;
-import com.testableapp.interceptors.CacheInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +52,6 @@ public class MainApplication extends Application {
                     .connectTimeout(10000, TimeUnit.MILLISECONDS)
                     .cache(new Cache(context.getCacheDir(), CACHE_SIZE))
                     .addInterceptor(new AuthInterceptor(context))
-                    .addInterceptor(new CacheInterceptor(context))
                     .build();
         }
 

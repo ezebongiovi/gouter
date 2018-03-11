@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundGrey"
     android:orientation="vertical">
 
-    <com.stepstone.stepper.StepperLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/stepperLayout"
+    <GridView
+        android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ms_backButtonText="@string/button_stepper_back"
-        app:ms_completeButtonText="@string/button_stepper_complete"
-        app:ms_nextButtonText="@string/button_stepper_next"
-        app:ms_stepperType="progress_bar" />
+        android:layout_above="@id/buttonCreateEvent"
+        android:horizontalSpacing="@dimen/_1m"
+        android:numColumns="2"
+        android:padding="@dimen/_2m"
+        android:verticalSpacing="@dimen/_1m" />
 
-</LinearLayout>
+
+    <Button
+        android:id="@+id/buttonCreateEvent"
+        style="@style/AppTheme.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:enabled="false"
+        android:layout_margin="@dimen/_2m"
+        android:text="@string/activity_title_create_event" />
+
+</RelativeLayout>

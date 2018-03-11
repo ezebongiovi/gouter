@@ -23,6 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/backgroundGrey"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical">
@@ -38,7 +39,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/eventsList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrey"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_7_5m" />
 
 
         <!--- Empty View -->

@@ -1,11 +1,14 @@
 package com.testableapp.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -15,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import com.testableapp.R;
 import com.testableapp.fragments.EventsFragment;
 import com.testableapp.fragments.ProfileFragment;
+import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.models.EventsModel;
 import com.testableapp.presenters.EmptyPresenter;
 
@@ -27,7 +31,7 @@ public class NavigationActivity extends AbstractActivity {
     private boolean shouldAnimateBack;
 
     public NavigationActivity() {
-        super(FLAG_HIDE_TOOLBAR);
+        super(FLAG_NONE);
     }
 
     @Override
@@ -38,10 +42,12 @@ public class NavigationActivity extends AbstractActivity {
     @Override
     public void onCreateActivity(@Nullable final Bundle savedInstanceState,
                                  @NonNull final EmptyPresenter presenter) {
+        setTitle(getString(R.string.app_name));
 
         mPages.add(new Page(EventsFragment.getInstance(EventsModel.EVENTS), getString(R.string.events)));
         mPages.add(new Page(EventsFragment.getInstance(EventsModel.MY_EVENTS), getString(R.string.my_events)));
-        mPages.add(new Page(new ProfileFragment(), getString(R.string.my_account)));
+        mPages.add(new Page(ProfileFragment.getInstance(AuthenticationManager.getInstance()
+                .getUser(NavigationActivity.this)), getString(R.string.my_account)));
 
 
         final BottomNavigationView navigation = findViewById(R.id.navigationView);
@@ -135,5 +141,37 @@ public class NavigationActivity extends AbstractActivity {
             anim.setFillAfter(true);
             findViewById(R.id.button_create_event).startAnimation(anim);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == R.id.actionLogout) {
+            new AlertDialog.Builder(NavigationActivity.this)
+                    .setPositiveButton(getString(R.string.action_logout), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            AuthenticationManager.getInstance().logOut(NavigationActivity.this);
+                            startActivity(new Intent(NavigationActivity.this, LoginActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            finish();
+                        }
+                    }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog, final int which) {
+                    dialog.dismiss();
+                }
+            }).setCancelable(true).setTitle(getString(R.string.session_close_title))
+                    .setMessage(getString(R.string.session_close_message)).create().show();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

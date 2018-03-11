@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.supercharge.shimmerlayout.ShimmerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/shimmerLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/box_radio_white"
-    android:paddingBottom="@dimen/_0_5m"
-    app:shimmer_animation_duration="@integer/ms_shimmer_duration"
-    app:shimmer_auto_start="true"
-    app:shimmer_color="@color/colorWhite_20">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/coverSize"
-        android:background="@drawable/box_radio_grey_light"
-        android:minHeight="@dimen/_10m" />
+    android:background="@drawable/box_radius_shadowed"
+    android:maxHeight="450dp"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/_2m">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="@dimen/_2m">
 
-        <FrameLayout
-            android:layout_width="@dimen/_20m"
-            android:layout_height="@dimen/_2m"
-            android:layout_margin="@dimen/_1m"
-            android:background="@drawable/skeleton_background" />
+        <View
+            android:layout_width="@dimen/_6m"
+            android:layout_height="@dimen/_6m"
+            android:background="@drawable/skeleton_circle" />
 
-        <FrameLayout
-            android:layout_width="@dimen/_8m"
+        <View
+            android:layout_width="120dp"
             android:layout_height="@dimen/_2m"
+            android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/_1m"
-            android:background="@drawable/skeleton_background" />
+            android:background="@color/backgroundGrey" />
     </LinearLayout>
-</io.supercharge.shimmerlayout.ShimmerLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/coverSize"
+        android:background="@color/backgroundGrey" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="@dimen/_2m"
+        android:layout_margin="@dimen/_2m"
+        android:background="@color/backgroundGrey" />
+
+    <View
+        android:layout_width="@dimen/_8_5m"
+        android:layout_height="@dimen/_2m"
+        android:layout_margin="@dimen/_2m"
+        android:background="@color/backgroundGrey" />
+
+
+    <View
+        android:layout_width="@dimen/_6m"
+        android:layout_height="@dimen/_2m"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/_2m"
+        android:background="@color/backgroundGrey" />
+
+</LinearLayout>

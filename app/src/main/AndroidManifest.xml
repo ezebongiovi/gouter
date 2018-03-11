@@ -52,13 +52,12 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/activity_title_login"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.NavigationActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,14 +67,18 @@
         <activity
             android:name=".activities.CreateEventActivity"
             android:parentActivityName=".activities.NavigationActivity"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.EventDetailActivity"
             android:parentActivityName=".activities.NavigationActivity"
-            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.Transparent" />
+        <activity android:name=".activities.CongratsActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+
+        // TODO: Deeplink (tapp://event/detail?event_id=123)
     </application>
 
 </manifest>

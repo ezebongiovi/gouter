@@ -1,4 +1,6 @@
 package com.testableapp.presenters;
 
-public class ProfilePresenter extends AbstractPresenter {
+import com.testableapp.views.ProfileView;
+
+public class ProfilePresenter extends AbstractPresenter<ProfileView> {
 }

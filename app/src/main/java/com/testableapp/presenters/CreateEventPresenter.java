@@ -17,12 +17,13 @@ public class CreateEventPresenter extends AbstractPresenter<CreateEventView> {
 
     public void createEvent(final GEvent gEvent) {
 
+        getView().showProgressLayout();
+
         addDisposable(EventsModel.getInstance().createEvent(gEvent.coverFile, new CreateEvent(gEvent))
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<ApiResponse<GEvent>>() {
                     @Override
-                    public void accept(final ApiResponse<GEvent> listApiResponse)
-                            throws Exception {
+                    public void accept(final ApiResponse<GEvent> listApiResponse) {
                         if (ApiResponse.STATUS_OK.equalsIgnoreCase(listApiResponse.status)) {
                             getView().onEventCreated(listApiResponse.data);
                         } else {

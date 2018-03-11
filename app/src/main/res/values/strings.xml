@@ -54,4 +54,13 @@
     <string name="button_stepper_next">Siguiente</string>
     <string name="button_stepper_complete">Crear evento</string>
     <string name="error_toast_network">Error de conexión. Vuelve a intentarlo</string>
+    <string name="button_create_cover">Seleccionar foto de portada</string>
+    <string name="button_accept">Aceptar</string>
+    <string name="activity_title_create_event">Crear evento</string>
+    <string name="camel_meetings">ENCUENTROS</string>
+    <string name="camel_reputation">REPUTACIÓN</string>
+    <string name="camel_events">EVENTOS</string>
+    <string name="cancel">Cancelar</string>
+    <string name="session_close_title">Cerrar sesión</string>
+    <string name="session_close_message">¿Quieres cerrar sesión?</string>
 </resources>

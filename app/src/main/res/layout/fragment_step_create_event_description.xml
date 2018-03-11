@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,23 +11,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:padding="@dimen/_2m">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/coverEmpty"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/coverSize"
-                android:background="@color/backgroundGrey_50"
-                android:padding="@dimen/_5m"
-                android:src="@mipmap/holder_camera" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_radius_shadowed"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/_2m"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2m">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_2m"
+                    android:layout_marginRight="@dimen/_2m"
+                    android:background="@drawable/circle_box"
+                    android:padding="@dimen/_1m"
+                    android:src="@mipmap/ic_photo_camera_white_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_create_cover"
+                    android:textSize="@dimen/font_size_xl" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/coverSize"
+                android:background="@drawable/shadow_top_radius"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
-
 
             <EditText
                 android:id="@+id/descriptionField"
@@ -39,8 +58,7 @@
                 android:gravity="start|top"
                 android:hint="@string/hint_description"
                 android:minLines="4"
-                android:padding="@dimen/_1m"
-                tools:text="@string/lorem_ipsum" />
+                android:padding="@dimen/_1m" />
 
             <View
                 android:layout_width="match_parent"

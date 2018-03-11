@@ -19,6 +19,7 @@ import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.testableapp.R;
 import com.testableapp.activities.EventDetailActivity;
 import com.testableapp.activities.NavigationActivity;
+import com.testableapp.activities.ProfileActivity;
 import com.testableapp.adapters.EventsAdapter;
 import com.testableapp.adapters.PaginationAdapter;
 import com.testableapp.adapters.holders.GenericViewHolder;
@@ -64,11 +65,9 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         super.onViewCreated(view, savedInstanceState);
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
-        final LinearSnapHelper snapHelper = new GravitySnapHelper(Gravity.TOP);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
         mRefreshLayout.setOnRefreshListener(this);
-        snapHelper.attachToRecyclerView(listView);
         mFlipper = view.findViewById(R.id.viewFlipper);
         mAdapter = new EventsAdapter(this);
         mAdapter.attachTo(listView);
@@ -151,6 +150,11 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
         // Our NavigationActivity overrides startActivity method for animations
         ((NavigationActivity) getActivity()).startActivityWithAnimation(intent, options.toBundle());
+    }
+
+    @Override
+    public void onAuthorClick(@NonNull final GEvent event) {
+        startActivity(ProfileActivity.getIntent(getContext(), event.author));
     }
 
     @Override
