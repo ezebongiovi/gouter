@@ -108,7 +108,7 @@ dependencies {
     implementation "com.android.support:palette-v7:$supportLibraryVersion"
 
     // Shimmer
-    implementation ('io.supercharge:shimmerlayout:1.0.2') {
+    implementation('io.supercharge:shimmerlayout:1.0.2') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
@@ -121,11 +121,12 @@ dependencies {
     implementation "com.android.support:customtabs:$supportLibraryVersion"
 
     // Facebook
-    implementation ('com.facebook.android:facebook-login:[4,5)') {
+    implementation('com.facebook.android:facebook-login:[4,5)') {
         exclude group: 'com.android.support', module: 'cardview-v7'
         exclude group: 'com.android.support', module: 'customtabs'
     }
 
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
     androidTestDebugImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
 
     androidTestDebugImplementation 'com.squareup.rx.idler:rx2-idler:0.9.0'
@@ -143,3 +144,5 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
