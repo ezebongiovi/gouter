@@ -30,6 +30,8 @@ import com.testableapp.views.EventsView;
 
 import java.util.List;
 
+import io.supercharge.shimmerlayout.ShimmerLayout;
+
 public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
         implements EventsView, EventsAdapter.OnEventClick, PaginationAdapter.PaginationListener,
         SwipeRefreshLayout.OnRefreshListener {
@@ -38,6 +40,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
     private static final int VIEW_PROGRESS = 0;
     private static final int VIEW_REGULAR = 1;
     private static final int VIEW_EMPTY = 2;
+    private static final int VIEW_NETWORK = 3;
 
     private EventsAdapter mAdapter;
     private ViewFlipper mFlipper;
@@ -66,6 +69,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
         final RecyclerView listView = view.findViewById(R.id.eventsList);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
+        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         mRefreshLayout.setOnRefreshListener(this);
         mFlipper = view.findViewById(R.id.viewFlipper);
@@ -92,7 +96,6 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void showRegularLayout() {
-        mRefreshLayout.setRefreshing(false);
         mFlipper.setDisplayedChild(VIEW_REGULAR);
     }
 
@@ -159,8 +162,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void onNetworkError() {
-        super.onNetworkError();
-        showRegularLayout();
+        mFlipper.setDisplayedChild(VIEW_NETWORK);
     }
 
     @Override
@@ -170,6 +172,7 @@ public class EventsFragment extends AbstractMvpFragment<EventsPresenter>
 
     @Override
     public void onRefresh() {
+        mRefreshLayout.setRefreshing(false);
         mPresenter.getEvents(0);
     }
 }

@@ -9,10 +9,7 @@ import com.testableapp.dto.GEvent;
 import com.testableapp.dto.Guest;
 import com.testableapp.dto.GuestStatus;
 import com.testableapp.dto.Search;
-import com.testableapp.dto.User;
 import com.testableapp.services.EventsService;
-
-import java.io.File;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
@@ -37,23 +34,22 @@ public class EventsModel {
         return INSTANCE;
     }
 
-    public Observable<ApiResponse<GEvent>> createEvent(@NonNull final File coverImage,
-                                                       @NonNull final CreateEvent createEvent) {
+    public Observable<ApiResponse<GEvent>> createEvent(@NonNull final GEvent event) {
         final RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), coverImage);
+                RequestBody.create(MediaType.parse("multipart/form-data"), event.coverFile);
 
         // MultipartBody.Part is used to send also the actual file name
         final MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", coverImage.getName(), requestFile);
+                MultipartBody.Part.createFormData("picture", event.coverFile.getName(), requestFile);
 
-        return getService().createEvent(body, createEvent);
+        return getService().createEvent(body, new CreateEvent(event));
     }
 
     private EventsService getService() {
         return MainApplication.getRetrofit().create(EventsService.class);
     }
 
-    public Observable<ApiResponse<Search<GEvent>>> getEvents(final int type,  final int offset,
+    public Observable<ApiResponse<Search<GEvent>>> getEvents(final int type, final int offset,
                                                              final int limit) {
         if (type == MY_EVENTS) {
             return getService().getMyEvents(offset, limit);
@@ -71,10 +67,21 @@ public class EventsModel {
             status = Guest.STATUS_ACCEPTED;
         }
 
-        return getService().switchAssistance(event._id, guest.user._id , new GuestStatus(status));
+        return getService().switchAssistance(event._id, guest.user._id, new GuestStatus(status));
     }
 
-    public static final class Repository {
-        public static final GEvent.Builder eventBuilder = new GEvent.Builder();
+    public Observable<ApiResponse> editEvent(@NonNull final GEvent data) {
+        if (data.coverFile != null) {
+            final RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), data.coverFile);
+
+            // MultipartBody.Part is used to send also the actual file name
+            final MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("picture", data.coverFile.getName(), requestFile);
+
+            return getService().editEvent(data._id, body, new CreateEvent(data));
+        } else {
+            return getService().editEvent(data._id, new CreateEvent(data));
+        }
     }
 }

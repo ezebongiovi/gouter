@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.google.zxing.common.StringUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,6 +88,17 @@ public class GEvent implements Parcelable {
 
         }
 
+        public Builder(@NonNull final GEvent event) {
+            setDate(event.date);
+            setCoverFile(event.coverFile);
+            setCover(event.cover);
+            setDescription(event.description);
+            setId(event._id);
+            setAddress(event.address);
+            setGuests(event.guests);
+            setAuthor(event.author);
+        }
+
         public Builder setDescription(@NonNull final String description) {
             this.description = description;
             return this;
@@ -123,6 +136,42 @@ public class GEvent implements Parcelable {
 
         public Builder setId(@NonNull final String id) {
             this._id = id;
+            return this;
+        }
+
+        public Builder copyData(@NonNull final GEvent event) {
+            if (event.date != null) {
+                setDate(event.date);
+            }
+
+            if (event.coverFile != null) {
+                setCoverFile(event.coverFile);
+            }
+
+            if (event.cover != null) {
+                setCover(event.cover);
+            }
+
+            if (event.author != null) {
+                setAuthor(event.author);
+            }
+
+            if (event.address != null) {
+                setAddress(event.address);
+            }
+
+            if (event.guests != null && !event.guests.isEmpty()) {
+                setGuests(event.guests);
+            }
+
+            if (event._id != null) {
+                setId(event._id);
+            }
+
+            if (event.description != null) {
+                setDescription(event.description);
+            }
+
             return this;
         }
 

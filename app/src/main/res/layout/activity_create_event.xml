@@ -5,8 +5,8 @@
     android:background="@color/backgroundGrey"
     android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/gridView"
+    <com.testableapp.widgets.EventBuilderView
+        android:id="@+id/eventBuilderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/buttonCreateEvent"
@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:enabled="false"
         android:layout_margin="@dimen/_2m"
+        android:enabled="false"
         android:text="@string/activity_title_create_event" />
 
 </RelativeLayout>

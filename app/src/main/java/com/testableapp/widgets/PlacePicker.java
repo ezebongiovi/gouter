@@ -176,6 +176,11 @@ public class PlacePicker extends FrameLayout implements PlacePickerView {
 
         mSelectedPlace = place;
         hideList();
+
+        if (mGoogleMap == null) {
+            return;
+        }
+
         mGoogleMap.clear();
 
 

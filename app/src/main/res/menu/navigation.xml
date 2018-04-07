@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_events"
-        android:title="@string/events"
-        android:icon="@mipmap/ic_calendar_blank" />
+    <item
+        android:id="@+id/action_events"
+        android:icon="@mipmap/ic_calendar_blank"
+        android:title="@string/events" />
 
-    <item android:id="@+id/action_my_events"
-        android:title="@string/my_events"
-        android:icon="@mipmap/ic_camera" />
+    <item
+        android:id="@+id/action_my_events"
+        android:icon="@drawable/vector_calendar_text"
+        android:title="@string/my_events" />
 
+    <item
+        android:id="@+id/action_contacts"
+        android:icon="@drawable/account_group"
+        android:title="@string/title_contacts" />
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/menu_settings"
-        android:icon="@mipmap/ic_account" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@mipmap/ic_account"
+        android:title="@string/menu_settings" />
+
 </menu>

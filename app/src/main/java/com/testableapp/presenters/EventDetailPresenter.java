@@ -25,7 +25,7 @@ public class EventDetailPresenter extends AbstractPresenter<EventDetailView> {
 
         for (final Guest guest : event.guests) {
             if (guest.user._id.equals(user._id)) {
-                EventsModel.getInstance().switchAssistance(event, guest)
+                addDisposable(EventsModel.getInstance().switchAssistance(event, guest)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Consumer<ApiResponse>() {
@@ -49,7 +49,7 @@ public class EventDetailPresenter extends AbstractPresenter<EventDetailView> {
                                     getView().onGenericError();
                                 }
                             }
-                        });
+                        }));
 
                 break;
             }
@@ -62,5 +62,31 @@ public class EventDetailPresenter extends AbstractPresenter<EventDetailView> {
         } else {
             return Guest.STATUS_ACCEPTED;
         }
+    }
+
+    public void edit(@NonNull final GEvent oldData, @NonNull final GEvent newData) {
+        final GEvent data = new GEvent.Builder(oldData).copyData(newData).build();
+
+        addDisposable(EventsModel.getInstance().editEvent(data)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<ApiResponse>() {
+                    @Override
+                    public void accept(final ApiResponse apiResponse) throws Exception {
+                        // TODO: Analizar como hacemos para saber en que estado quedo la asistencia
+                        if (apiResponse.status.equals(ApiResponse.STATUS_OK)) {
+                            getView().onEditionSuccess(data);
+                        }
+                    }
+                }, new ErrorConsumer() {
+                    @Override
+                    public void onError(@NonNull final ApiResponse apiResponse) {
+                        if (ApiResponse.Kind.NETWORK.equals(apiResponse.kind)) {
+                            getView().onNetworkError();
+                        } else {
+                            getView().onGenericError();
+                        }
+                    }
+                }));
     }
 }

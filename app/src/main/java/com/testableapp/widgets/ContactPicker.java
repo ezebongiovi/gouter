@@ -1,5 +1,6 @@
 package com.testableapp.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Handler;
@@ -27,14 +28,18 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ContactPicker extends LinearLayout implements ContactPickerView,
-        PaginationAdapter.PaginationListener {
+public class ContactPicker extends LinearLayout implements ContactPickerView {
 
     private final ContactPickerPresenter mPresenter = new ContactPickerPresenter();
     private final ContactsAdapter mAdapter;
     private boolean mSelectable;
     private final int mMaxItems;
     private final EditText searchField;
+    private ContactListener mListener;
+
+    public interface ContactListener {
+        void onSelectedContact(@NonNull User contact);
+    }
 
     public ContactPicker(@NonNull final Context context) {
         this(context, null);
@@ -44,6 +49,7 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
         this(context, attrs, 0);
     }
 
+    @SuppressLint("CheckResult")
     public ContactPicker(@NonNull final Context context, @Nullable final AttributeSet attrs,
                          final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -60,7 +66,17 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
         }
 
         final RecyclerView recyclerView = findViewById(R.id.contactPickerList);
-        mAdapter = new ContactsAdapter(this);
+        mAdapter = new ContactsAdapter(new PaginationAdapter.PaginationListener() {
+            @Override
+            public void onEndReached(final int offset) {
+                mPresenter.search(searchField.getText().toString().trim(), offset);
+            }
+        }, contact -> {
+            if (mListener != null) {
+                mListener.onSelectedContact(contact);
+            }
+        });
+
         mAdapter.setSelectable(mSelectable);
         mAdapter.setMaxSelectedItems(mMaxItems);
         mAdapter.attachTo(recyclerView);
@@ -142,14 +158,14 @@ public class ContactPicker extends LinearLayout implements ContactPickerView,
         mAdapter.hideLoading();
     }
 
-    @Override
-    public void onEndReached(final int offset) {
-        mPresenter.search(searchField.getText().toString().trim(), offset);
-    }
 
     public void setSelectable(final boolean selectable) {
         mSelectable = selectable;
         mAdapter.setSelectable(true);
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void setListener(@NonNull final ContactListener listener) {
+        this.mListener = listener;
     }
 }

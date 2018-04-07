@@ -13,10 +13,10 @@ import com.testableapp.R;
 import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.Guest;
 import com.testableapp.ui.transformations.CircleTransform;
+import com.testableapp.widgets.GuestsView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -29,8 +29,10 @@ public class GuestsAdapter extends RecyclerView.Adapter<GenericViewHolder> {
 
     private final List<Guest> mFilteredData = new ArrayList<>();
     private final List<Guest> mData = new ArrayList<>();
+    private GuestsView.GuestClickListener mListener;
 
-    public GuestsAdapter(@NonNull final List<Guest> guests) {
+    public GuestsAdapter(@NonNull final List<Guest> guests, GuestsView.GuestClickListener listener) {
+        mListener = listener;
         mData.addAll(guests);
         mFilteredData.addAll(guests);
     }
@@ -65,6 +67,13 @@ public class GuestsAdapter extends RecyclerView.Adapter<GenericViewHolder> {
         } else {
             holder.itemView.findViewById(R.id.selectIndicator).setVisibility(View.GONE);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClick(guest);
+            }
+        });
     }
 
     public void setItems(@NonNull final List<Guest> newList) {

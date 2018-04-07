@@ -37,18 +37,25 @@
         android:layout_margin="@dimen/_2m"
         android:background="@color/backgroundGrey" />
 
-    <View
-        android:layout_width="@dimen/_8_5m"
-        android:layout_height="@dimen/_2m"
-        android:layout_margin="@dimen/_2m"
-        android:background="@color/backgroundGrey" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2m"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/_2m"
+        android:paddingStart="@dimen/_2m">
 
+        <View
+            android:layout_width="@dimen/_8_5m"
+            android:layout_height="@dimen/_2m"
+            android:layout_gravity="start"
+            android:background="@color/backgroundGrey" />
 
-    <View
-        android:layout_width="@dimen/_6m"
-        android:layout_height="@dimen/_2m"
-        android:layout_gravity="end"
-        android:layout_margin="@dimen/_2m"
-        android:background="@color/backgroundGrey" />
+        <View
+            android:layout_width="@dimen/_6m"
+            android:layout_height="@dimen/_2m"
+            android:layout_gravity="end"
+            android:background="@color/backgroundGrey" />
+    </FrameLayout>
 
 </LinearLayout>

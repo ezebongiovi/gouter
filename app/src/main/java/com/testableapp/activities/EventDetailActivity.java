@@ -1,5 +1,6 @@
 package com.testableapp.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -7,15 +8,19 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,20 +40,27 @@ import com.testableapp.fragments.EventDetailFragment;
 import com.testableapp.fragments.EventDetailGuestsFragment;
 import com.testableapp.manager.AuthenticationManager;
 import com.testableapp.presenters.EventDetailPresenter;
+import com.testableapp.utils.PermissionUtils;
 import com.testableapp.views.EventDetailView;
+import com.testableapp.widgets.EventBuilderView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresenter>
-        implements EventDetailView {
+        implements EventDetailView, EventBuilderView.EventBuilderListener {
 
+    private static final int REQUEST_PERMISSIONS = 200;
+    private static final int PICK_IMAGE = 100;
     private static final String EXTRA_EVENT = "extra-event";
     private boolean mEditMode;
     private FloatingActionButton mFloatingActionButton;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private GEvent mEvent;
+    private EventBuilderView mEventBuilderView;
+    private ArrayList<FragmentPagerAdapter.PageView> mViews = new ArrayList<>();;
 
     public EventDetailActivity() {
         super(FLAG_ROOT_VIEW | FLAG_BACK_ARROW);
@@ -83,6 +95,14 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
                 || !getIntent().getExtras().containsKey(EXTRA_EVENT)) {
             throw new AssertionError("EventDetailActivity should be created using it's factory method");
         }
+
+        mEventBuilderView = findViewById(R.id.eventBuilderView);
+        mEventBuilderView.init(this, new EventBuilderView.ValueChangeListener() {
+            @Override
+            public void onValueChange(@NonNull final GEvent event) {
+                presenter.edit(mEvent, event);
+            }
+        });
 
         mTabLayout = findViewById(R.id.tabLayout);
 
@@ -157,13 +177,12 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
 
     private void initTabs() {
         // Setup fragments
-        final List<FragmentPagerAdapter.PageView> views = new ArrayList<>();
-        views.add(EventDetailFragment.getInstance(mEvent));
-        views.add(EventDetailGuestsFragment.getInstance(mEvent));
+        mViews.add(EventDetailFragment.getInstance(mEvent));
+        mViews.add(EventDetailGuestsFragment.getInstance(mEvent));
 
         mViewPager = findViewById(R.id.viewPager);
         mViewPager.setAdapter(new FragmentPagerAdapter(EventDetailActivity.this,
-                getSupportFragmentManager(), views));
+                getSupportFragmentManager(), mViews));
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -172,7 +191,7 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
                 if (position == 0) {
                     final View view = EventDetailActivity.this.getCurrentFocus();
                     if (view != null) {
-                        final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                 }
@@ -222,6 +241,34 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
         return new EventDetailPresenter();
     }
 
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (PICK_IMAGE == requestCode && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                mEventBuilderView.setCover(new File(getFile(data.getData())));
+            }
+        }
+    }
+
+    private String getFile(final Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            final String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = EventDetailActivity.this.getContentResolver().query(contentUri, proj,
+                    null, null, null);
+            final int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     private void editEvent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             circularReveal();
@@ -235,7 +282,7 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
         fab.setVisibility(View.VISIBLE);
         fab.startAnimation(AnimationUtils.loadAnimation(EventDetailActivity.this,
                 R.anim.scale_fab_in));
-        findViewById(R.id.optionsList).setVisibility(View.GONE);
+        mEventBuilderView.setVisibility(View.GONE);
     }
 
     private void toggleEditMode() {
@@ -282,28 +329,27 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
         });
         fab.startAnimation(anim);
         toggleEditMode();
-        findViewById(R.id.optionsList).setVisibility(View.VISIBLE);
+        mEventBuilderView.setVisibility(View.VISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void circularReveal() {
-        final View optionsList = findViewById(R.id.optionsList);
         final View coverView = findViewById(R.id.coverView);
 
-        final int cx = (optionsList.getLeft() + optionsList.getRight()) / 2;
-        final int cy = ((optionsList.getBottom() - optionsList.getTop()) / 2)
+        final int cx = (mEventBuilderView.getLeft() + mEventBuilderView.getRight()) / 2;
+        final int cy = ((mEventBuilderView.getBottom() - mEventBuilderView.getTop()) / 2)
                 - ((coverView.getBottom() - coverView.getTop()) / 2);
 
-        final int finalRadius = Math.max(optionsList.getWidth(), optionsList.getHeight());
+        final int finalRadius = Math.max(mEventBuilderView.getWidth(), mEventBuilderView.getHeight());
 
-        final Animator anim = ViewAnimationUtils.createCircularReveal(optionsList, cx, cy, 0, finalRadius);
+        final Animator anim = ViewAnimationUtils.createCircularReveal(mEventBuilderView, cx, cy, 0, finalRadius);
         anim.setDuration(250);
         anim.setInterpolator(new AccelerateInterpolator(1));
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {
                 toggleEditMode();
-                optionsList.setVisibility(View.VISIBLE);
+                mEventBuilderView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -337,14 +383,13 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void circularHide() {
-        final View optionsList = findViewById(R.id.optionsList);
         final View coverView = findViewById(R.id.coverView);
 
-        final int cx = (optionsList.getLeft() + optionsList.getRight()) / 2;
-        final int cy = ((optionsList.getBottom() - optionsList.getTop()) / 2)
+        final int cx = (mEventBuilderView.getLeft() + mEventBuilderView.getRight()) / 2;
+        final int cy = ((mEventBuilderView.getBottom() - mEventBuilderView.getTop()) / 2)
                 - ((coverView.getBottom() - coverView.getTop()) / 2);
 
-        final int initialRadius = optionsList.getWidth();
+        final int initialRadius = mEventBuilderView.getWidth();
 
         // FAB TRANSLATION
         final View fabButton = findViewById(R.id.editButton);
@@ -355,7 +400,7 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
         set.start();
 
         final Animator anim =
-                ViewAnimationUtils.createCircularReveal(optionsList, cx, cy, initialRadius, 0);
+                ViewAnimationUtils.createCircularReveal(mEventBuilderView, cx, cy, initialRadius, 0);
         anim.setDuration(250);
 
         anim.addListener(new AnimatorListenerAdapter() {
@@ -369,7 +414,7 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
 
-                optionsList.setVisibility(View.INVISIBLE);
+                mEventBuilderView.setVisibility(View.INVISIBLE);
                 fabButton.setVisibility(View.VISIBLE);
                 fabButton.startAnimation(AnimationUtils
                         .loadAnimation(EventDetailActivity.this, R.anim.scale_fab_in));
@@ -377,42 +422,6 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
         });
 
         anim.start();
-    }
-
-    /**
-     * Called when edit description button has been clicked
-     *
-     * @param view the clicked view
-     */
-    public void editDescription(final View view) {
-
-    }
-
-    /**
-     * Called when edit date button has been clicked
-     *
-     * @param view the clicked view
-     */
-    public void editDate(final View view) {
-
-    }
-
-    /**
-     * Called when edit guests button has been clicked
-     *
-     * @param view the clicked view
-     */
-    public void editGuests(final View view) {
-
-    }
-
-    /**
-     * Called when edit address button has been clicked
-     *
-     * @param view the clicked view
-     */
-    public void editAddress(final View view) {
-
     }
 
     public boolean isAuthor() {
@@ -439,7 +448,60 @@ public class EventDetailActivity extends AbstractMvpActivity<EventDetailPresente
     }
 
     @Override
+    public void onEditionSuccess(@NonNull final GEvent event) {
+        mEvent = event;
+
+        for (final FragmentPagerAdapter.PageView view : mViews) {
+            view.update(mEvent);
+        }
+
+        final Snackbar snackbar = Snackbar.make(findViewById(R.id.rootView), getString(R.string.event_detail_edit_success),
+                Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.green));
+        snackbar.show();
+    }
+
+    @Override
     public void showProgressLayout() {
         // TODO: Handle progress
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions,
+                                           @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_PERMISSIONS && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectFromGallery();
+        }
+    }
+
+    @Override
+    public void selectFromGallery() {
+        final List<String> requiredPermissions = PermissionUtils.checkForPermissions(EventDetailActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (requiredPermissions.isEmpty()) {
+            final Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent,
+                    getString(R.string.extern_action_gallery_title)), PICK_IMAGE);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(requiredPermissions.toArray(new String[requiredPermissions.size()]),
+                        REQUEST_PERMISSIONS);
+            }
+        }
+    }
+
+    @Override
+    public void onDataCompleted() {
+        // Nothing to do
+    }
+
+    @Override
+    public void onValidationError(@NonNull final String message) {
+        onError(message);
     }
 }

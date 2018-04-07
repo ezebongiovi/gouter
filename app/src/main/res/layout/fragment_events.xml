@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,25 +15,26 @@
         android:orientation="vertical"
         android:outAnimation="@android:anim/fade_out">
 
-
-        <ScrollView
+        <io.supercharge.shimmerlayout.ShimmerLayout
+            android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            app:shimmer_angle="30"
+            app:shimmer_animation_duration="1000"
+            app:shimmer_auto_start="true"
+            app:shimmer_color="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/backgroundGrey"
-                android:clipChildren="false"
-                android:clipToPadding="false"
                 android:orientation="vertical">
 
                 <include layout="@layout/skeleton_holder_event" />
 
                 <include layout="@layout/skeleton_holder_event" />
             </LinearLayout>
-        </ScrollView>
+        </io.supercharge.shimmerlayout.ShimmerLayout>
 
 
         <!-- Events list -->
@@ -73,5 +75,40 @@
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/font_size_m" />
         </LinearLayout>
+
+        <!-- Network error layout -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundGrey">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/googleg_disabled_color_18" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_1m"
+                    android:text="@string/error_network_title"
+                    android:textSize="@dimen/font_size_xl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_1m"
+                    android:text="@string/error_network_message"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="@dimen/font_size_m" />
+            </LinearLayout>
+        </FrameLayout>
     </ViewFlipper>
 </android.support.v4.widget.SwipeRefreshLayout>

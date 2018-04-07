@@ -1,6 +1,7 @@
 package com.testableapp.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.testableapp.adapters.FragmentPagerAdapter;
@@ -22,5 +23,12 @@ public abstract class AbstractEventDetailFragment extends AbstractFragment
         }
 
         mEvent = getArguments().getParcelable(EXTRA_EVENT);
+    }
+
+    protected abstract void renderData(@NonNull GEvent event);
+
+    @Override
+    public void update(@NonNull final GEvent event) {
+        renderData(event);
     }
 }

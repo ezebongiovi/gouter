@@ -1,5 +1,6 @@
 package com.testableapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,13 +33,18 @@ public class EventDetailFragment extends AbstractEventDetailFragment {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((TextView) view.findViewById(R.id.eventDate)).setText(mEvent.date.toString());
-        ((TextView) view.findViewById(R.id.eventDescription)).setText(mEvent.description);
+        renderData(mEvent);
     }
 
     @Override
-    public int getTitle() {
-        return R.string.fragment_title_event_detail;
+    protected void renderData(@NonNull final GEvent mEvent) {
+        ((TextView) getView().findViewById(R.id.eventDate)).setText(mEvent.date.toString());
+        ((TextView) getView().findViewById(R.id.eventDescription)).setText(mEvent.description);
+    }
+
+    @Override
+    public String getTitle(@NonNull final Context context) {
+        return context.getString(R.string.fragment_title_event_detail);
     }
 
     @Override

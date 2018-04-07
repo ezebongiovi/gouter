@@ -48,6 +48,17 @@ public class ProfileActivity extends AbstractMvpActivity<ProfilePresenter> imple
     }
 
     @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public int getLayoutResourceId() {
         return R.layout.activity_profile;
     }

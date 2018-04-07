@@ -109,7 +109,9 @@ abstract class AbstractMvpActivity<P extends AbstractPresenter>
 
     @Override
     public void onError(final String message) {
-        Snackbar.make(findViewById(R.id.rootView), message, Snackbar.LENGTH_LONG).show();
+        final Snackbar snackbar = Snackbar.make(findViewById(R.id.rootView), message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.red));
+        snackbar.show();
     }
 
     @Override

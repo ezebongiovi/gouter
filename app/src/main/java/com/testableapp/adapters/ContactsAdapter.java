@@ -11,6 +11,7 @@ import com.testableapp.R;
 import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.User;
 import com.testableapp.ui.transformations.CircleTransform;
+import com.testableapp.widgets.ContactPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,19 @@ import java.util.List;
 public class ContactsAdapter extends PaginationAdapter<User> {
 
     private final ArrayList<User> mSelectedContacts = new ArrayList<>();
+    private final ContactPicker.ContactListener mListener;
     private boolean mSelectable;
     private int mMaxItems;
 
+    @SuppressWarnings("ConstantConditions")
     public ContactsAdapter(@NonNull final PaginationListener paginationListener) {
+        this(paginationListener, null);
+    }
+
+    public ContactsAdapter(@NonNull final PaginationListener paginationListener,
+                           @NonNull final ContactPicker.ContactListener contactListener) {
         super(paginationListener);
+        mListener = contactListener;
     }
 
     public void setMaxSelectedItems(final int maxSelectedItems) {
@@ -64,6 +73,10 @@ public class ContactsAdapter extends PaginationAdapter<User> {
         holder.itemView.setOnClickListener(v -> {
             if (mSelectable && (mMaxItems == 0 || mMaxItems < mSelectedContacts.size())) {
                 checkBox.setChecked(!checkBox.isChecked());
+            }
+
+            if (mListener != null) {
+                mListener.onSelectedContact(user);
             }
 
         });

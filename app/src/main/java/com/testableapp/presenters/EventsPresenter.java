@@ -9,6 +9,8 @@ import com.testableapp.models.EventsModel;
 import com.testableapp.rx.ErrorConsumer;
 import com.testableapp.views.EventsView;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;

@@ -67,14 +67,12 @@
         <activity
             android:name=".activities.CreateEventActivity"
             android:parentActivityName=".activities.NavigationActivity"
-
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.EventDetailActivity"
-            android:parentActivityName=".activities.NavigationActivity"
+            android:parentActivityName=".activities.NavigationActivity" />
 
-            android:theme="@style/AppTheme.Transparent" />
         <activity android:name=".activities.CongratsActivity" />
         <activity android:name=".activities.ProfileActivity" />
 

@@ -13,6 +13,8 @@ import com.testableapp.adapters.holders.GenericViewHolder;
 import com.testableapp.dto.GEvent;
 import com.testableapp.ui.transformations.CircleTransform;
 
+import io.supercharge.shimmerlayout.ShimmerLayout;
+
 public class EventsAdapter extends PaginationAdapter<GEvent> {
 
     private OnEventClick mListener;

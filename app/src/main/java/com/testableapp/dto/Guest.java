@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 public class Guest implements Parcelable {
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_REJECTED = "rejected";
-    public static final String STATUS_ACCEPTED = "accepted";
+    public static final String STATUS_ACCEPTED = "ok";
 
     protected Guest(final Parcel in) {
         user = in.readParcelable(User.class.getClassLoader());

@@ -19,7 +19,7 @@ public class CreateEventPresenter extends AbstractPresenter<CreateEventView> {
 
         getView().showProgressLayout();
 
-        addDisposable(EventsModel.getInstance().createEvent(gEvent.coverFile, new CreateEvent(gEvent))
+        addDisposable(EventsModel.getInstance().createEvent(gEvent)
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<ApiResponse<GEvent>>() {
                     @Override

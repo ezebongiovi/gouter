@@ -15,7 +15,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator"
-        android:layout_marginBottom="@dimen/_1m"
         android:layout_marginTop="@dimen/_1m"
         android:theme="@style/AppTheme.Separator" />
 

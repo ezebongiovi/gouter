@@ -35,7 +35,7 @@
     <string name="error_cover_message">Ups, algo salió mal, vuelve a intentarlo :)</string>
     <string name="error_verification_cover_empty">¡Necesitamos una foto que identifique tu evento!</string>
     <string name="error_verification_description_error">¡Necesitamos una descripción del evento!</string>
-    <string name="error_verification_date">Debes indicar fecha y hora del evento</string>
+    <string name="error_verification_date">La fecha del evento es inválida</string>
     <string name="error_verification_guest_empty">Debes invitar al menos a una persona</string>
     <string name="button_edit_guests">Administrar invitados</string>
     <string name="button_edit_address">Cambiar dirección</string>
@@ -45,7 +45,7 @@
     <string name="register_phone_explanation">Recibirás un mensaje de texto con un código de validación.</string>
     <string name="register_phone_privacy_explanation_">No compartiremos tu número de teléfono con ningún usuario.</string>
     <string name="fragment_title_event_detail">Detalle</string>
-    <string name="fragment_title_event_guests">Invitados</string>
+    <string name="fragment_title_event_guests">Invitados (%1$d)</string>
     <string name="button_edit_date">Cambiar fecha</string>
     <string name="button_edit_description">Cambiar descripción</string>
     <string name="alert_title_edit_description">Editar descripción</string>
@@ -62,4 +62,8 @@
     <string name="cancel">Cancelar</string>
     <string name="session_close_title">Cerrar sesión</string>
     <string name="session_close_message">¿Quieres cerrar sesión?</string>
+    <string name="event_detail_edit_success">¡Evento actualizado!</string>
+    <string name="error_network_message">Revisa tu conexión a internet</string>
+    <string name="error_network_title">Error de conexión</string>
+    <string name="title_contacts">Contactos</string>
 </resources>

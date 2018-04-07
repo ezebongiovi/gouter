@@ -34,6 +34,10 @@ public class GuestsView extends LinearLayout {
 
     private GuestsAdapter mAdapter;
 
+    public interface GuestClickListener {
+        void onClick(@NonNull Guest guest);
+    }
+
     public GuestsView(final Context context) {
         this(context, null);
     }
@@ -50,11 +54,11 @@ public class GuestsView extends LinearLayout {
     }
 
     @SuppressLint("CheckResult")
-    public void init(@NonNull final List<Guest> guestList) {
+    public void init(@NonNull final List<Guest> guestList, @NonNull final GuestClickListener listener) {
         final RecyclerView recyclerView = findViewById(R.id.guestList);
         final TextView searchField = findViewById(R.id.searchField);
 
-        mAdapter = new GuestsAdapter(guestList);
+        mAdapter = new GuestsAdapter(guestList, listener);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
